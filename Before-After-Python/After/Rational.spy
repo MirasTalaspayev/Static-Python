@@ -1,0 +1,42 @@
+class Rational:
+    private dividend: int
+    private divisor: int
+    __init__(dividend: int, divisor: int):
+        if divisor == 0:
+            raise Exception("divisor can not be 0")
+        _gcd: int = gcd(dividend, divisor)
+        dividend //= _gcd
+        divisor //= _gcd
+        self.dividend = dividend
+        self.divisor = divisor
+        pass
+
+    static +(a: Rational, b: Rational) -> Rational:
+        a_dividend: int = a.get_dividend()
+        a_divisor: int = a.get_divisor()
+        b_dividend: int = b.get_dividend()
+        b_divisor: int = b.get_divisor()
+        if a_divisor == b_divisor:
+            return Rational(a_dividend + b_dividend, a_divisor)
+        _gcd: int = Rational.gcd(a_divisor, b_divisor)
+        new_dividend: int = a_dividend * b_divisor // _gcd + b_dividend * a_divisor // _gcd
+        new_divisor: int = a_divisor * b_divisor // _gcd
+        return Rational(new_dividend, new_divisor)
+        
+    ==(a: Rational, b: Rational) -> bool:
+        if a.get_dividend() == b.get_dividend() and a.get_divisor() == b.get_divisor():
+            return True
+        return False        
+        
+    static gcd(x: int, y: int) -> int:
+        if (y == 0): # it divide every number  
+            return x  # return x  
+        else:  
+            return gcd(y, x % y)  
+    public get_dividend() -> int:
+        return dividend
+    public get_divisor() -> int:
+        return divisor
+    public Print():
+        print(dividend, divisor)
+    pass
