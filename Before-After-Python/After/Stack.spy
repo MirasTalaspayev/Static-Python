@@ -1,0 +1,47 @@
+class Stack():
+    private size : int
+    private capacity : int
+
+    private entities : list[int]
+
+    __init__(capacity : int):
+        if capacity < 4:
+            capacity = 4
+        self.capacity = capacity
+        self.size = 0
+
+        self.entities = []
+    
+    def push(item : int):
+        if size == capacity:
+            capacity = 2 * capacity
+        entities.append(item)
+        size += 1
+    
+    def pop():
+        if size < 1:
+            print("stack is empty")
+            return
+        size -= 1
+        return entities.pop()
+
+    def peek():
+        if size < 1:
+            print("stack is empty")
+            return
+        return entities[size - 1]
+        
+    def getSize():
+        return size
+
+
+# testing
+stack : Stack = Stack(3)
+
+stack.push(2)
+stack.pop()
+stack.push(3)
+stack.push(3)
+
+while stack.getSize() > 0:
+    print(stack.pop())
