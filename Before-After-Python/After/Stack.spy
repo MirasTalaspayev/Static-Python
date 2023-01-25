@@ -12,26 +12,26 @@ class Stack():
 
         self.entities = []
     
-    def push(item : int):
+    push(item : int):
         if size == capacity:
             capacity = 2 * capacity
         entities.append(item)
         size += 1
     
-    def pop():
+    pop():
         if size < 1:
             print("stack is empty")
             return
         size -= 1
         return entities.pop()
 
-    def peek():
+    peek():
         if size < 1:
             print("stack is empty")
             return
         return entities[size - 1]
         
-    def getSize():
+    getSize():
         return size
 
 
