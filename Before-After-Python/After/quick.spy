@@ -1,8 +1,8 @@
-partition(array:int[], low: int, high: int):
+partition(array: int[], low: int, high: int) -> int:
  
-    int: pivot = array[high]
+    pivot: int = array[high]
  
-    int: i = low - 1
+    i: int = low - 1
  
     for j in range(low, high):
         if array[j] <= pivot:
@@ -18,14 +18,14 @@ partition(array:int[], low: int, high: int):
 quick_sort(array: int[], low: int, high: int):
     if low < high:
  
-        int: pi = partition(array, low, high)
+        pi: int = partition(array, low, high)
  
         quick_sort(array, low, pi - 1)
  
         quick_sort(array, pi + 1, high)
  
  
-array = [10, 7, 8, 9, 1, 5]
-quick_sort(array: int[], 0, len(array) - 1)
+array: int[] = [10, 7, 8, 9, 1, 5]
+quick_sort(array, 0, len(array) - 1)
  
 print(f'Sorted array: {array}')
