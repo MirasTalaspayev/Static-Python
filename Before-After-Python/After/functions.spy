@@ -1,3 +1,14 @@
 # defining types for function arguments will be COMPULSORY 
-def sum_2_numbers(x: int, y: int) -> int:    
+sum_2_numbers(x: int, y: int) -> int:    
     return x + y;
+
+print_strings(x: str, y: str) -> None:
+    print(x)
+    print(y)
+
+print_with_message(message: str, x: int, y: int) -> None:
+    print(message, x + y)
+
+concat_strings(s1: str, s2: str) -> str:
+    res: str = s1 + s2
+    return res
