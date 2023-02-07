@@ -1,0 +1,7 @@
+y:int = 2
+j:int = -4
+while j < 0 :
+	y=y*2
+	j=j+2
+
+printf(y)
