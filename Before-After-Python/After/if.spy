@@ -1,0 +1,20 @@
+x: int = 10
+
+if x > 10:
+    print("more")
+elif x < 10:
+    print("less")
+else:
+    print("equal") # this should be printed
+
+fact: bool = False
+
+if fact:
+    print("fact is true")
+else:
+    print("fact is false") # this should be printed
+
+if fact == True:
+    print("fact is true")
+elif fact == False:
+    print("fact is false") # this should be printed
