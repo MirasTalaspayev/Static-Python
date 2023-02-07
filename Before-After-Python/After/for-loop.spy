@@ -1,5 +1,5 @@
 x:int = 0
-for i:int int range(0, 10):
+for i:int in range(0, 10):
 	x=x+2
 
-printf(x)
+print(x)

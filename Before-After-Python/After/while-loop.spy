@@ -4,4 +4,4 @@ while j < 0 :
 	y=y*2
 	j=j+2
 
-printf(y)
+print(y)
