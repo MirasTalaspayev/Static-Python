@@ -4,7 +4,7 @@ partition(array: int[], low: int, high: int) -> int:
  
     i: int = low - 1
  
-    for j in range(low, high):
+    for j:int in range(low, high):
         if array[j] <= pivot:
             i = i + 1
  

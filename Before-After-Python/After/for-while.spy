@@ -1,0 +1,12 @@
+x:int = 0
+y:int = 2
+j:int = 10
+
+while j >= 0 :
+	for i:int in range(0, 5):
+		y=y*2
+		j=j-1
+		x=x+2
+
+print(x)
+print(y)
