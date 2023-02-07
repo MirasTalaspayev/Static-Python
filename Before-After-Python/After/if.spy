@@ -5,11 +5,16 @@ if x > 10:
 elif x < 10:
     print("less")
 else:
-    print("equal")
+    print("equal") # this should be printed
 
 fact: bool = False
 
-if bool:
+if fact:
     print("fact is true")
 else:
-    print("fact is false")
+    print("fact is false") # this should be printed
+
+if fact == True:
+    print("fact is true")
+elif fact == False:
+    print("fact is false") # this should be printed
