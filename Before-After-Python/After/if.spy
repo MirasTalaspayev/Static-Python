@@ -1,20 +1,77 @@
 x: int = 10
 
+# only one if
+if x > 5:
+    print("x > 5 = true")
+
+# if and else
+if x > 5:
+    print("x > 5 = true")
+else:
+    print("else of x > 5")
+
+# if, elif
+if x > 5:
+    print("x > 5 = true")
+elif x > 15:
+    print("x > 15 = true")
+
+# if, elif, and else
+if x > 5:
+    print("x > 5 = true")
+elif x > 15:
+    print("x > 15 = true")
+else:
+    print("else of (if, elif, and else)")
+
+# if, multiple elifs, and else
+if x > 5:
+    print("x > 5 = true")
+elif x > 15:
+    print("x > 15 = true")
+elif x == 11:
+    print("x == 11 = true")
+else:
+    print("else of (if, multiple elifs, and else)")
+
+# different cases will be valid if x = 10
+x = 10 
+
+if x == 10:
+    print("this will be printed")
+elif x > 15:
+    print("this will not be printed")
+elif x == 11:
+    print("this will not be printed")
+else:
+    print("this will not be printed")
+
+# first elif
 if x > 10:
-    print("more")
-elif x < 10:
-    print("less")
+    print("this will not be printed")
+elif x > 8:
+    print("this will be printed")
+elif x == 11:
+    print("this will not be printed")
 else:
-    print("equal") # this should be printed
+    print("this will not be printed")
 
-fact: bool = False
-
-if fact:
-    print("fact is true")
+# second elif
+if x > 10:
+    print("this will not be printed")
+elif x > 11:
+    print("this will not be printed")
+elif x <= 10:
+    print("this will be printed")
 else:
-    print("fact is false") # this should be printed
+    print("this will not be printed")
 
-if fact == True:
-    print("fact is true")
-elif fact == False:
-    print("fact is false") # this should be printed
+# else
+if x > 10:
+    print("this will not be printed")
+elif x < 0:
+    print("this will not be printed")
+elif x == 11:
+    print("this will not be printed")
+else:
+    print("this will be printed")
