@@ -1,0 +1,65 @@
+import java_cup.runtime.*;
+
+terminal PLUS, MINUS, OBRACKET, CBRACKET, EQUAL, MULT, LABEL, COLON, LBRACK, RBRACK;
+terminal Integer NUMBER;
+non terminal Integer expr_list, expr1, term, expr;
+non terminal d, program, stmt_list, stmt, assignment, lvalue, label;
+start with program;
+
+program ::= stmt_list
+;
+
+stmt_list ::= stmt_list stmt
+		|
+		stmt
+;
+
+stmt ::= assignment
+;
+
+assignment ::= lvalue EQUAL expr1
+;
+
+lvalue ::= label
+		| label COLON label
+		| label LBRACK expr1 RBRACK
+;
+
+label ::= LABEL 
+;
+
+
+
+expr_list ::= expr_list expr
+		| expr;
+
+expr ::= expr1:e EQUAL 
+		{: System.out.println("PARSER: expression recognized"); 
+		   System.out.println("result = " + e);
+		:}
+;
+
+expr1 ::= expr1:e PLUS term:t 
+		{:  System.out.println("There is a plus sign"); 
+			RESULT = e + t;
+		:} 
+		| expr1:e MINUS term:t 
+		{:  System.out.println("Minus sign! "); 
+			RESULT = e - t;
+		:}
+		| expr1:e MULT term:t
+		{:	System.out.println("Multiplication sign!");
+			RESULT = e * t;
+		:}
+		| term:t
+		{: RESULT = t; :}
+;
+
+term ::=		OBRACKET expr1:e CBRACKET
+			{: RESULT = e; :}
+			| 
+			NUMBER:n 
+			{: System.out.println("Found a number! "); 
+				RESULT = n;
+			:}
+;
