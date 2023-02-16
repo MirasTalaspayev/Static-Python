@@ -1,65 +1,45 @@
 import java_cup.runtime.*;
 
-terminal PLUS, MINUS, OBRACKET, CBRACKET, EQUAL, MULT, LABEL, COLON, LBRACK, RBRACK;
+terminal PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, UMINUS, LABEL, COLON, SEMI, LBRACKET, RBRACKET, ERROR;
 terminal Integer NUMBER;
-non terminal Integer expr_list, expr1, term, expr;
-non terminal d, program, stmt_list, stmt, assignment, lvalue, label;
+
+non terminal Integer expr;
+non terminal d, program, stmt_list, stmt, assignment, lvalue, label, expr_list, expr_part;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE, MOD;
+precedence left UMINUS;
+
 start with program;
 
-program ::= stmt_list
-;
+program ::= stmt_list;
 
 stmt_list ::= stmt_list stmt
-		|
-		stmt
-;
+		| stmt;
 
-stmt ::= assignment
-;
+stmt ::= assignment;
 
-assignment ::= lvalue EQUAL expr1
-;
+assignment ::= lvalue EQUAL expr_part;
 
 lvalue ::= label
 		| label COLON label
-		| label LBRACK expr1 RBRACK
-;
+		| label LBRACKET expr_part RBRACKET;
 
-label ::= LABEL 
-;
+label ::= LABEL;
 
 
 
-expr_list ::= expr_list expr
-		| expr;
+expr_list ::= expr_list expr_part
+		| expr_part;
 
-expr ::= expr1:e EQUAL 
-		{: System.out.println("PARSER: expression recognized"); 
-		   System.out.println("result = " + e);
-		:}
-;
+expr_part ::= expr:e {: System.out.println("EQUALS TO: " + e); :}
+        | error;
 
-expr1 ::= expr1:e PLUS term:t 
-		{:  System.out.println("There is a plus sign"); 
-			RESULT = e + t;
-		:} 
-		| expr1:e MINUS term:t 
-		{:  System.out.println("Minus sign! "); 
-			RESULT = e - t;
-		:}
-		| expr1:e MULT term:t
-		{:	System.out.println("Multiplication sign!");
-			RESULT = e * t;
-		:}
-		| term:t
-		{: RESULT = t; :}
-;
-
-term ::=		OBRACKET expr1:e CBRACKET
-			{: RESULT = e; :}
-			| 
-			NUMBER:n 
-			{: System.out.println("Found a number! "); 
-				RESULT = n;
-			:}
-;
+expr    ::= expr:e1 PLUS expr:e2    {: RESULT = new Integer(e1.intValue() + e2.intValue()); :}
+        | expr:e1 MINUS expr:e2     {: RESULT = new Integer(e1.intValue() - e2.intValue()); :}
+        | expr:e1 TIMES expr:e2     {: RESULT = new Integer(e1.intValue() * e2.intValue()); :}
+        | expr:e1 DIVIDE expr:e2    {: RESULT = new Integer(e1.intValue() / e2.intValue()); :}
+        | expr:e1 MOD expr:e2       {: RESULT = new Integer(e1.intValue() % e2.intValue()); :}
+        | NUMBER:n                  {: RESULT = n; :}
+        | MINUS expr:e              {: RESULT = new Integer(0 - e.intValue()); :} %prec UMINUS
+        | LPAREN expr:e RPAREN      {: RESULT = e; :};
