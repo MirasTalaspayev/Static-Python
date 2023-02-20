@@ -17,7 +17,7 @@ import java_cup.runtime.*;
     }
 %}
 
-WhiteSpace      = [\t\f]
+// WhiteSpace      = [\t\f]
 nl		        = \n|\r|\r\n
 //intNumber	    = [1-9][0-9]*
 //digit         = [0-9]
@@ -52,6 +52,7 @@ label           = [a-z|A-Z][a-z|A-Z|0-9]*
 
 "]"             {System.out.println("RIGHT BRACKET"); return new Symbol(sym.RBRACKET);}
 
-{nl} 	        {/* ignore */}
-{WhiteSpace}    {/* ignore */}
+" "             {;}
+{nl} 	        {;}
+// {WhiteSpace}    {;}
 .               {System.out.println("ERROR"); return symbol(sym.ERROR, yytext());}
