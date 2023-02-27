@@ -1,0 +1,84 @@
+interface Pet:
+    print_name() -> None
+    eat() -> None
+
+class Cat(Pet):
+    private name: str
+    
+    __init__(name: str):
+        self.name = name
+
+    Pet::eat() -> None:
+        print("Cat eats...")
+    Pet::print_name() -> None:
+        print("Cat's name is " + name)
+
+class Dog(Pet):
+    private name: str
+
+    __init__(name: str):
+        self.name = name
+
+    Pet::eat() -> None:
+        print("Dog eats...")
+
+    Pet::print_name() -> None:
+        print("Dog's name is " + name)
+
+class PetCare():
+    feed(pet: Pet) -> None:
+        print("feed as a pet")
+        pet.eat()
+    feed(cat: Cat) -> None:
+        print("feed as a cat")
+        cat.eat()
+    feed(dog: Dog) -> None:
+        print("feed as a dog")
+        dog.eat()
+
+cat: Cat = Cat()
+dog: Dog = Dog()
+
+petCare: PetCare = PetCare()
+
+petCare(cat) # feed as a cat
+petCare(dog) # feed as a dog
+
+petCare((Pet)cat) # feed as a pet
+petCare((Pet)dog) # feed as a pet
+    
+interface Predator:
+    eat() -> None
+
+class Mutant(Pet, Predator):
+    public eaten_pet: Pet
+    Pet::eat() -> None:
+        print("cutie eat")
+    Predator::eat -> None:
+        print("eat with murder")
+
+mutant: Mutant = Mutant()
+
+mutant.Pet::eat() # cutie eat
+mutant.Predator::eat() # eat with murders
+
+mutant.eaten_pet = cat
+mutant.eaten_pet.Pet::print_name()
+
+interface IFileReader:
+    Read() -> None
+
+interface IEmailReader:
+    Read() -> None
+
+class Reader(IFileReader, IEmailReader):
+    IFileReader::Read() -> None:
+        print("read from FileReader")
+    IEmailReader::Read() -> None:
+        print("read from EmailReader")
+
+
+reader: Reader = Reader()
+
+reader.IFileReader::Read() # prints "read from FileReader"
+reader.IEmailReader::Read() # print "read from EmailReader" 
