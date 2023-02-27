@@ -69,6 +69,7 @@ string      = \'{label}\'
 {floatNumber}   {System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));}
 {intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
 "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
+"while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
 "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
 "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
 {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
@@ -77,11 +78,11 @@ string      = \'{label}\'
 
 // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
 
-"*"             {System.out.println("MULT");return addAndReturnNext(sym.TIMES);}
+"*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES);}
 "+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS);}
 "-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS);}
-"("		          {System.out.println("OPEN BRACKET");return addAndReturnNext(sym.LPAREN);}
-")"		          {System.out.println("CLOSE BRACKET");return addAndReturnNext(sym.RPAREN);}
+"("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
+")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
 "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
 ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
 "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}

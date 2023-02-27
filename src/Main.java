@@ -9,7 +9,7 @@ public class Main {
   static public void main(String argv[]) {
     try {
       /* Scanner instantiation */
-      Yylex l = new Yylex(new FileReader(".//src//example_expr.txt"));
+      Yylex l = new Yylex(new FileReader(".//example_expr.txt"));
       /* Parser instantiation */
       parser p = new parser(l);
       /* Start the parser */

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES;
-terminal LABEL, COLON, LBRACK, RBRACK, STRING, TRUE, FALSE, IF, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, OI, CI;
+terminal LABEL, COLON, LBRACK, RBRACK, STRING, TRUE, FALSE, IF, WHILE, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, OI, CI;
 terminal NUMBER, FLOAT;
 
 non terminal lvalue, label, bool, cond_sign;
@@ -17,13 +17,14 @@ non terminal Statement stmt, assignment;
 
 start with program;
 
-program	::= stmt_list:sl						{: RESULT = new ProgramAST(sl); :};
+program	::= stmt_list:sl							{: RESULT = new ProgramAST(sl); :};
 
-stmt_list ::= stmt_list:sl stmt:st				{: RESULT = sl; RESULT.add(st); :}
-		| stmt:st 								{: RESULT = new ArrayList<Statement>(); RESULT.add(st); :};
+stmt_list ::= stmt_list:sl stmt:st					{: RESULT = sl; RESULT.add(st); :}
+		| stmt:st 									{: RESULT = new ArrayList<Statement>(); RESULT.add(st); :};
 
-stmt 	::= assignment:as						{: RESULT = as; :}
-		| IF expr:ex COLON OI stmt_list:sl CI 	{: RESULT = new IfStatement(ex, sl); :};
+stmt 	::= assignment:as							{: RESULT = as; :}
+		| IF expr:ex COLON OI stmt_list:sl CI 		{: RESULT = new IfStatement(ex, sl); :}
+		| WHILE expr:ex COLON OI stmt_list:sl CI	{: RESULT = new WhileStatement(ex, sl); :};
 
 assignment ::= lvalue:lv EQUAL expr:ex;
 
