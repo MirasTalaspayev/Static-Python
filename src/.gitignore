@@ -1,1 +1,4 @@
 *.class
+*.java
+*.java~
+!Main.java
