@@ -25,6 +25,8 @@ stmt_list ::= stmt_list:sl stmt:st					{: RESULT = sl; RESULT.add(st); :}
 stmt 	::= assignment:as							{: RESULT = as; :}
 		| IF expr:ex COLON OI stmt_list:sl CI 		{: RESULT = new IfStatement(ex, sl); :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI	{: RESULT = new WhileStatement(ex, sl); :};
+		| FOR label COLON label in expr:ex COLON OI stmt_list:sl CI
+		| label LPAREN 
 
 assignment ::= lvalue:lv EQUAL expr:ex;
 
@@ -45,6 +47,7 @@ cond_sign ::= EQEQ
 		| MOREEQ
 		| LESSEQ;
 
+
 expr 	::= expr0;
 
 expr0 	::= expr1 cond_sign expr1
@@ -54,12 +57,20 @@ expr1 	::= expr1:e1 PLUS expr2:e2
 		| expr1:e1 MINUS expr2:e2
 		| expr2:e1;
 
-expr2 	::= expr2:e TIMES term:t
-		| term:t;
+expr2 	::= expr2:e TIMES expr3:t
+		| expr3:t;
 
+expr3  	::= expr3:e COMMA term
+		| term:t
+		
 term 	::= LPAREN expr RPAREN
 		| NUMBER
 		| bool
 		| label
 		| STRING
 		| FLOAT;
+
+
+
+
+
