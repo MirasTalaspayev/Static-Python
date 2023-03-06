@@ -2,3 +2,4 @@
 *.java
 *.java~
 !Main.java
+!ast_elements/*.java
