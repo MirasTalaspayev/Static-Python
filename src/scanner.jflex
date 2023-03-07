@@ -70,6 +70,10 @@ string      = \'{label}\'
 {intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
 "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
 "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
+"for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
+"range"         {System.out.println("RANGE");return addAndReturnNext(sym.RANGE, new String(yytext()));}
+"in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
+"print"         {System.out.println("PRINT");return addAndReturnNext(sym.PRINT, new String(yytext()));}
 "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
 "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
 {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
@@ -78,13 +82,18 @@ string      = \'{label}\'
 
 // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
 
-"*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES);}
 "+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS);}
 "-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS);}
+"*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES);}
+"/"             {System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE);}
+"%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD);}
+"**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT);}
+"//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR);}
 "("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
 ")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
 "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
 ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
+","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA);}
 "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
 "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
 

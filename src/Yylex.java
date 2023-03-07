@@ -64,14 +64,15 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\2\3\1\4\22\0\1\5\6\0"+
-    "\1\6\1\7\1\10\1\11\1\12\1\0\1\13\1\14"+
-    "\1\0\1\15\11\16\1\17\1\0\1\20\1\21\1\22"+
-    "\2\0\5\23\1\24\15\23\1\25\6\23\1\26\1\0"+
-    "\1\27\3\0\1\30\3\23\1\31\1\32\1\23\1\33"+
-    "\1\34\2\23\1\35\5\23\1\36\1\37\1\23\1\40"+
-    "\1\23\1\41\3\23\1\0\1\23\10\0\1\3\u01a2\0"+
-    "\2\3\326\0\u0100\3";
+    "\11\0\1\1\1\2\2\3\1\4\22\0\1\5\4\0"+
+    "\1\6\1\0\1\7\1\10\1\11\1\12\1\13\1\14"+
+    "\1\15\1\16\1\17\1\20\11\21\1\22\1\0\1\23"+
+    "\1\24\1\25\2\0\5\26\1\27\15\26\1\30\6\26"+
+    "\1\31\1\0\1\32\3\0\1\33\3\26\1\34\1\35"+
+    "\1\36\1\37\1\40\2\26\1\41\1\26\1\42\1\43"+
+    "\1\44\1\26\1\45\1\46\1\47\1\50\1\26\1\51"+
+    "\3\26\1\0\1\26\10\0\1\3\u01a2\0\2\3\326\0"+
+    "\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -98,14 +99,15 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\2\3\1\4\1\1\1\5\1\6"+
-    "\1\7\1\10\1\11\2\1\1\12\1\13\1\14\1\15"+
-    "\1\16\3\17\1\20\1\21\2\17\3\0\1\22\1\23"+
-    "\1\24\1\25\2\17\1\26\1\17\1\0\1\27\4\17"+
-    "\1\30\1\17\1\31\1\32";
+    "\1\0\1\1\1\2\2\3\1\4\1\5\1\1\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\1\1\14\1\1"+
+    "\1\15\1\16\1\17\1\20\1\21\3\22\1\23\1\24"+
+    "\5\22\2\0\1\25\1\0\1\26\1\27\1\30\1\31"+
+    "\1\32\3\22\1\33\1\34\3\22\1\0\1\35\2\22"+
+    "\1\36\4\22\1\37\3\22\1\40\1\41\1\42\1\43";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[47];
+    int [] result = new int[66];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -130,15 +132,18 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\42\0\42\0\42\0\104\0\146\0\210\0\42"+
-    "\0\42\0\42\0\252\0\252\0\314\0\356\0\u0110\0\42"+
-    "\0\u0132\0\u0154\0\u0176\0\u0198\0\u01ba\0\u01dc\0\42\0\42"+
-    "\0\u01fe\0\u0220\0\u0242\0\u0264\0\u0286\0\314\0\42\0\42"+
-    "\0\42\0\u02a8\0\u02ca\0\u0198\0\u02ec\0\u030e\0\42\0\u0330"+
-    "\0\u0352\0\u0374\0\u0396\0\u0198\0\u03b8\0\u0198\0\u0198";
+    "\0\0\0\52\0\52\0\52\0\124\0\176\0\52\0\250"+
+    "\0\52\0\52\0\322\0\374\0\52\0\374\0\u0126\0\u0150"+
+    "\0\u017a\0\u01a4\0\52\0\u01ce\0\u01f8\0\u0222\0\u024c\0\u0276"+
+    "\0\u02a0\0\52\0\52\0\u02ca\0\u02f4\0\u031e\0\u0348\0\u0372"+
+    "\0\u039c\0\u03c6\0\52\0\u03f0\0\u0126\0\52\0\52\0\52"+
+    "\0\52\0\u041a\0\u0444\0\u046e\0\u024c\0\u024c\0\u0498\0\u04c2"+
+    "\0\u04ec\0\u0516\0\52\0\u0540\0\u056a\0\u024c\0\u0594\0\u05be"+
+    "\0\u05e8\0\u0612\0\u024c\0\u063c\0\u0666\0\u0690\0\u024c\0\u024c"+
+    "\0\u024c\0\u024c";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[47];
+    int [] result = new int[66];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -164,27 +169,39 @@ class Yylex implements java_cup.runtime.Scanner {
     "\1\2\1\3\1\4\1\0\1\5\1\6\1\7\1\10"+
     "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
     "\1\21\1\22\1\23\1\24\1\25\1\26\1\27\1\30"+
-    "\4\24\1\31\4\24\1\32\44\0\1\4\44\0\1\33"+
-    "\57\0\3\34\2\0\12\34\16\0\1\35\40\0\2\36"+
-    "\37\0\1\36\41\0\1\36\2\17\44\0\1\37\41\0"+
-    "\1\40\41\0\1\41\35\0\2\24\4\0\3\24\2\0"+
-    "\12\24\15\0\2\24\4\0\3\24\2\0\1\42\11\24"+
-    "\15\0\2\24\4\0\3\24\2\0\6\24\1\43\3\24"+
-    "\15\0\2\24\4\0\3\24\2\0\2\24\1\44\7\24"+
-    "\15\0\2\24\4\0\3\24\2\0\3\24\1\45\6\24"+
-    "\5\0\1\46\42\0\1\47\6\0\2\34\4\0\3\34"+
-    "\2\0\12\34\14\0\1\36\2\35\40\0\2\24\4\0"+
-    "\3\24\2\0\5\24\1\50\4\24\15\0\2\24\4\0"+
-    "\3\24\2\0\10\24\1\51\1\24\15\0\2\24\4\0"+
-    "\3\24\2\0\4\24\1\52\5\24\5\0\1\3\51\0"+
-    "\2\24\4\0\3\24\2\0\7\24\1\53\2\24\15\0"+
-    "\2\24\4\0\3\24\2\0\1\24\1\54\10\24\15\0"+
-    "\2\24\4\0\3\24\2\0\5\24\1\55\4\24\15\0"+
-    "\2\24\4\0\3\24\2\0\1\24\1\56\10\24\15\0"+
-    "\2\24\4\0\3\24\2\0\1\24\1\57\10\24";
+    "\1\31\1\32\1\33\2\27\1\34\2\27\1\35\3\27"+
+    "\1\36\1\37\3\27\1\40\54\0\1\4\54\0\1\41"+
+    "\72\0\3\42\2\0\17\42\12\0\1\43\60\0\1\44"+
+    "\50\0\2\45\47\0\1\46\50\0\1\45\51\0\1\45"+
+    "\1\0\2\22\54\0\1\47\51\0\1\50\51\0\1\51"+
+    "\45\0\2\27\4\0\3\27\2\0\17\27\20\0\2\27"+
+    "\4\0\3\27\2\0\1\52\16\27\20\0\2\27\4\0"+
+    "\3\27\2\0\12\27\1\53\4\27\20\0\2\27\4\0"+
+    "\3\27\2\0\10\27\1\54\6\27\20\0\2\27\4\0"+
+    "\3\27\2\0\2\27\1\55\4\27\1\56\7\27\20\0"+
+    "\2\27\4\0\3\27\2\0\12\27\1\57\4\27\20\0"+
+    "\2\27\4\0\3\27\2\0\1\60\16\27\20\0\2\27"+
+    "\4\0\3\27\2\0\4\27\1\61\12\27\5\0\1\62"+
+    "\53\0\1\63\10\0\2\42\4\0\3\42\2\0\17\42"+
+    "\16\0\1\45\1\0\2\44\50\0\2\27\4\0\3\27"+
+    "\2\0\6\27\1\64\10\27\20\0\2\27\4\0\3\27"+
+    "\2\0\15\27\1\65\1\27\20\0\2\27\4\0\3\27"+
+    "\2\0\12\27\1\66\4\27\20\0\2\27\4\0\3\27"+
+    "\2\0\5\27\1\67\11\27\20\0\2\27\4\0\3\27"+
+    "\2\0\7\27\1\70\7\27\20\0\2\27\4\0\3\27"+
+    "\2\0\5\27\1\71\11\27\5\0\1\3\64\0\2\27"+
+    "\4\0\3\27\2\0\13\27\1\72\3\27\20\0\2\27"+
+    "\4\0\3\27\2\0\1\27\1\73\15\27\20\0\2\27"+
+    "\4\0\3\27\2\0\7\27\1\74\7\27\20\0\2\27"+
+    "\4\0\3\27\2\0\3\27\1\75\13\27\20\0\2\27"+
+    "\4\0\3\27\2\0\6\27\1\76\10\27\20\0\2\27"+
+    "\4\0\3\27\2\0\1\27\1\77\15\27\20\0\2\27"+
+    "\4\0\3\27\2\0\14\27\1\100\2\27\20\0\2\27"+
+    "\4\0\3\27\2\0\1\27\1\101\15\27\20\0\2\27"+
+    "\4\0\3\27\2\0\1\27\1\102\15\27";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[986];
+    int [] result = new int[1722];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -227,11 +244,12 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\3\11\3\1\3\11\5\1\1\11\6\1\2\11"+
-    "\2\1\3\0\1\1\3\11\4\1\1\0\1\11\10\1";
+    "\1\0\3\11\2\1\1\11\1\1\2\11\2\1\1\11"+
+    "\5\1\1\11\6\1\2\11\5\1\2\0\1\11\1\0"+
+    "\1\1\4\11\10\1\1\0\1\11\17\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[47];
+    int [] result = new int[66];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -756,132 +774,177 @@ class Yylex implements java_cup.runtime.Scanner {
             { System.out.println("Error:" + yytext());
             }
             // fall through
-          case 27: break;
+          case 36: break;
           case 2:
             { System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}
             }
             // fall through
-          case 28: break;
+          case 37: break;
           case 3:
             { curr_col = 0;at_line_begin = true;
             }
             // fall through
-          case 29: break;
+          case 38: break;
           case 4:
             { ;
             }
             // fall through
-          case 30: break;
-          case 5:
-            { System.out.println("OPEN BRACKET");return addAndReturnNext(sym.LPAREN);
-            }
-            // fall through
-          case 31: break;
-          case 6:
-            { System.out.println("CLOSE BRACKET");return addAndReturnNext(sym.RPAREN);
-            }
-            // fall through
-          case 32: break;
-          case 7:
-            { System.out.println("MULT");return addAndReturnNext(sym.TIMES);
-            }
-            // fall through
-          case 33: break;
-          case 8:
-            { System.out.println("PLUS");return addAndReturnNext(sym.PLUS);
-            }
-            // fall through
-          case 34: break;
-          case 9:
-            { System.out.println("MINUS");return addAndReturnNext(sym.MINUS);
-            }
-            // fall through
-          case 35: break;
-          case 10:
-            { System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));
-            }
-            // fall through
-          case 36: break;
-          case 11:
-            { System.out.println("COLON"); return addAndReturnNext(sym.COLON);
-            }
-            // fall through
-          case 37: break;
-          case 12:
-            { System.out.println("LESS");return addAndReturnNext(sym.LESS);
-            }
-            // fall through
-          case 38: break;
-          case 13:
-            { System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);
-            }
-            // fall through
           case 39: break;
-          case 14:
-            { System.out.println("MORE");return addAndReturnNext(sym.MORE);
+          case 5:
+            { System.out.println("MOD");return addAndReturnNext(sym.MOD);
             }
             // fall through
           case 40: break;
-          case 15:
-            { System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));
+          case 6:
+            { System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);
             }
             // fall through
           case 41: break;
-          case 16:
-            { System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);
+          case 7:
+            { System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);
             }
             // fall through
           case 42: break;
-          case 17:
-            { System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);
+          case 8:
+            { System.out.println("TIMES");return addAndReturnNext(sym.TIMES);
             }
             // fall through
           case 43: break;
-          case 18:
-            { System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));
+          case 9:
+            { System.out.println("PLUS");return addAndReturnNext(sym.PLUS);
             }
             // fall through
           case 44: break;
-          case 19:
-            { System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ);
+          case 10:
+            { System.out.println("COMMA"); return addAndReturnNext(sym.COMMA);
             }
             // fall through
           case 45: break;
-          case 20:
-            { System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ);
+          case 11:
+            { System.out.println("MINUS");return addAndReturnNext(sym.MINUS);
             }
             // fall through
           case 46: break;
-          case 21:
-            { System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ);
+          case 12:
+            { System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE);
             }
             // fall through
           case 47: break;
-          case 22:
-            { System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));
+          case 13:
+            { System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));
             }
             // fall through
           case 48: break;
-          case 23:
-            { System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));
+          case 14:
+            { System.out.println("COLON"); return addAndReturnNext(sym.COLON);
             }
             // fall through
           case 49: break;
-          case 24:
-            { System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));
+          case 15:
+            { System.out.println("LESS");return addAndReturnNext(sym.LESS);
             }
             // fall through
           case 50: break;
-          case 25:
-            { System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));
+          case 16:
+            { System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);
             }
             // fall through
           case 51: break;
-          case 26:
-            { System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));
+          case 17:
+            { System.out.println("MORE");return addAndReturnNext(sym.MORE);
             }
             // fall through
           case 52: break;
+          case 18:
+            { System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));
+            }
+            // fall through
+          case 53: break;
+          case 19:
+            { System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);
+            }
+            // fall through
+          case 54: break;
+          case 20:
+            { System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);
+            }
+            // fall through
+          case 55: break;
+          case 21:
+            { System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT);
+            }
+            // fall through
+          case 56: break;
+          case 22:
+            { System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));
+            }
+            // fall through
+          case 57: break;
+          case 23:
+            { System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR);
+            }
+            // fall through
+          case 58: break;
+          case 24:
+            { System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ);
+            }
+            // fall through
+          case 59: break;
+          case 25:
+            { System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ);
+            }
+            // fall through
+          case 60: break;
+          case 26:
+            { System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ);
+            }
+            // fall through
+          case 61: break;
+          case 27:
+            { System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));
+            }
+            // fall through
+          case 62: break;
+          case 28:
+            { System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));
+            }
+            // fall through
+          case 63: break;
+          case 29:
+            { System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));
+            }
+            // fall through
+          case 64: break;
+          case 30:
+            { System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));
+            }
+            // fall through
+          case 65: break;
+          case 31:
+            { System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));
+            }
+            // fall through
+          case 66: break;
+          case 32:
+            { System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));
+            }
+            // fall through
+          case 67: break;
+          case 33:
+            { System.out.println("PRINT");return addAndReturnNext(sym.PRINT, new String(yytext()));
+            }
+            // fall through
+          case 68: break;
+          case 34:
+            { System.out.println("RANGE");return addAndReturnNext(sym.RANGE, new String(yytext()));
+            }
+            // fall through
+          case 69: break;
+          case 35:
+            { System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));
+            }
+            // fall through
+          case 70: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

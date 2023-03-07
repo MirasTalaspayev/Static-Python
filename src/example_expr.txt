@@ -1,13 +1,8 @@
 i: int = 20
 x: int = 120
-if i == 20:
+while 12 == 20:
     i = i+1
     if x > 999:
         x = 1 + 2 * 3
     i = i+2
-b: int = i
-x = 123
-while x <= 123:
-    i = x
-    x = 125
-a = 1
+print(i)
