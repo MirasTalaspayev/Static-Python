@@ -82,26 +82,26 @@ string      = \'{label}\'
 
 // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
 
-"+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS);}
-"-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS);}
-"*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES);}
-"/"             {System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE);}
-"%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD);}
-"**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT);}
-"//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR);}
+"+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS, new String(yytext()));}
+"-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS, new String(yytext()));}
+"*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES, new String(yytext()));}
+"/"             {System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE, new String(yytext()));}
+"%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD, new String(yytext()));}
+"**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT, new String(yytext()));}
+"//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR, new String(yytext()));}
 "("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
 ")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
 "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
 ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
-","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA);}
+","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
 "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
 "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
 
-"=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ);}
-"<"		          {System.out.println("LESS");return addAndReturnNext(sym.LESS);}
-">"		          {System.out.println("MORE");return addAndReturnNext(sym.MORE);}
-"<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ);}
-">="	          {System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ);}
+"=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
+"<"		          {System.out.println("LESS");return addAndReturnNext(sym.LESS, new String(yytext()));}
+">"		          {System.out.println("MORE");return addAndReturnNext(sym.MORE, new String(yytext()));}
+"<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));}
+">="	          {System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ, new String(yytext()));}
 
 
 {nl}	          {curr_col = 0;at_line_begin = true;}
@@ -110,3 +110,6 @@ string      = \'{label}\'
 
 .		            {System.out.println("Error:" + yytext());}
 
+// jflex scanner.jflex
+// java java_cup.MainDrawTree parser.cup
+// javac *.java

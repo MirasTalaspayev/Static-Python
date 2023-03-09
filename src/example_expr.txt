@@ -1,8 +1,5 @@
-i: int = 20
-x: int = 120
-while 12 == 20:
-    i = i+1
-    if x > 999:
-        x = 1 + 2 * 3
-    i = i+2
-print(i)
+x: int = 10
+
+if x > 5:
+    x = 5
+print(x)

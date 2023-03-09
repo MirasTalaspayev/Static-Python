@@ -791,7 +791,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 39: break;
           case 5:
-            { System.out.println("MOD");return addAndReturnNext(sym.MOD);
+            { System.out.println("MOD");return addAndReturnNext(sym.MOD, new String(yytext()));
             }
             // fall through
           case 40: break;
@@ -806,27 +806,27 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 42: break;
           case 8:
-            { System.out.println("TIMES");return addAndReturnNext(sym.TIMES);
+            { System.out.println("TIMES");return addAndReturnNext(sym.TIMES, new String(yytext()));
             }
             // fall through
           case 43: break;
           case 9:
-            { System.out.println("PLUS");return addAndReturnNext(sym.PLUS);
+            { System.out.println("PLUS");return addAndReturnNext(sym.PLUS, new String(yytext()));
             }
             // fall through
           case 44: break;
           case 10:
-            { System.out.println("COMMA"); return addAndReturnNext(sym.COMMA);
+            { System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));
             }
             // fall through
           case 45: break;
           case 11:
-            { System.out.println("MINUS");return addAndReturnNext(sym.MINUS);
+            { System.out.println("MINUS");return addAndReturnNext(sym.MINUS, new String(yytext()));
             }
             // fall through
           case 46: break;
           case 12:
-            { System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE);
+            { System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE, new String(yytext()));
             }
             // fall through
           case 47: break;
@@ -841,7 +841,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 49: break;
           case 15:
-            { System.out.println("LESS");return addAndReturnNext(sym.LESS);
+            { System.out.println("LESS");return addAndReturnNext(sym.LESS, new String(yytext()));
             }
             // fall through
           case 50: break;
@@ -851,7 +851,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 51: break;
           case 17:
-            { System.out.println("MORE");return addAndReturnNext(sym.MORE);
+            { System.out.println("MORE");return addAndReturnNext(sym.MORE, new String(yytext()));
             }
             // fall through
           case 52: break;
@@ -871,7 +871,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 55: break;
           case 21:
-            { System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT);
+            { System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT, new String(yytext()));
             }
             // fall through
           case 56: break;
@@ -881,22 +881,22 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 57: break;
           case 23:
-            { System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR);
+            { System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR, new String(yytext()));
             }
             // fall through
           case 58: break;
           case 24:
-            { System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ);
+            { System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));
             }
             // fall through
           case 59: break;
           case 25:
-            { System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ);
+            { System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));
             }
             // fall through
           case 60: break;
           case 26:
-            { System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ);
+            { System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ, new String(yytext()));
             }
             // fall through
           case 61: break;

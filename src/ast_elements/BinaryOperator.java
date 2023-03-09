@@ -9,13 +9,16 @@ public class BinaryOperator extends Expression {
         this.e1 = e1;
         this.op = op;
         this.e2 = e2;
+        System.out.println("e1 = " + e1);
+        System.out.println("op = " + op);
+        System.out.println("e2 = " + e2);
     }
 
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.e1.toString()).append(this.op).append(this.e2.toString()).append(":\n");
+        sb.append(ind).append(this.e1.toString()).append(this.op).append(this.e2.toString()).append("\n");
 
         return sb;
     }
