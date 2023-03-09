@@ -9,6 +9,9 @@ public class BinaryOperator extends Expression {
         this.e1 = e1;
         this.op = op;
         this.e2 = e2;
+        System.out.println("e1 = " + e1.toString());
+        System.out.println("op = " + op);
+        System.out.println("e2 = " + e2.toString());
     }
 
     public StringBuilder toString(int indent) {
