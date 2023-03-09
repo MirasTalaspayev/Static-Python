@@ -13,7 +13,7 @@ public class Print extends Statement {
         String ind = IndentUtil.indentStr(indent);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.ex).append(":\n");
+        sb.append(ind).append("print(" + this.ex + ")").append("\n");
 
         return sb;
     }

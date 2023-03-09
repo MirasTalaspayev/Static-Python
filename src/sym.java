@@ -8,40 +8,40 @@ public class sym {
   /* terminals */
   public static final int DIVIDE = 8;
   public static final int LPAREN = 4;
-  public static final int LESS = 23;
-  public static final int FOR = 19;
+  public static final int LESS = 13;
+  public static final int FOR = 24;
   public static final int MINUS = 3;
   public static final int FLOOR = 11;
   public static final int RPAREN = 5;
-  public static final int RANGE = 20;
-  public static final int IN = 21;
+  public static final int RANGE = 25;
+  public static final int IN = 26;
   public static final int COMMA = 12;
-  public static final int CI = 30;
-  public static final int MOREEQ = 25;
+  public static final int CI = 29;
+  public static final int MOREEQ = 15;
   public static final int PLUS = 2;
-  public static final int LESSEQ = 24;
-  public static final int IF = 17;
-  public static final int OI = 29;
+  public static final int LESSEQ = 14;
+  public static final int IF = 22;
+  public static final int OI = 28;
   public static final int EOF = 0;
   public static final int EQUAL = 6;
   public static final int TRUE = 34;
   public static final int error = 1;
-  public static final int EQEQ = 28;
+  public static final int EQEQ = 18;
   public static final int NUMBER = 32;
   public static final int MOD = 9;
-  public static final int LBRACK = 14;
+  public static final int LBRACK = 20;
   public static final int TIMES = 7;
-  public static final int COLON = 13;
-  public static final int RBRACK = 15;
-  public static final int WHILE = 18;
+  public static final int COLON = 19;
+  public static final int RBRACK = 21;
+  public static final int WHILE = 23;
   public static final int FLOAT = 33;
-  public static final int STRING = 16;
+  public static final int STRING = 31;
   public static final int FALSE = 35;
-  public static final int LABEL = 31;
-  public static final int PRINT = 22;
-  public static final int MORE = 26;
+  public static final int LABEL = 30;
+  public static final int PRINT = 27;
+  public static final int MORE = 16;
   public static final int EXPONENT = 10;
-  public static final int NOTEQ = 27;
+  public static final int NOTEQ = 17;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -56,25 +56,25 @@ public class sym {
   "EXPONENT",
   "FLOOR",
   "COMMA",
-  "COLON",
-  "LBRACK",
-  "RBRACK",
-  "STRING",
-  "IF",
-  "WHILE",
-  "FOR",
-  "RANGE",
-  "IN",
-  "PRINT",
   "LESS",
   "LESSEQ",
   "MOREEQ",
   "MORE",
   "NOTEQ",
   "EQEQ",
+  "COLON",
+  "LBRACK",
+  "RBRACK",
+  "IF",
+  "WHILE",
+  "FOR",
+  "RANGE",
+  "IN",
+  "PRINT",
   "OI",
   "CI",
   "LABEL",
+  "STRING",
   "NUMBER",
   "FLOAT",
   "TRUE",
@@ -85,40 +85,40 @@ public String[] TT;
 		TT = new String[100];
 		TT[8]=new String("DIVIDE");
 		TT[4]=new String("LPAREN");
-		TT[23]=new String("LESS");
-		TT[19]=new String("FOR");
+		TT[13]=new String("LESS");
+		TT[24]=new String("FOR");
 		TT[3]=new String("MINUS");
 		TT[11]=new String("FLOOR");
 		TT[5]=new String("RPAREN");
-		TT[20]=new String("RANGE");
-		TT[21]=new String("IN");
+		TT[25]=new String("RANGE");
+		TT[26]=new String("IN");
 		TT[12]=new String("COMMA");
-		TT[30]=new String("CI");
-		TT[25]=new String("MOREEQ");
+		TT[29]=new String("CI");
+		TT[15]=new String("MOREEQ");
 		TT[2]=new String("PLUS");
-		TT[24]=new String("LESSEQ");
-		TT[17]=new String("IF");
-		TT[29]=new String("OI");
+		TT[14]=new String("LESSEQ");
+		TT[22]=new String("IF");
+		TT[28]=new String("OI");
 		TT[0]=new String("EOF");
 		TT[6]=new String("EQUAL");
 		TT[34]=new String("TRUE");
 		TT[1]=new String("error");
-		TT[28]=new String("EQEQ");
+		TT[18]=new String("EQEQ");
 		TT[32]=new String("NUMBER");
 		TT[9]=new String("MOD");
-		TT[14]=new String("LBRACK");
+		TT[20]=new String("LBRACK");
 		TT[7]=new String("TIMES");
-		TT[13]=new String("COLON");
-		TT[15]=new String("RBRACK");
-		TT[18]=new String("WHILE");
+		TT[19]=new String("COLON");
+		TT[21]=new String("RBRACK");
+		TT[23]=new String("WHILE");
 		TT[33]=new String("FLOAT");
-		TT[16]=new String("STRING");
+		TT[31]=new String("STRING");
 		TT[35]=new String("FALSE");
-		TT[31]=new String("LABEL");
-		TT[22]=new String("PRINT");
-		TT[26]=new String("MORE");
+		TT[30]=new String("LABEL");
+		TT[27]=new String("PRINT");
+		TT[16]=new String("MORE");
 		TT[10]=new String("EXPONENT");
-		TT[27]=new String("NOTEQ");
+		TT[17]=new String("NOTEQ");
 	}
 public String getTT(int i){return TT[i];}
 }

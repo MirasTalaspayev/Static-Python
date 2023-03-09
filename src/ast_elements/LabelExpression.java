@@ -1,11 +1,11 @@
 package ast_elements;
 
-public class NumberExpression extends Expression {
+public class LabelExpression extends Expression {
 
-    private Integer value;
+    private String value;
 
-    public NumberExpression(Integer value) {
-        System.out.println("Integer expression constructor " + value);
+    public LabelExpression(String value) {
+        System.out.println("Label expression constructor " + value);
         this.value = value;
     }
     

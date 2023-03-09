@@ -19,7 +19,7 @@ public class DeclarationVal extends Statement {
         String ind = IndentUtil.indentStr(indent);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.value).append(this.type).append(this.ex).append("\n");
+        sb.append(ind).append(this.value + ":").append(this.type + " = ").append(this.ex).append("\n");
 
         return sb;
     }

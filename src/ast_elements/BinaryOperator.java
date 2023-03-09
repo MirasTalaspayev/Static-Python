@@ -18,7 +18,7 @@ public class BinaryOperator extends Expression {
         String ind = IndentUtil.indentStr(indent);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.e1.toString()).append(this.op).append(this.e2.toString()).append("\n");
+        sb.append(ind).append(this.e1.toString()).append(" " + this.op + " ").append(this.e2.toString());
 
         return sb;
     }

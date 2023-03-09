@@ -3,9 +3,9 @@ import java.util.List;
 import java.util.ArrayList;
 import ast_elements.*;
 
-terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA;
-terminal COLON, LBRACK, RBRACK, STRING, IF, WHILE, FOR, RANGE, IN, PRINT, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, OI, CI;
-terminal String LABEL;
+terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI;
+terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
 terminal Boolean TRUE, FALSE;
@@ -36,29 +36,13 @@ stmt 	::= LABEL:v COLON LABEL:t EQUAL expr:ex							{: RESULT = new DeclarationV
 bool 	::= TRUE 
 		| FALSE;
 
-cond_sign ::= EQEQ
-		| NOTEQ
-		| LESS
-		| MORE
-		| MOREEQ
-		| LESSEQ;
-
-bin_op1	::= PLUS
-		| MINUS;
-
-bin_op2	::= TIMES
-		| DIVIDE
-		| MOD
-		| EXPONENT
-		| FLOOR;
-
 expr 	::= expr0:e2						{: RESULT = e2; :};
 
-expr0 	::= expr0:e1 MORE:op expr1:e2		{: System.out.println("expr0"); RESULT = new BinaryOperator(e1, op, e2); :}
+expr0 	::= expr0:e1 MORE:op expr1:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
         | expr1:e2 							{: RESULT = e2; :};
 
-expr1 	::= expr1:e1 PLUS:op term:e2		{: System.out.println("expr1"); RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr1:e1 MINUS:op term:e2			{: System.out.println("expr1"); RESULT = new BinaryOperator(e1, op, e2); :}
+expr1 	::= expr1:e1 PLUS:op term:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
+		| expr1:e1 MINUS:op term:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| term:e2 							{: RESULT = e2; :};
 
 expr2 	::= expr2:e1 TIMES:op expr3:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
@@ -72,8 +56,8 @@ expr3	::= expr3:e COMMA:op term:t			{: RESULT = new BinaryOperator(e, op, t); :}
 		| term;
 
 term 	::= LPAREN expr RPAREN
-		| NUMBER:n							{: System.out.println("term"); RESULT = new NumberExpression(n); :}
-		| bool
-		| LABEL
-		| STRING
-		| FLOAT;
+		| NUMBER:n							{: RESULT = new NumberExpression(n); :}
+		| bool:b							{: RESULT = new BooleanExpression(b); :}
+		| LABEL:l							{: RESULT = new LabelExpression(l); :}
+		| STRING:s							{: RESULT = new StringExpression(s); :}
+		| FLOAT:f							{: RESULT = new FloatExpression(f); :};

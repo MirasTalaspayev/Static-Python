@@ -15,7 +15,7 @@ public class Declaration extends Statement {
         String ind = IndentUtil.indentStr(indent);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.value).append(this.type).append(":\n");
+        sb.append(ind).append(this.value + ":").append(this.type).append("\n");
 
         return sb;
     }
