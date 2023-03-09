@@ -53,10 +53,10 @@ bin_op2	::= TIMES
 
 expr 	::= expr0;
 
-expr0 	::= expr1:e1 cond_sign:op expr1:e2		{: RESULT = new BinaryOperator(e1, String.valueOf(op), e2); :}
+expr0 	::= expr0:e1 cond_sign:op expr1:e2		{: RESULT = new BinaryOperator(e1, String.valueOf(op), e2); :}
         | expr1;
 
-expr1 	::= expr1:e1 bin_op1:op expr2:e2		{: RESULT = new BinaryOperator(e1, String.valueOf(op), e2); :}
+expr1 	::= expr1:e1 bin_op1:op term:e2		{: RESULT = new BinaryOperator(e1, String.valueOf(op), e2); :}
 		| term;
 
 // expr2 	::= expr2:e1 bin_op2:op expr3:e2		{: RESULT = new BinaryOperator(e1, String.valueOf(op), e2); :}
