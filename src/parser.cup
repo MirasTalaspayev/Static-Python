@@ -45,18 +45,25 @@ bin_op2 ::= TIMES:op						{: RESULT = op; :}
 		| EXPONENT:op						{: RESULT = op; :}
 		| FLOOR:op							{: RESULT = op; :};
 
+cond_sign ::= EQEQ:op						{:RESULT = op; :}
+		| NOTEQ:op							{:RESULT = op; :}
+		| LESS:op							{:RESULT = op; :}
+		| LESSEQ:op							{:RESULT = op; :}
+		| MORE:op							{:RESULT = op; :}
+		| MOREEQ:op							{:RESULT = op; :};
+
 expr 	::= expr0:e0						{: RESULT = e0; :};
 
-expr0 	::= expr0:e0 MORE:op expr1:e1		{: RESULT = new BinaryOperator(e0, op, e1); :}
+expr0 	::= expr0:e0 cond_sign:op expr1:e1	{: RESULT = new BinaryOperator(e0, op, e1); :}
         | expr1:e1 							{: RESULT = e1; :};
 
 expr1 	::= expr1:e1 bin_op1:op expr2:e2	{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2							{: RESULT = e2; :};
 
-expr2 	::= expr2:e1 bin_op2:op expr3:e2	{: RESULT = new BinaryOperator(e1, op, e2); :}
+expr2 	::= expr2:e2 bin_op2:op expr3:e3	{: RESULT = new BinaryOperator(e2, op, e3); :}
 		| expr3:e3;							{: RESULT = e3; :};
 
-expr3	::= expr3:e COMMA:op term:t			{: RESULT = new BinaryOperator(e, op, t); :}
+expr3	::= expr3:e3 COMMA:op term:t		{: RESULT = new BinaryOperator(e3, op, t); :}
 		| term:t;							{: RESULT = t; :};
 
 term 	::= LPAREN expr:ex RPAREN			{: RESULT = ex; :}

@@ -98,6 +98,7 @@ string      = \'{label}\'
 "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
 
 "=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
+"!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}
 "<"		          {System.out.println("LESS");return addAndReturnNext(sym.LESS, new String(yytext()));}
 ">"		          {System.out.println("MORE");return addAndReturnNext(sym.MORE, new String(yytext()));}
 "<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));}
