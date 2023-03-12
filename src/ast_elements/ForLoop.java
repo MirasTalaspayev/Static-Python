@@ -4,10 +4,10 @@ import java.util.List;
 
 public class ForLoop extends Statement {
 
-    private List list;
+    private Expression list;
     private List<Statement> body;
 
-    public ForLoop(List list, List<Statement> body) {
+    public ForLoop(Expression list, List<Statement> body) {
         this.list = list;
         this.body = body;
     }

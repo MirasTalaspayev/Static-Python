@@ -36,24 +36,28 @@ stmt 	::= LABEL:v COLON LABEL:t EQUAL expr:ex							{: RESULT = new DeclarationV
 bool 	::= TRUE 
 		| FALSE;
 
+bin_op1	::= PLUS:op							{: RESULT = op; :}
+		| MINUS:op							{: RESULT = op; :};
+
+bin_op2 ::= TIMES:op						{: RESULT = op; :}
+		| DIVIDE:op							{: RESULT = op; :}
+		| MOD:op							{: RESULT = op; :}
+		| EXPONENT:op						{: RESULT = op; :}
+		| FLOOR:op							{: RESULT = op; :};
+
 expr 	::= expr0:e0						{: RESULT = e0; :};
 
 expr0 	::= expr0:e0 MORE:op expr1:e1		{: RESULT = new BinaryOperator(e0, op, e1); :}
         | expr1:e1 							{: RESULT = e1; :};
 
-expr1 	::= expr1:e1 PLUS:op expr2:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr1:e1 MINUS:op expr2:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
+expr1 	::= expr1:e1 bin_op1:op expr2:e2	{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2							{: RESULT = e2; :};
 
-expr2 	::= expr2:e1 TIMES:op expr3:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr2:e1 DIVIDE:op expr3:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr2:e1 MOD:op expr3:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr2:e1 EXPONENT:op expr3:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr2:e1 FLOOR:op expr3:e2		{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr3:e3;							{: RESULT = e3; :}
+expr2 	::= expr2:e1 bin_op2:op expr3:e2	{: RESULT = new BinaryOperator(e1, op, e2); :}
+		| expr3:e3;							{: RESULT = e3; :};
 
 expr3	::= expr3:e COMMA:op term:t			{: RESULT = new BinaryOperator(e, op, t); :}
-		| term:t;							{: RESULT = t; :}
+		| term:t;							{: RESULT = t; :};
 
 term 	::= LPAREN expr:ex RPAREN			{: RESULT = ex; :}
 		| NUMBER:n							{: RESULT = new NumberExpression(n); :}
