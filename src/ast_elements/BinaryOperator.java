@@ -23,7 +23,7 @@ public class BinaryOperator extends Expression {
         return sb;
     }
 
-    // @Override
+    @Override
     public String toString() {
         return toString(0).toString();
     }
