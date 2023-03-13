@@ -21,7 +21,9 @@ import java.util.ArrayList;
   Symbol addAndReturnNext(Symbol symbol) {
     if (at_line_begin) {
         if (col_num > curr_col) {
-            tokenBuffer.add(new Symbol(sym.CI, "END BLOCK"));
+            for (int i=curr_col; i < col_num; i++ ) {
+              tokenBuffer.add(new Symbol(sym.CI, "END BLOCK"));
+            }
             col_num = curr_col;
             System.out.println("ENDING BLOCK");
         } else if (col_num < curr_col) {
@@ -98,6 +100,7 @@ string      = \'{label}\'
 "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
 
 "=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
+"!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}
 "<"		          {System.out.println("LESS");return addAndReturnNext(sym.LESS, new String(yytext()));}
 ">"		          {System.out.println("MORE");return addAndReturnNext(sym.MORE, new String(yytext()));}
 "<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));}

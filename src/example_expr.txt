@@ -1,5 +1,4 @@
-x: int = 10
+for x:int in list:
+    print(x)
 
-if x > 5:
-    x = 5
-print(x)
+print("end")

@@ -5,7 +5,6 @@ public class NumberExpression extends Expression {
     private Integer value;
 
     public NumberExpression(Integer value) {
-        System.out.println("Integer expression constructor " + value);
         this.value = value;
     }
     
@@ -18,8 +17,8 @@ public class NumberExpression extends Expression {
         return sb;
     }
 
+    @Override
     public String toString() {
         return toString(0).toString();
     }
-    
 }

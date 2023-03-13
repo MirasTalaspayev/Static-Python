@@ -5,7 +5,6 @@ public class LabelExpression extends Expression {
     private String value;
 
     public LabelExpression(String value) {
-        System.out.println("Label expression constructor " + value);
         this.value = value;
     }
     
