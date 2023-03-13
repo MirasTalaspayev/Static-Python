@@ -1,1 +1,4 @@
 *.class
+*.java*
+!ast_elements/*.java
+!Main.java

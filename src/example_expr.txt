@@ -1,8 +1,4 @@
-i: int = 20
-x: int = 120
-while 12 == 20:
-    i = i+1
-    if x > 999:
-        x = 1 + 2 * 3
-    i = i+2
-print(i)
+a: list[int] = [1,2,3]
+def plus_func(a, b):
+    return a + b
+plus_func(1, 2)

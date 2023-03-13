@@ -1,10 +1,11 @@
 package ast_elements;
 
-public class BinaryOperator extends Expression {
+public class ComparisonOperator extends Expression {
     private Expression e1;
     private String op;
     private Expression e2;
-    public BinaryOperator(Expression e1, String op, Expression e2) {
+
+    public ComparisonOperator(Expression e1, String op, Expression e2) {
         this.e1 = e1;
         this.op = op;
         this.e2 = e2;

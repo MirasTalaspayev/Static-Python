@@ -1,10 +1,11 @@
 package ast_elements;
 
-public class NumberExpression extends Expression {
+public class FloatExpression extends Expression {
 
-    private Integer value;
+    private Float value;
 
-    public NumberExpression(Integer value) {
+    public FloatExpression(Float value) {
+        System.out.println("Float expression constructor " + value);
         this.value = value;
     }
     
@@ -17,8 +18,8 @@ public class NumberExpression extends Expression {
         return sb;
     }
 
-    @Override
     public String toString() {
         return toString(0).toString();
     }
+    
 }
