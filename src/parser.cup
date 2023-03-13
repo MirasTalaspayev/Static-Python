@@ -32,6 +32,7 @@ stmt 	::= LABEL:var_name COLON variable_type:var_type EQUAL value:ex	{: RESULT =
 		| LABEL:var_name EQUAL value:ex									{: RESULT = new Assignment(var_name, ex); :}
 		| DEF LABEL:func_name LPAREN expr:ex RPAREN COLON
 			OI stmt_list:sl CI											{: RESULT = new FunctionDeclaration(func_name, ex, sl); :}
+		| LABEL:func_name LPAREN expr:ex RPAREN							{: RESULT = new FunctionCall(func_name, ex); :}
 		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
 		| FOR LABEL:var_name COLON LABEL:var_type IN expr:ex COLON
