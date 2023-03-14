@@ -1,4 +1,2 @@
-for x:int in list:
-    print(x)
-
-print("end")
+a: list = []
+print(a)

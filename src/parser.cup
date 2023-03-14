@@ -14,7 +14,8 @@ non terminal Boolean bool;
 non terminal String bin_op1, bin_op2, cond_sign;
 
 non terminal ProgramAST program;
-non terminal Expression expr0, expr1, expr2, expr3, term, expr;
+non terminal Expression expr0, expr1, expr2, expr3, term, expr, expr_list;
+non terminal List<Expression> expr_values;
 non terminal List<Statement> stmt_list;
 non terminal Statement stmt, assignment, print;
 
@@ -54,7 +55,8 @@ bin_op2 ::= TIMES:op						{: RESULT = op; :}
 		| EXPONENT:op						{: RESULT = op; :}
 		| FLOOR:op							{: RESULT = op; :};
 
-expr 	::= expr0:e0						{: System.out.println("expr = " + e0); RESULT = e0; :};
+expr 	::= expr0:e0						{: RESULT = e0; :}
+		| expr_list:e_list					{: RESULT = e_list; :};
 
 expr0 	::= expr0:e0 cond_sign:op expr1:e1	{: RESULT = new ComparisonOperator(e0, op, e1); :}
         | expr1:e1 							{: RESULT = e1; :};
@@ -62,11 +64,14 @@ expr0 	::= expr0:e0 cond_sign:op expr1:e1	{: RESULT = new ComparisonOperator(e0,
 expr1 	::= expr1:e1 bin_op1:op expr2:e2	{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2 							{: RESULT = e2; :};
 
-expr2 	::= expr2:e2 bin_op2:op expr3:e3	{: RESULT = new BinaryOperator(e2, op, e3); :}
-		| expr3:e3							{: RESULT = e3; :};
+expr2 	::= expr2:e2 bin_op2:op term:e3		{: RESULT = new BinaryOperator(e2, op, e3); :}
+		| term:e3							{: RESULT = e3; :};
 
-expr3	::= expr3:e COMMA:op term:t			{: RESULT = new BinaryOperator(e, op, t); :}
-		| term:t							{: RESULT = t; :};
+expr_list ::= LBRACK expr_values:e1 RBRACK 	{: RESULT = new ListExpression(e1); :}
+		| LBRACK RBRACK						{: RESULT = new ListExpression(new ArrayList<Expression>()); :};
+
+expr_values ::= expr_values:ex_vals COMMA expr:e2 	{: RESULT = ex_vals; RESULT.add(e2); :}
+		| expr:e 									{: RESULT = new ArrayList<Expression>(); RESULT.add(e); :};
 
 term 	::= LPAREN expr:ex RPAREN			{: RESULT = ex; :}
 		| NUMBER:n							{: RESULT = new NumberExpression(n); :}

@@ -9,9 +9,6 @@ public class ValueDeclaration extends Declaration {
         this.var_name = var_name;
         this.type = type;
         this.ex = ex;
-        System.out.println("VALUE === " + this.var_name);
-        System.out.println("TYPE === " + this.type);
-        System.out.println("EXPRESSION = " + this.ex);
     }
 
     public StringBuilder toString(int indent) {
