@@ -78,6 +78,10 @@ string      = \'{label}\'
 "print"         {System.out.println("PRINT");return addAndReturnNext(sym.PRINT, new String(yytext()));}
 "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
 "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
+"list"          {System.out.println("list");return addAndReturnNext(sym.LIST, new String(yytext()));}
+"set"           {System.out.println("set");return addAndReturnNext(sym.SET, new String(yytext()));}
+"dict"          {System.out.println("dict");return addAndReturnNext(sym.DICT, new String(yytext()));}
+"tuple"         {System.out.println("tuple");return addAndReturnNext(sym.TUPLE, new String(yytext()));}
 {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
 {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
 {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
@@ -18,7 +18,9 @@ non terminal Expression expr0, expr1, expr2, expr3, term, expr, expr_list;
 non terminal List<Expression> expr_values;
 non terminal List<Statement> stmt_list;
 non terminal Statement stmt, assignment, print;
-
+non terminal VarDeclaration var_decl;
+non terminal Type type;
+non terminal List<Type> type_list;
 
 start with program;
 
@@ -27,14 +29,26 @@ program	::= stmt_list:sl												{: RESULT = new ProgramAST(sl); :};
 stmt_list ::= stmt_list:sl stmt:st										{: RESULT = sl; RESULT.add(st); :}
 		| stmt:st 														{: RESULT = new ArrayList<Statement>(); RESULT.add(st); :};
 
-stmt 	::= LABEL:var_name COLON LABEL:var_type EQUAL expr:ex			{: RESULT = new ValueDeclaration(var_name, var_type, ex); :}
-		| LABEL:var_name COLON LABEL:var_type							{: RESULT = new ValueDeclaration(var_name, var_type, null); :}
+stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}
 		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
 		| FOR LABEL:var_name COLON LABEL:var_type IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, var_type, ex, sl); :}
 		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :};
+
+var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
+		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
+
+type ::= LIST LBRACK type:t RBRACK										{: RESULT = new ListType(t); :}
+    | SET LBRACK type:t RBRACK											{: RESULT = new SetType(t); :}
+    | DICT LBRACK type:key_type COMMA type:value_type RBRACK			{: RESULT = new DictType(key_type, value_type); :}
+    | TUPLE LBRACK type_list:t_list RBRACK								{: RESULT = new TupleType(t_list); :}
+    | LABEL:l															{: RESULT = new VariableType(l); :};
+
+type_list ::= type_list:t_list COMMA type:t								{: RESULT = t_list; RESULT.add(t); :}
+	| type:t															{: RESULT = new ArrayList<Type>(); RESULT.add(t); :};
+
 
 bool 	::= TRUE 
 		| FALSE;
