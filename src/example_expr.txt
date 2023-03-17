@@ -3,3 +3,4 @@ def func(a: int, b: list[int]) -> int:
     return a
 func(a, b)
 print(func(a, b))
+x = func(a, b)

@@ -5,13 +5,13 @@ import java.util.List;
 public class FunctionDeclaration extends Declaration {
     private String func_name;
     private List<LocalVarDeclaration> param_list;
-    private Type t;
+    private Type return_Type;
     private List<Statement> body;
 
-    public FunctionDeclaration(String func_name, List<LocalVarDeclaration> param_list, Type t, List<Statement> body) {
+    public FunctionDeclaration(String func_name, List<LocalVarDeclaration> param_list, Type return_Type, List<Statement> body) {
         this.func_name = func_name;
         this.param_list = param_list;
-        this.t = t;
+        this.return_Type = return_Type;
         this.body = body;
 
         System.out.println("Function Name === " + this.func_name);
@@ -29,7 +29,7 @@ public class FunctionDeclaration extends Declaration {
         if (size >= 1) {
             sb.append(param_list.get(size - 1));
         }
-        sb.append(") -> " + this.t + ":").append("\n");
+        sb.append(") -> " + this.return_Type + ":").append("\n");
         for (Statement stmt : this.body) {
             sb.append(stmt.toString(indent + 1));
         }

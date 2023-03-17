@@ -10,9 +10,8 @@ public class LocalVarDeclaration extends Declaration {
     }
 
     public StringBuilder toString(int indent) {
-        String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.var_name + ":").append(this.type);
+        sb.append(this.var_name + ":").append(this.type);
         return sb;
     }
 }
