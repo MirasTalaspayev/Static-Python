@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
 terminal Boolean TRUE, FALSE;
 
 non terminal Boolean bool;
-non terminal String bin_op1, bin_op2, cond_sign, type;
+non terminal String bin_op1, bin_op2, cond_sign;
 
 non terminal ProgramAST program;
 non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict;
@@ -32,16 +32,12 @@ stmt_list ::= stmt_list:sl stmt:st			{: RESULT = sl; RESULT.add(st); :}
 		| stmt:st 							{: RESULT = new ArrayList<Statement>(); RESULT.add(st); :};
 
 stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
-		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}
-		| DEF LABEL:func_name LPAREN expr:ex RPAREN COLON
-			OI stmt_list:sl CI											{: RESULT = new FunctionDeclaration(func_name, ex, sl); :}
-		| LABEL:func_name LPAREN expr:ex RPAREN							{: RESULT = new FunctionCall(func_name, ex); :}
+		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}		
 		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
 		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
-		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :}
-		| RETURN expr:ex												{: RESULT = new Return(ex); :};
+		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
 		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};

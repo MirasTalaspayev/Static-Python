@@ -70,6 +70,7 @@ string      = \'{label}\'
 
 {floatNumber}   {System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));}
 {intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
+"def"           {System.out.println("DEF");return addAndReturnNext(sym.DEF, new String(yytext()));}
 "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
 "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
 "for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
