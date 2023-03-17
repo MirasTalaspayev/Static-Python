@@ -1,2 +1,6 @@
-a: tuple[list[int], str] = [1, 2]
-d: dict[str, int] = {a:1, b:2, c:3}
+def func(a: int, b: list[int]) -> int:
+    a = a + 1
+    return a
+func(a, b)
+print(func(a, b))
+x = func(a, b)

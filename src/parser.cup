@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
@@ -18,11 +18,11 @@ non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, ex
 non terminal List<Expression> expr_values;
 non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
-non terminal Statement stmt, assignment, print;
+non terminal Statement stmt;
 non terminal VarDeclaration var_decl;
 non terminal Type type;
 non terminal List<Type> type_list;
-non terminal func_dec;
+non terminal List<LocalVarDeclaration> param_list;
 
 start with program;
 
@@ -37,24 +37,26 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
 		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
-		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :};
+		| DEF LABEL:func_name LPAREN param_list:p_list RPAREN ARROW type:t 
+			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}
+		| LABEL:func_name LPAREN expr_values:ex_list RPAREN				{: RESULT = new FunctionStatement(func_name, ex_list); :}
+		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :}
+		| RETURN expr:ex												{: RESULT = new Return(ex); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
 		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
 
 type ::= LIST LBRACK type:t RBRACK										{: RESULT = new ListType(t); :}
-    | SET LBRACK type:t RBRACK											{: RESULT = new SetType(t); :}
-    | DICT LBRACK type:key_type COMMA type:value_type RBRACK			{: RESULT = new DictType(key_type, value_type); :}
-    | TUPLE LBRACK type_list:t_list RBRACK								{: RESULT = new TupleType(t_list); :}
-    | LABEL:l															{: RESULT = new VariableType(l); :};
+    	| SET LBRACK type:t RBRACK										{: RESULT = new SetType(t); :}
+    	| DICT LBRACK type:key_type COMMA type:value_type RBRACK		{: RESULT = new DictType(key_type, value_type); :}
+    	| TUPLE LBRACK type_list:t_list RBRACK							{: RESULT = new TupleType(t_list); :}
+    	| LABEL:l														{: RESULT = new VariableType(l); :};
 
 type_list ::= type_list:t_list COMMA type:t								{: RESULT = t_list; RESULT.add(t); :}
-	| type:t															{: RESULT = new ArrayList<Type>(); RESULT.add(t); :};
+		| type:t														{: RESULT = new ArrayList<Type>(); RESULT.add(t); :};
 
-
-func_dec ::= func_dec COMMA LABEL:var_name COLON type:t		{: RESULT = t; :}
-		| LABEL:var_name COLON type:t						{: RESULT = t; :};
-
+param_list ::= param_list:p_list COMMA LABEL:var_name COLON type:t  	{: RESULT = p_list; RESULT.add(new LocalVarDeclaration(var_name, t)); :} 
+  		| LABEL:var_name COLON type:t      								{: RESULT = new ArrayList<LocalVarDeclaration>(); RESULT.add(new LocalVarDeclaration(var_name, t)); :};
 
 cond_sign ::= EQEQ:op				{: RESULT = op; :}
 		| NOTEQ:op					{: RESULT = op; :}
@@ -86,6 +88,14 @@ expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op,
 expr2 	::= expr2:e2 bin_op2:op term:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
 		| term:e3									{: RESULT = e3; :};
 
+term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
+		| NUMBER:n									{: RESULT = new NumberExpression(n); :}
+		| bool:b									{: RESULT = new BooleanExpression(b); :}
+		| LABEL:l									{: RESULT = new LabelExpression(l); :}
+		| STRING:s									{: RESULT = new StringExpression(s); :}
+		| FLOAT:f									{: RESULT = new FloatExpression(f); :}
+		| LABEL:func_name LPAREN expr_values:ex_list RPAREN		{: RESULT = new FunctionExpression(func_name, ex_list); :};
+
 expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}
 		| LIST LPAREN RPAREN						{: RESULT = new ListExpression(new ArrayList<Expression>()); :}
 		| LBRACK RBRACK								{: RESULT = new ListExpression(new ArrayList<Expression>()); :};
@@ -102,13 +112,6 @@ expr_values ::= expr_values:ex_vals COMMA expr:e2 	{: RESULT = ex_vals; RESULT.a
 
 dict_values ::= dict_values:dict_vals COMMA expr:key COLON expr:val 	{: RESULT = dict_vals; RESULT.add(new KeyValuePair(key, val)); :}
 		| expr:key COLON expr:val										{: RESULT = new ArrayList<KeyValuePair>(); RESULT.add(new KeyValuePair(key, val)); :};
-
-term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
-		| NUMBER:n									{: RESULT = new NumberExpression(n); :}
-		| bool:b									{: RESULT = new BooleanExpression(b); :}
-		| LABEL:l									{: RESULT = new LabelExpression(l); :}
-		| STRING:s									{: RESULT = new StringExpression(s); :}
-		| FLOAT:f									{: RESULT = new FloatExpression(f); :};
 
 bool 	::= TRUE 
 		| FALSE;

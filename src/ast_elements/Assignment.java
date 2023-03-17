@@ -12,10 +12,8 @@ public class Assignment extends Statement {
 
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
-
         StringBuilder sb = new StringBuilder();
         sb.append(ind).append(this.var_name + " = ").append(this.ex).append("\n");
-
         return sb;
     }
 }
