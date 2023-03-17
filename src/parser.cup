@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
@@ -14,63 +14,101 @@ non terminal Boolean bool;
 non terminal String bin_op1, bin_op2, cond_sign;
 
 non terminal ProgramAST program;
-non terminal Expression expr0, expr1, expr2, expr3, term, expr;
+non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict;
+non terminal List<Expression> expr_values;
+non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
 non terminal Statement stmt, assignment, print;
-
+non terminal VarDeclaration var_decl;
+non terminal Type type;
+non terminal List<Type> type_list;
+non terminal func_dec;
 
 start with program;
 
-program	::= stmt_list:sl												{: RESULT = new ProgramAST(sl); :};
+program	::= stmt_list:sl					{: RESULT = new ProgramAST(sl); :};
 
-stmt_list ::= stmt_list:sl stmt:st										{: RESULT = sl; RESULT.add(st); :}
-		| stmt:st 														{: RESULT = new ArrayList<Statement>(); RESULT.add(st); :};
+stmt_list ::= stmt_list:sl stmt:st			{: RESULT = sl; RESULT.add(st); :}
+		| stmt:st 							{: RESULT = new ArrayList<Statement>(); RESULT.add(st); :};
 
-stmt 	::= LABEL:var_name COLON LABEL:var_type EQUAL expr:ex			{: RESULT = new ValueDeclaration(var_name, var_type, ex); :}
-		| LABEL:var_name COLON LABEL:var_type							{: RESULT = new ValueDeclaration(var_name, var_type, null); :}
-		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}
+stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
+		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}		
 		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
-		| FOR LABEL:var_name COLON LABEL:var_type IN expr:ex COLON
-			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, var_type, ex, sl); :}
+		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
+			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
 		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :};
+
+var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
+		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
+
+type ::= LIST LBRACK type:t RBRACK										{: RESULT = new ListType(t); :}
+    | SET LBRACK type:t RBRACK											{: RESULT = new SetType(t); :}
+    | DICT LBRACK type:key_type COMMA type:value_type RBRACK			{: RESULT = new DictType(key_type, value_type); :}
+    | TUPLE LBRACK type_list:t_list RBRACK								{: RESULT = new TupleType(t_list); :}
+    | LABEL:l															{: RESULT = new VariableType(l); :};
+
+type_list ::= type_list:t_list COMMA type:t								{: RESULT = t_list; RESULT.add(t); :}
+	| type:t															{: RESULT = new ArrayList<Type>(); RESULT.add(t); :};
+
+
+func_dec ::= func_dec COMMA LABEL:var_name COLON type:t		{: RESULT = t; :}
+		| LABEL:var_name COLON type:t						{: RESULT = t; :};
+
+
+cond_sign ::= EQEQ:op				{: RESULT = op; :}
+		| NOTEQ:op					{: RESULT = op; :}
+		| LESS:op					{: RESULT = op; :}
+		| LESSEQ:op					{: RESULT = op; :}
+		| MORE:op					{: RESULT = op; :}
+		| MOREEQ:op					{: RESULT = op; :};
+
+bin_op1	::= PLUS:op					{: RESULT = op; :}
+		| MINUS:op					{: RESULT = op; :};
+
+bin_op2 ::= TIMES:op				{: RESULT = op; :}
+		| DIVIDE:op					{: RESULT = op; :}
+		| MOD:op					{: RESULT = op; :}
+		| EXPONENT:op				{: RESULT = op; :}
+		| FLOOR:op					{: RESULT = op; :};
+
+expr 	::= expr0:e0								{: RESULT = e0; :}
+		| expr_list:e_list							{: RESULT = e_list; :}
+		| expr_set:e_set							{: RESULT = e_set; :}
+		| expr_dict:e_dict							{: RESULT = e_dict; :};
+
+expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
+        | expr1:e1 									{: RESULT = e1; :};
+
+expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
+		| expr2:e2 									{: RESULT = e2; :};
+
+expr2 	::= expr2:e2 bin_op2:op term:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
+		| term:e3									{: RESULT = e3; :};
+
+expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}
+		| LIST LPAREN RPAREN						{: RESULT = new ListExpression(new ArrayList<Expression>()); :}
+		| LBRACK RBRACK								{: RESULT = new ListExpression(new ArrayList<Expression>()); :};
+
+expr_set ::= LCURLY expr_values:e1 RCURLY			{: RESULT = new SetExpression(e1); :}
+		| SET LPAREN RPAREN							{: RESULT = new SetExpression(new ArrayList<Expression>()); :};
+
+expr_dict ::= LCURLY dict_values:e1 RCURLY			{: RESULT = new DictExpression(e1); :}
+		| DICT LPAREN RPAREN						{: RESULT = new DictExpression(new ArrayList<KeyValuePair>()); :}
+		| LCURLY RCURLY								{: RESULT = new DictExpression(new ArrayList<KeyValuePair>()); :};
+
+expr_values ::= expr_values:ex_vals COMMA expr:e2 	{: RESULT = ex_vals; RESULT.add(e2); :}
+		| expr:e 									{: RESULT = new ArrayList<Expression>(); RESULT.add(e); :};
+
+dict_values ::= dict_values:dict_vals COMMA expr:key COLON expr:val 	{: RESULT = dict_vals; RESULT.add(new KeyValuePair(key, val)); :}
+		| expr:key COLON expr:val										{: RESULT = new ArrayList<KeyValuePair>(); RESULT.add(new KeyValuePair(key, val)); :};
+
+term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
+		| NUMBER:n									{: RESULT = new NumberExpression(n); :}
+		| bool:b									{: RESULT = new BooleanExpression(b); :}
+		| LABEL:l									{: RESULT = new LabelExpression(l); :}
+		| STRING:s									{: RESULT = new StringExpression(s); :}
+		| FLOAT:f									{: RESULT = new FloatExpression(f); :};
 
 bool 	::= TRUE 
 		| FALSE;
-
-cond_sign ::= EQEQ:op						{:RESULT = op; :}
-		| NOTEQ:op							{:RESULT = op; :}
-		| LESS:op							{:RESULT = op; :}
-		| LESSEQ:op							{:RESULT = op; :}
-		| MORE:op							{:RESULT = op; :}
-		| MOREEQ:op							{:RESULT = op; :};
-
-bin_op1	::= PLUS:op							{: RESULT = op; :}
-		| MINUS:op							{: RESULT = op; :};
-
-bin_op2 ::= TIMES:op						{: RESULT = op; :}
-		| DIVIDE:op							{: RESULT = op; :}
-		| MOD:op							{: RESULT = op; :}
-		| EXPONENT:op						{: RESULT = op; :}
-		| FLOOR:op							{: RESULT = op; :};
-
-expr 	::= expr0:e0						{: System.out.println("expr = " + e0); RESULT = e0; :};
-
-expr0 	::= expr0:e0 cond_sign:op expr1:e1	{: RESULT = new ComparisonOperator(e0, op, e1); :}
-        | expr1:e1 							{: RESULT = e1; :};
-
-expr1 	::= expr1:e1 bin_op1:op expr2:e2	{: RESULT = new BinaryOperator(e1, op, e2); :}
-		| expr2:e2 							{: RESULT = e2; :};
-
-expr2 	::= expr2:e2 bin_op2:op expr3:e3	{: RESULT = new BinaryOperator(e2, op, e3); :}
-		| expr3:e3							{: RESULT = e3; :};
-
-expr3	::= expr3:e COMMA:op term:t			{: RESULT = new BinaryOperator(e, op, t); :}
-		| term:t							{: RESULT = t; :};
-
-term 	::= LPAREN expr:ex RPAREN			{: RESULT = ex; :}
-		| NUMBER:n							{: RESULT = new NumberExpression(n); :}
-		| bool:b							{: RESULT = new BooleanExpression(b); :}
-		| LABEL:l							{: RESULT = new LabelExpression(l); :}
-		| STRING:s							{: RESULT = new StringExpression(s); :}
-		| FLOAT:f							{: RESULT = new FloatExpression(f); :};

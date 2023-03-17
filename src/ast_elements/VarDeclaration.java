@@ -1,17 +1,14 @@
 package ast_elements;
 
-public class ValueDeclaration extends Declaration {
+public class VarDeclaration extends Declaration {
     private String var_name;
-    private String type;
+    private Type type;
     private Expression ex;
 
-    public ValueDeclaration(String var_name, String type, Expression ex) {
+    public VarDeclaration(String var_name, Type type, Expression ex) {
         this.var_name = var_name;
         this.type = type;
         this.ex = ex;
-        System.out.println("VALUE === " + this.var_name);
-        System.out.println("TYPE === " + this.type);
-        System.out.println("EXPRESSION = " + this.ex);
     }
 
     public StringBuilder toString(int indent) {
