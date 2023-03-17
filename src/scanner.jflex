@@ -73,14 +73,21 @@ string      = \'{label}\'
 "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
 "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
 "for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
-"range"         {System.out.println("RANGE");return addAndReturnNext(sym.RANGE, new String(yytext()));}
 "in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
+"range"         {System.out.println("RANGE");return addAndReturnNext(sym.RANGE, new String(yytext()));}
 "print"         {System.out.println("PRINT");return addAndReturnNext(sym.PRINT, new String(yytext()));}
 "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
 "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
+"list"          {System.out.println("LIST");return addAndReturnNext(sym.LIST, new String(yytext()));}
+"set"           {System.out.println("SET");return addAndReturnNext(sym.SET, new String(yytext()));}
+"dict"          {System.out.println("DICT");return addAndReturnNext(sym.DICT, new String(yytext()));}
 {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
 {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
 {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
+
+"list"          {System.out.println("LIST");return addAndReturnNext(sym.LIST, new String(yytext()));}
+"set"           {System.out.println("SET");return addAndReturnNext(sym.SET, new String(yytext()));}
+"dict"          {System.out.println("DICT");return addAndReturnNext(sym.DICT, new String(yytext()));}
 
 // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
 
@@ -98,6 +105,9 @@ string      = \'{label}\'
 ","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
 "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
 "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
+"{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
+"}"             {System.out.println("RCURLY"); return addAndReturnNext(sym.RCURLY);}
+
 
 "=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
 "!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}
@@ -106,6 +116,9 @@ string      = \'{label}\'
 "<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));}
 ">="	          {System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ, new String(yytext()));}
 
+// "list"          {System.out.println("LIST");return addAndReturnNext(sym.LIST, new String(yytext()));}
+// "set"           {System.out.println("SET");return addAndReturnNext(sym.SET, new String(yytext()));}
+// "dict"          {System.out.println("DICT");return addAndReturnNext(sym.DICT, new String(yytext()));}
 
 {nl}	          {curr_col = 0;at_line_begin = true;}
 
