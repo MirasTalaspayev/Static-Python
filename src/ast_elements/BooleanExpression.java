@@ -10,9 +10,7 @@ public class BooleanExpression extends Expression {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.value);
-        return sb.toString();
+        return this.value.toString();
     }
     
 }
