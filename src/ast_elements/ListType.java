@@ -9,7 +9,6 @@ public class ListType extends Type {
     public String toString() {
         StringBuilder sb = new StringBuilder("list[");
         sb.append(elements_Type).append("]");
-        
         return sb.toString();
     }
 }

@@ -12,7 +12,6 @@ public class DictType extends Type {
     public String toString() {
         StringBuilder sb = new StringBuilder("dict[");
         sb.append(key_Type).append(", ").append(value_Type).append("]");
-        
         return sb.toString();
     }
 }

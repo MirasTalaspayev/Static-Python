@@ -14,14 +14,11 @@ public class WhileStatement extends Statement {
 
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
-
         StringBuilder sb = new StringBuilder();
         sb.append(ind).append("while ").append(this.cond.toString()).append(":\n");
-
         for (Statement stmt : this.body) {
             sb.append(stmt.toString(indent + 1));
         }
-
         return sb;
     }
 }

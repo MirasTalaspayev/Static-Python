@@ -9,7 +9,6 @@ public class SetType extends Type {
     public String toString() {
         StringBuilder sb = new StringBuilder("set[");
         sb.append(elements_Type).append("]");
-        
         return sb.toString();
     }
 }

@@ -79,6 +79,7 @@ string      = \'{label}\'
 "print"         {System.out.println("PRINT");return addAndReturnNext(sym.PRINT, new String(yytext()));}
 "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
 "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
+"return"        {System.out.println("RETURN");return addAndReturnNext(sym.RETURN, new String(yytext()));}
 "list"          {System.out.println("list");return addAndReturnNext(sym.LIST, new String(yytext()));}
 "set"           {System.out.println("set");return addAndReturnNext(sym.SET, new String(yytext()));}
 "dict"          {System.out.println("dict");return addAndReturnNext(sym.DICT, new String(yytext()));}
@@ -106,6 +107,7 @@ string      = \'{label}\'
 "{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
 "}"             {System.out.println("RCURLY"); return addAndReturnNext(sym.RCURLY);}
 
+"->"             {System.out.println("ARROW"); return addAndReturnNext(sym.ARROW);}
 
 "=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
 "!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}

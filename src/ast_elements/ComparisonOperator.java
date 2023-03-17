@@ -11,17 +11,10 @@ public class ComparisonOperator extends Expression {
         this.e2 = e2;
     }
 
-    public StringBuilder toString(int indent) {
-        String ind = IndentUtil.indentStr(indent);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.e1.toString()).append(" " + this.op + " ").append(this.e2.toString());
-
-        return sb;
-    }
-
     @Override
     public String toString() {
-        return toString(0).toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.e1.toString()).append(" " + this.op + " ").append(this.e2.toString());
+        return sb.toString();
     }
 }
