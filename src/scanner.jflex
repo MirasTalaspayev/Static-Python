@@ -75,8 +75,6 @@ string      = \'{label}\'
 "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
 "for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
 "in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
-"range"         {System.out.println("RANGE");return addAndReturnNext(sym.RANGE, new String(yytext()));}
-"print"         {System.out.println("PRINT");return addAndReturnNext(sym.PRINT, new String(yytext()));}
 "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
 "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
 "return"        {System.out.println("RETURN");return addAndReturnNext(sym.RETURN, new String(yytext()));}

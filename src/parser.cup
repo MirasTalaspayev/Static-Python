@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, RANGE, IN, PRINT, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
@@ -40,7 +40,6 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| DEF LABEL:func_name LPAREN param_list:p_list RPAREN ARROW type:t 
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}
 		| LABEL:func_name LPAREN expr_values:ex_list RPAREN				{: RESULT = new FunctionStatement(func_name, ex_list); :}
-		| PRINT LPAREN expr:ex RPAREN									{: RESULT = new Print(ex); :}
 		| RETURN expr:ex												{: RESULT = new Return(ex); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
