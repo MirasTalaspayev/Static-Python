@@ -105,7 +105,7 @@ string      = \'{label}\'
 "{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
 "}"             {System.out.println("RCURLY"); return addAndReturnNext(sym.RCURLY);}
 
-"->"             {System.out.println("ARROW"); return addAndReturnNext(sym.ARROW);}
+"->"            {System.out.println("ARROW"); return addAndReturnNext(sym.ARROW);}
 
 "=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
 "!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}

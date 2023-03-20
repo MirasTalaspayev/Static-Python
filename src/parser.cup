@@ -8,7 +8,7 @@ terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUP
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
-terminal Boolean TRUE, FALSE;
+terminal TRUE, FALSE;
 
 non terminal Boolean bool;
 non terminal String bin_op1, bin_op2, cond_sign;
@@ -112,5 +112,5 @@ expr_values ::= expr_values:ex_vals COMMA expr:e2 	{: RESULT = ex_vals; RESULT.a
 dict_values ::= dict_values:dict_vals COMMA expr:key COLON expr:val 	{: RESULT = dict_vals; RESULT.add(new KeyValuePair(key, val)); :}
 		| expr:key COLON expr:val										{: RESULT = new ArrayList<KeyValuePair>(); RESULT.add(new KeyValuePair(key, val)); :};
 
-bool 	::= TRUE 
-		| FALSE;
+bool 	::= TRUE:b 									{: RESULT = true; :}
+		| FALSE:b									{: RESULT = false; :};
