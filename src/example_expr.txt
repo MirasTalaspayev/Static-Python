@@ -1,2 +1,2 @@
-a: tuple[list[int], str] = [1, 2]
-d: dict[str, int] = {a:1, b:2, c:3}
+num_val_1: str = 'BenTyler'
+num_2: str = 'Ben Tyler'

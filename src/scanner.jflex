@@ -59,13 +59,13 @@ import java.util.ArrayList;
 
 tab         = \t|"    "
 nl		      = \n|\r|\r\n
+whitespace  = [\ |\n|\t|\s]
 digit       = [0-9]
 letter      = [a-z|A-Z]
 intNumber	  = [1-9][{digit}]*
 floatNumber = ("+"|"-")? ( {intNumber}"." [{digit}]* ) | ( "." [{digit}]+ ) | ( 0 "." [{digit}]* )
-label       = {letter}[{letter}|{digit}]*  
-string      = \'{label}\'
-
+label       = {letter}[{letter}|{digit}|_]*  
+string      = [{label}+ |{whitespace}+ ][{label}+ ]*
 %%
 
 {floatNumber}   {System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));}
