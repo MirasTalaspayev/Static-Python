@@ -44,7 +44,8 @@ public class DictExpression extends CollectionExpressions {
             }
         }
 
-        return dictType;
+        elementsType = dictType;
+        return elementsType;
 	}
 
     @Override
