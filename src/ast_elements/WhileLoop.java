@@ -1,6 +1,7 @@
 package ast_elements;
 
 import java.util.List;
+import java.util.Map;
 
 public class WhileLoop extends Statement {
 
@@ -21,5 +22,11 @@ public class WhileLoop extends Statement {
             sb.append(stmt.toString(indent + 1));
         }
         return sb;
+    }
+
+    @Override
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
     }
 }

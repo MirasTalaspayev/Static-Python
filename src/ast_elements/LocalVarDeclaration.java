@@ -1,5 +1,7 @@
 package ast_elements;
 
+import java.util.Map;
+
 public class LocalVarDeclaration extends Declaration {
     private String var_name;
     private Type type;
@@ -13,5 +15,11 @@ public class LocalVarDeclaration extends Declaration {
         StringBuilder sb = new StringBuilder();
         sb.append(this.var_name + ":").append(this.type);
         return sb;
+    }
+
+    @Override
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
     }
 }

@@ -1,11 +1,14 @@
 package ast_elements;
 
 import java.util.List;
+import java.util.Map;
 
-public class DictExpression extends Expression {
+import SemanticAnalysis.SemanticAnalysisException;
+
+public class DictExpression extends CollectionExpressions {
     
     private List<KeyValuePair> values;
-
+    
     public DictExpression(List<KeyValuePair> values)
     {
         this.values = values;
@@ -24,6 +27,30 @@ public class DictExpression extends Expression {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+	@Override
+	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+		if (values.size() == 0) {
+            return collectionType;
+        }
+
+        DictType dictType = (DictType)elementsType;
+        dictType.setKey_Type(values.get(0).getKey().analyzeAndGetType(variable_Map, func_Map));
+        dictType.setValue_Type(values.get(0).getValue().analyzeAndGetType(variable_Map, func_Map));
+
+        for (int i = 1; i < values.size(); i++) {
+            if (!dictType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {
+                throw new SemanticAnalysisException("type of " + values.get(i) + " does not match with " + elementsType);
+            }
+        }
+
+        return dictType;
+	}
+
+    @Override
+    public int size() {
+        return values.size();
     }
     
 }

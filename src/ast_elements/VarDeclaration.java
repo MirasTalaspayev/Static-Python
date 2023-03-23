@@ -1,5 +1,9 @@
 package ast_elements;
 
+import java.util.Map;
+
+import SemanticAnalysis.SemanticAnalysisException;
+
 public class VarDeclaration extends Declaration {
     private String var_name;
     private Type type;
@@ -16,5 +20,22 @@ public class VarDeclaration extends Declaration {
         StringBuilder sb = new StringBuilder();
         sb.append(ind).append(this.var_name + ":").append(this.type + " = ").append(this.ex).append("\n");
         return sb;
+    }
+
+    @Override
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        if (variable_Map.containsKey(var_name)) {
+            throw new SemanticAnalysisException("variable name already exists");
+        }
+        
+        if (ex instanceof CollectionExpressions && ((CollectionExpressions)ex).size() == 0) {
+            ((CollectionExpressions)ex).setCollectionType(type);
+        }
+        
+        if (ex != null && !ex.analyzeAndGetType(variable_Map, func_Map).equals(type)) 
+            throw new SemanticAnalysisException("expression type " + ex + " does not match with " + type);
+
+        
+        variable_Map.put(var_name, type);
     }
 }

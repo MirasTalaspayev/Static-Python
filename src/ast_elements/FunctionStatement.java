@@ -1,6 +1,7 @@
 package ast_elements;
 
 import java.util.List;
+import java.util.Map;
 
 public class FunctionStatement extends Statement {
 
@@ -26,5 +27,11 @@ public class FunctionStatement extends Statement {
             sb.append(ex_list.get(size - 1) + ")\n");
         }
         return sb;
+    }
+
+    @Override
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
     }
 }

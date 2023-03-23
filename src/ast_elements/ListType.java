@@ -11,4 +11,15 @@ public class ListType extends Type {
         sb.append(elements_Type).append("]");
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) 
+            return true;
+        
+        if (!(other instanceof ListType))
+            return false;
+        
+        return this.elements_Type.equals(((ListType)other).elements_Type);
+    }
 }
