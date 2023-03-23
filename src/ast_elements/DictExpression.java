@@ -35,9 +35,8 @@ public class DictExpression extends CollectionExpressions {
             return collectionType;
         }
 
-        DictType dictType = (DictType)elementsType;
-        dictType.setKey_Type(values.get(0).getKey().analyzeAndGetType(variable_Map, func_Map));
-        dictType.setValue_Type(values.get(0).getValue().analyzeAndGetType(variable_Map, func_Map));
+        DictType dictType = new DictType(values.get(0).getKey().analyzeAndGetType(variable_Map, func_Map), 
+            values.get(0).getValue().analyzeAndGetType(variable_Map, func_Map));
 
         for (int i = 1; i < values.size(); i++) {
             if (!dictType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {

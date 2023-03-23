@@ -1,1 +1,1 @@
-l: dict[int, int] = {}
+d: dict[int, int] = {1: 10, 2: 20}
