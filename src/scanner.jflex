@@ -64,7 +64,7 @@ letter      = [a-z|A-Z]
 intNumber	  = [1-9][{digit}]*
 floatNumber = ("+"|"-")? ( {intNumber}"." [{digit}]* ) | ( "." [{digit}]+ ) | ( 0 "." [{digit}]* )
 label       = {letter}[{letter}|{digit}|_]*  
-string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\`([^\n\r\`\\]|\\[\`\\ntbrf])*\`
+string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\`\\]|\\[\`\\ntbrf])*\'
 %%
 
 {floatNumber}   {System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));}
