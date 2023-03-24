@@ -1,2 +1,3 @@
-num_val_1: str = 'BenTyler'
-num_2: str = 'Ben Tyler'
+num_val_1: str = "BenTyler"
+num_2_test: str = "Ben Tyler"
+num_3: str = "Ben Tyler is cool"
