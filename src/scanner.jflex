@@ -126,7 +126,7 @@ string      = \'{label}\'
 <YYINITIAL> "#"             {yybegin(IN_COMMENT);}
 <IN_COMMENT> {
   {anyChar}                 {;}
-  {newLine}                 {yybegin(YYINITIAL);}
+  {newLine}                 {yybegin(YYINITIAL); curr_col = 0;at_line_begin = true;}
 }
 
 .		            {System.out.println("Error:" + yytext());}

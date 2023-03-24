@@ -1,6 +1,6 @@
-# some shit
-if False: 
-    x = 5
-x = 10
+# this is simple comment
+if False: #this is simple comment
+    x = 5 # this is simple comment
+x = 10 # this is simple comment
 # print(x)
 # this is simple comment
