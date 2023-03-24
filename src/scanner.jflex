@@ -58,65 +58,76 @@ import java.util.ArrayList;
 %eofclose
 
 tab         = \t|"    "
-nl		      = \n|\r|\r\n
+newLine     = \n|\r|\r\n
+anyChar     = [^\r\n]
 digit       = [0-9]
 letter      = [a-z|A-Z]
 intNumber	  = [1-9][{digit}]*
 floatNumber = ("+"|"-")? ( {intNumber}"." [{digit}]* ) | ( "." [{digit}]+ ) | ( 0 "." [{digit}]* )
-label       = {letter}[{letter}|{digit}]*  
+label       = {letter}[{letter}|{digit}]*
 string      = \'{label}\'
+// comment     = "#" {anyChar}* {newLine}?
+
+%state IN_COMMENT
 
 %%
 
-{floatNumber}   {System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));}
-{intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
-"def"           {System.out.println("DEF");return addAndReturnNext(sym.DEF, new String(yytext()));}
-"if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
-"while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
-"for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
-"in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
-"True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
-"False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
-"return"        {System.out.println("RETURN");return addAndReturnNext(sym.RETURN, new String(yytext()));}
-"list"          {System.out.println("list");return addAndReturnNext(sym.LIST, new String(yytext()));}
-"set"           {System.out.println("set");return addAndReturnNext(sym.SET, new String(yytext()));}
-"dict"          {System.out.println("dict");return addAndReturnNext(sym.DICT, new String(yytext()));}
-"tuple"         {System.out.println("tuple");return addAndReturnNext(sym.TUPLE, new String(yytext()));}
-{string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
-{label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
-{tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
+<YYINITIAL> {floatNumber}   {System.out.println("FLOAT:"+yytext());return addAndReturnNext(sym.FLOAT, new Float(yytext()));}
+<YYINITIAL> {intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
+<YYINITIAL> "def"           {System.out.println("DEF");return addAndReturnNext(sym.DEF, new String(yytext()));}
+<YYINITIAL> "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
+<YYINITIAL> "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
+<YYINITIAL> "for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
+<YYINITIAL> "in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
+<YYINITIAL> "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
+<YYINITIAL> "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
+<YYINITIAL> "return"        {System.out.println("RETURN");return addAndReturnNext(sym.RETURN, new String(yytext()));}
+<YYINITIAL> "list"          {System.out.println("list");return addAndReturnNext(sym.LIST, new String(yytext()));}
+<YYINITIAL> "set"           {System.out.println("set");return addAndReturnNext(sym.SET, new String(yytext()));}
+<YYINITIAL> "dict"          {System.out.println("dict");return addAndReturnNext(sym.DICT, new String(yytext()));}
+<YYINITIAL> "tuple"         {System.out.println("tuple");return addAndReturnNext(sym.TUPLE, new String(yytext()));}
+<YYINITIAL> {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
+<YYINITIAL> {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
+<YYINITIAL> {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
 
 // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
 
-"+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS, new String(yytext()));}
-"-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS, new String(yytext()));}
-"*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES, new String(yytext()));}
-"/"             {System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE, new String(yytext()));}
-"%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD, new String(yytext()));}
-"**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT, new String(yytext()));}
-"//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR, new String(yytext()));}
-"("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
-")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
-"="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
-":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
-","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
-"["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
-"]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
-"{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
-"}"             {System.out.println("RCURLY"); return addAndReturnNext(sym.RCURLY);}
+<YYINITIAL> "+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS, new String(yytext()));}
+<YYINITIAL> "-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS, new String(yytext()));}
+<YYINITIAL> "*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES, new String(yytext()));}
+<YYINITIAL> "/"             {System.out.println("DIVIDE");return addAndReturnNext(sym.DIVIDE, new String(yytext()));}
+<YYINITIAL> "%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD, new String(yytext()));}
+<YYINITIAL> "**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT, new String(yytext()));}
+<YYINITIAL> "//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR, new String(yytext()));}
+<YYINITIAL> "("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
+<YYINITIAL> ")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
+<YYINITIAL> "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
+<YYINITIAL> ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
+<YYINITIAL> ","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
+<YYINITIAL> "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
+<YYINITIAL> "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
+<YYINITIAL> "{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
+<YYINITIAL> "}"             {System.out.println("RCURLY"); return addAndReturnNext(sym.RCURLY);}
 
-"->"            {System.out.println("ARROW"); return addAndReturnNext(sym.ARROW);}
+<YYINITIAL> "->"            {System.out.println("ARROW"); return addAndReturnNext(sym.ARROW);}
 
-"=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
-"!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}
-"<"		          {System.out.println("LESS");return addAndReturnNext(sym.LESS, new String(yytext()));}
-">"		          {System.out.println("MORE");return addAndReturnNext(sym.MORE, new String(yytext()));}
-"<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));}
-">="	          {System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ, new String(yytext()));}
+<YYINITIAL> "=="            {System.out.println("EQUAL EQUAL"); return addAndReturnNext(sym.EQEQ, new String(yytext()));}
+<YYINITIAL> "!="            {System.out.println("NOT EQUAL"); return addAndReturnNext(sym.NOTEQ, new String(yytext()));}
+<YYINITIAL> "<"		          {System.out.println("LESS");return addAndReturnNext(sym.LESS, new String(yytext()));}
+<YYINITIAL> ">"		          {System.out.println("MORE");return addAndReturnNext(sym.MORE, new String(yytext()));}
+<YYINITIAL> "<="	          {System.out.println("LESS OR EQUAL");return addAndReturnNext(sym.LESSEQ, new String(yytext()));}
+<YYINITIAL> ">="	          {System.out.println("MORE OR EQUAL");return addAndReturnNext(sym.MOREEQ, new String(yytext()));}
 
-{nl}	          {curr_col = 0;at_line_begin = true;}
+<YYINITIAL> {newLine}       {curr_col = 0;at_line_begin = true;}
 
-" "             {;}
+<YYINITIAL> " "             {;}
+
+// {comment}       {;}
+<YYINITIAL> "#"             {yybegin(IN_COMMENT);}
+<IN_COMMENT> {
+  {anyChar}                 {;}
+  {newLine}                 {yybegin(YYINITIAL);}
+}
 
 .		            {System.out.println("Error:" + yytext());}
 
