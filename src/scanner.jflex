@@ -58,7 +58,7 @@ import java.util.ArrayList;
 %eofclose
 
 tab         = \t|"    "
-whitespace  = [\ |\n|\t|\s]
+nl		      = \n|\r|\r\n
 digit       = [0-9]
 letter      = [a-z|A-Z]
 intNumber	  = [1-9][{digit}]*
