@@ -1,6 +1,7 @@
 package ast_elements;
 
 import java.util.List;
+import java.util.Map;
 
 public class FunctionExpression extends Expression {
 
@@ -27,4 +28,10 @@ public class FunctionExpression extends Expression {
         }
         return sb.toString();
     }
+
+	@Override
+	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'analyzeAndGetType'");
+	}
 }

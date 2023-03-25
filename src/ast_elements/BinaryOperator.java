@@ -1,5 +1,7 @@
 package ast_elements;
 
+import java.util.Map;
+
 public class BinaryOperator extends Expression {
     private Expression e1;
     private String op;
@@ -16,4 +18,10 @@ public class BinaryOperator extends Expression {
         sb.append(this.e1.toString()).append(" " + this.op + " ").append(this.e2.toString());
         return sb.toString();
     }
+
+	@Override
+	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'analyzeAndGetType'");
+	}
 }

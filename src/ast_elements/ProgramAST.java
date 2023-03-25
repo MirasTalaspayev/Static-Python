@@ -2,6 +2,8 @@ package ast_elements;
 
 import java.util.List;
 
+import ast_elements.Statement;
+
 public class ProgramAST {
 
     private List<Statement> stmts;
@@ -18,4 +20,7 @@ public class ProgramAST {
         return sb.toString();
     }
 
+    public List<Statement> getStatements() {
+        return stmts;
+    }
 }
