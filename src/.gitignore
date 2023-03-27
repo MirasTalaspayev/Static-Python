@@ -1,4 +1,5 @@
 *.class
 *.java*
 !ast_elements/*.java
+!SemanticAnalysis/*.java
 !Main.java

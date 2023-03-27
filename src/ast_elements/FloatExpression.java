@@ -1,25 +1,23 @@
 package ast_elements;
 
+import java.util.Map;
+
 public class FloatExpression extends Expression {
 
     private Float value;
-
+    private static final Type type = new VariableType("float");
     public FloatExpression(Float value) {
         System.out.println("Float expression constructor " + value);
         this.value = value;
     }
-    
-    public StringBuilder toString(int indent) {
-        String ind = IndentUtil.indentStr(indent);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.value);
-
-        return sb;
-    }
 
     public String toString() {
-        return toString(0).toString();
+        return this.value.toString();
     }
+
+	@Override
+	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
+		return type;
+	}
     
 }

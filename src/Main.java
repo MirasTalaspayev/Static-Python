@@ -3,6 +3,8 @@ import ast_elements.ProgramAST;
 import java_cup.runtime.Symbol;
 
 import java.io.*;
+
+import SemanticAnalysis.SemanticAnalyzer;
    
 public class Main {
   @SuppressWarnings("deprecation")
@@ -17,6 +19,10 @@ public class Main {
       if (result instanceof ProgramAST) {
         System.out.println("===================");
         System.out.print(result.toString());
+
+        System.out.println("=================== Phase3: Typecheck ===================");
+        SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST)result);
+        semanticAnalyzer.analyze();
       }
     } catch (Exception e) {
       e.printStackTrace();
