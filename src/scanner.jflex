@@ -64,9 +64,9 @@ digit       = [0-9]
 letter      = [a-z|A-Z]
 intNumber	  = [1-9][{digit}]*
 floatNumber = ("+"|"-")? ( {intNumber}"." [{digit}]* ) | ( "." [{digit}]+ ) | ( 0 "." [{digit}]* )
-label       = {letter}[{letter}|{digit}]*
-string      = \'{label}\'
-// comment     = "#" {anyChar}* {newLine}?
+
+label       = {letter}[{letter}|{digit}|_]*  
+string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
 
 %state IN_COMMENT
 

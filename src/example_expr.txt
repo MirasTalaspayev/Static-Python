@@ -1,8 +1,3 @@
-# this is simple comment
-if False: #this is simple comment
-    # What IF I put comments here?
-    x = 5 # this is simple comment
-    # What IF I put comments here?
-x = 10 # this is simple comment
-# print(x)
-# this is simple comment
+num_val_1: str = "BenTyler"
+num_2_test: str = "Ben Tyler"
+num_3: str = 'Ben Tyler is cool'
