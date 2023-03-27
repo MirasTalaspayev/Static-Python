@@ -1,7 +1,12 @@
 package ast_elements;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import SemanticAnalysis.SemanticAnalysisException;
 
 public class FunctionDeclaration extends Declaration {
     private String func_name;
@@ -17,6 +22,22 @@ public class FunctionDeclaration extends Declaration {
 
         System.out.println("Function Name === " + this.func_name);
         System.out.println("param_list === " + this.param_list);
+    }
+
+    public String getFunc_name() {
+        return this.func_name;
+    }
+
+    public List<LocalVarDeclaration> getParam_list() {
+        return this.param_list;
+    }
+
+    public Type getReturn_Type() {
+        return this.return_Type;
+    }
+
+    public List<Statement> getBody() {
+        return this.body;
     }
 
     public StringBuilder toString(int indent) {
@@ -38,8 +59,15 @@ public class FunctionDeclaration extends Declaration {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        List<String> names = new ArrayList<String>();
+        for (int i=0; i < this.param_list.size(); i++) {
+            names.add(this.param_list.get(i).getVar_name());
+        }
+        Set<String> uniques = new HashSet<String>(names);
+        if (uniques.size() < names.size()) {
+            throw new SemanticAnalysisException("parameters cannot repeat");
+        }
+        func_Map.put(this.func_name, this);
     }
 }

@@ -1,3 +1,4 @@
-num_val_1: str = "BenTyler"
-num_2_test: str = "Ben Tyler"
-num_3: str = 'Ben Tyler is cool'
+d:int = 1
+def func(a:int, b:int) -> None:
+    print(a)
+func(2, d)

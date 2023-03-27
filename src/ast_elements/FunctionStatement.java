@@ -3,6 +3,8 @@ package ast_elements;
 import java.util.List;
 import java.util.Map;
 
+import SemanticAnalysis.SemanticAnalysisException;
+
 public class FunctionStatement extends Statement {
 
     private String func_name;
@@ -29,9 +31,24 @@ public class FunctionStatement extends Statement {
         return sb;
     }
 
+    // RETURN without value
+
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        if(ex_list.size() != func_Map.get(func_name).getParam_list().size()) {
+            throw new SemanticAnalysisException("number of parameters doesn't match");
+        }
+        for (int i=0; i < func_Map.get(func_name).getParam_list().size(); i++) {
+            if (ex_list.get(i) instanceof LabelExpression) {
+                if (!variable_Map.containsKey(ex_list.get(i))) {
+                    throw new SemanticAnalysisException("variable " + ex_list.get(i) + " in parameters doesn't exist");
+                }
+            }
+            if (ex_list.get(i) != null && !ex_list.get(i).analyzeAndGetType(variable_Map, func_Map).equals(func_Map.get(func_name).getParam_list().get(i).getType())) 
+                throw new SemanticAnalysisException("parameter type " + ex_list.get(i) + " does not match with " + func_Map.get(func_name).getParam_list().get(i).getType());
+        }
+        for (Statement stmt : func_Map.get(func_name).getBody()) {
+            stmt.analyze(variable_Map, func_Map);
+        }
     }
 }

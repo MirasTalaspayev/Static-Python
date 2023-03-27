@@ -53,7 +53,9 @@ import java.util.ArrayList;
 %function process_next_token
 %type java_cup.runtime.Symbol
 %eofval{
-  return new java_cup.runtime.Symbol(sym.EOF);
+  curr_col = 0;
+  at_line_begin = true;
+  return addAndReturnNext(sym.EOF);
 %eofval}
 %eofclose
 
@@ -122,7 +124,6 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
 
   " "             {;}
 
-  // {comment}       {;}
   "#"             {yybegin(IN_COMMENT);}
 }
 <IN_COMMENT> {

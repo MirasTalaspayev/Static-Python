@@ -11,6 +11,14 @@ public class LocalVarDeclaration extends Declaration {
         this.type = type;
     }
 
+    public String getVar_name() {
+        return var_name;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
     public StringBuilder toString(int indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(this.var_name + ":").append(this.type);
