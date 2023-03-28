@@ -18,6 +18,7 @@ public class FunctionExpression extends Expression {
 
 	@Override
 	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-		return new VariableType("int");
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'analyzeAndGetType'");
 	}
 }
