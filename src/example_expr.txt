@@ -1,3 +1,1 @@
-num_val_1: str = "BenTyler"
-num_2_test: str = "Ben Tyler"
-num_3: str = 'Ben Tyler is cool'
+tuple_1 = (1, 'string', [2])
