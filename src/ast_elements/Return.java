@@ -11,6 +11,10 @@ public class Return extends Statement {
         System.out.println("Return === " + ex);
     }
 
+    public Expression getEx() {
+        return ex;
+    }
+
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
@@ -20,7 +24,6 @@ public class Return extends Statement {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+        
     }
 }

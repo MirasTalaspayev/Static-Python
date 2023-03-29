@@ -1,10 +1,13 @@
 package ast_elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import SemanticAnalysis.SemanticAnalysisException;
 
@@ -60,14 +63,41 @@ public class FunctionDeclaration extends Declaration {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        List<String> names = new ArrayList<String>();
+        HashSet<String> names = new HashSet<String>();
         for (int i=0; i < this.param_list.size(); i++) {
+            if (names.contains(param_list.get(i).getVar_name()))
+                throw new SemanticAnalysisException("parameters cannot repeat");
             names.add(this.param_list.get(i).getVar_name());
         }
-        Set<String> uniques = new HashSet<String>(names);
-        if (uniques.size() < names.size()) {
-            throw new SemanticAnalysisException("parameters cannot repeat");
+
+        Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
+
+        for (int i=0; i < this.param_list.size(); i++) {
+            localVar_Map.put(this.param_list.get(i).getVar_name(), this.param_list.get(i).getType());
         }
+
+        boolean hasReturn = false;
+        for (Statement stmt : this.body) {
+            stmt.analyze(localVar_Map, func_Map);
+            if (stmt instanceof Return) {
+                Return return_stmt = (Return)stmt;
+                if (return_Type == null) {
+                    if (return_stmt.getEx() != null) {
+                        throw new SemanticAnalysisException("return type must be None in void function");
+                    }
+                } else {
+                    hasReturn = true;
+                    if ((!return_stmt.getEx().analyzeAndGetType(localVar_Map, func_Map).equals(return_Type)) || (return_stmt.getEx() != null)) {
+                        throw new SemanticAnalysisException("return type " + return_stmt.getEx() + " does not match with " + return_Type);
+                    }
+                }
+            }
+        }
+        if (!hasReturn) {
+            throw new SemanticAnalysisException("non-void function must have return");
+        }
+
+        // localVar_Map = null;
         func_Map.put(this.func_name, this);
     }
 }

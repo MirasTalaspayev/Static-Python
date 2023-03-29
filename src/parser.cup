@@ -23,6 +23,7 @@ non terminal VarDeclaration var_decl;
 non terminal Type type;
 non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
+non terminal FunctionCall func_call;
 
 start with program;
 
@@ -39,7 +40,7 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
 		| DEF LABEL:func_name LPAREN param_list:p_list RPAREN ARROW type:t 
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}
-		| LABEL:func_name LPAREN expr_values:ex_list RPAREN				{: RESULT = new FunctionStatement(func_name, ex_list); :}
+		| func_call:f_call												{: RESULT = new FunctionStatement(f_call); :}
 		| RETURN expr:ex												{: RESULT = new Return(ex); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
@@ -73,6 +74,8 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| EXPONENT:op				{: RESULT = op; :}
 		| FLOOR:op					{: RESULT = op; :};
 
+func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN 		{: RESULT = new FunctionCall(func_name, ex_list); :};
+
 expr 	::= expr0:e0								{: RESULT = e0; :}
 		| expr_list:e_list							{: RESULT = e_list; :}
 		| expr_set:e_set							{: RESULT = e_set; :}
@@ -93,7 +96,7 @@ term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| LABEL:l									{: RESULT = new LabelExpression(l); :}
 		| STRING:s									{: RESULT = new StringExpression(s); :}
 		| FLOAT:f									{: RESULT = new FloatExpression(f); :}
-		| LABEL:func_name LPAREN expr_values:ex_list RPAREN		{: RESULT = new FunctionExpression(func_name, ex_list); :};
+		| func_call:f_call							{: RESULT = new FunctionExpression(f_call); :};
 
 expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}
 		| LIST LPAREN RPAREN						{: RESULT = new ListExpression(new ArrayList<Expression>()); :}

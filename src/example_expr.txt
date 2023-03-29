@@ -1,4 +1,4 @@
-d:int = 1
-def func(a:int, b:int) -> None:
-    print(a)
+d:str = "1"
+def func(a:int, b:str) -> None:
+    return None
 func(2, d)
