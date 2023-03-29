@@ -1,4 +1,7 @@
 d:str = "1"
-def func(a:int, b:str) -> None:
+#def func(a:int, b:str) -> None:
+#    return None
+#func(2, d)
+
+def F() -> None:
     return None
-func(2, d)
