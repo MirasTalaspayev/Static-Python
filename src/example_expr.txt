@@ -1,3 +1,6 @@
 num_val_1: str = "BenTyler"
 num_2_test: str = "Ben Tyler"
 num_3: str = 'Ben Tyler is cool'
+
+test: int = -123
+test_2: int = 0 
