@@ -94,7 +94,7 @@ public class FunctionDeclaration extends Declaration {
                         }
                     }
                 }
-            }
+            } localVar_Map = null;
         } else {
             for (Statement stmt : this.body) {
                 stmt.analyze(variable_Map, func_Map);
@@ -119,7 +119,6 @@ public class FunctionDeclaration extends Declaration {
             throw new SemanticAnalysisException("non-void function must have return");
         }
 
-        // localVar_Map = null;
         func_Map.put(this.func_name, this);
     }
 }

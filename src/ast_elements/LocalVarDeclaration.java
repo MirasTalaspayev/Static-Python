@@ -30,10 +30,6 @@ public class LocalVarDeclaration extends Declaration {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        if (variable_Map.containsKey(var_name)) {
-            throw new SemanticAnalysisException("variable " + var_name + " already exists");
-        }
-
-        variable_Map.put(var_name, type);
+        
     }
 }
