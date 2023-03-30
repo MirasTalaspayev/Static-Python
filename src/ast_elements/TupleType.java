@@ -10,7 +10,7 @@ public class TupleType extends Type {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder("(");
+        StringBuilder sb = new StringBuilder("tuple(");
         int size = sub_Types.size();
         for (int i = 0; i < size - 1; i++)
         {
