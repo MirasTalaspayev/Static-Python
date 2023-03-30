@@ -36,6 +36,7 @@ public class TupleExpression extends CollectionExpressions {
         }
 
         elementsType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
+        collectionType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
         
         for (int i = 0; i < values.size() - 1; i++) {
             if (!elementsType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {
