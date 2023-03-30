@@ -1,6 +1,6 @@
 package ast_elements;
 
-public class SetType extends Type {
+public class SetType extends CollectionType {
     private Type elements_Type;
     public SetType(Type elements_Type) {
         this.elements_Type = elements_Type;
