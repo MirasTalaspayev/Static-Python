@@ -53,8 +53,9 @@ import java.util.ArrayList;
 %function process_next_token
 %type java_cup.runtime.Symbol
 %eofval{
-  return new java_cup.runtime.Symbol(sym.EOF);
-%eofval}
+  curr_col = 0;
+  at_line_begin = true;
+  return addAndReturnNext(sym.EOF);%eofval}
 %eofclose
 
 tab         = \t|"    "
