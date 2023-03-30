@@ -1,6 +1,6 @@
 package ast_elements;
 
-public class DictType extends Type {
+public class DictType extends CollectionType {
     
     private Type key_Type;
     private Type value_Type;

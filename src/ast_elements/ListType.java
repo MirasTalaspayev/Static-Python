@@ -1,6 +1,6 @@
 package ast_elements;
 
-public class ListType extends Type {
+public class ListType extends CollectionType {
     private Type elements_Type;
     public ListType(Type elements_Type) {
         this.elements_Type = elements_Type;
