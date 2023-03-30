@@ -63,9 +63,8 @@ newLine     = \n|\r|\r\n
 anyChar     = [^\r\n]
 digit       = [0-9]
 letter      = [a-z|A-Z]
-intNumber	  = [1-9][{digit}]*
+intNumber   = (-)?[1-9]+|0
 floatNumber = ("+"|"-")? ( {intNumber}"." [{digit}]* ) | ( "." [{digit}]+ ) | ( 0 "." [{digit}]* )
-
 label       = {letter}[{letter}|{digit}|_]*  
 string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
 
