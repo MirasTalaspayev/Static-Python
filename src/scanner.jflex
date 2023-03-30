@@ -107,6 +107,7 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
   ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
   ","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
+  "."             {System.out.println("DOT"); return addAndReturnNext(sym.DOT, new String(yytext()));}
   "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
   "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
   "{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}

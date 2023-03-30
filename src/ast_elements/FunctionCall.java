@@ -1,6 +1,5 @@
 package ast_elements;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +9,12 @@ public class FunctionCall extends Expression {
 
     private String func_name;
     private List<Expression> ex_list;
+    private Expression expr;
     
-    public FunctionCall(String func_name, List<Expression> ex_list) {
+    public FunctionCall(String func_name, List<Expression> ex_list, Expression expr) {
         this.func_name = func_name;
         this.ex_list = ex_list;
+        this.expr = expr;
     }
 
     public String getFunc_name() {
@@ -24,10 +25,19 @@ public class FunctionCall extends Expression {
         return ex_list;
     }
 
+    public Expression getExpr() {
+        return expr;
+    }
+
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append(this.func_name + "(");
+        sb.append(ind);
+        if (this.expr == null) {
+            sb.append(this.func_name + "(");
+        } else {
+            sb.append(this.expr + "." + this.func_name + "(");
+        }
         int size = ex_list.size();
         for (int i = 0; i < size - 1; i++) {
             sb.append(ex_list.get(i)).append(", ");
@@ -45,16 +55,27 @@ public class FunctionCall extends Expression {
 
     @Override
     public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        if (!func_Map.containsKey(func_name))
-            throw new SemanticAnalysisException("function doesn't exist");
+        if (this.expr == null) {
+            if (!func_Map.containsKey(func_name))
+                throw new SemanticAnalysisException("function doesn't exist");
 
-        if(ex_list.size() != func_Map.get(func_name).getParam_list().size())
-            throw new SemanticAnalysisException("number of parameters doesn't match");
+            if(ex_list.size() != func_Map.get(func_name).getParam_list().size())
+                throw new SemanticAnalysisException("number of parameters doesn't match");
 
-        for (int i=0; i < func_Map.get(func_name).getParam_list().size(); i++) {
-            if (ex_list.get(i) != null && !ex_list.get(i).analyzeAndGetType(variable_Map, func_Map).equals(func_Map.get(func_name).getParam_list().get(i).getType())) 
-                throw new SemanticAnalysisException("parameter type " + ex_list.get(i) + " does not match with " + func_Map.get(func_name).getParam_list().get(i).getType());
+            for (int i=0; i < func_Map.get(func_name).getParam_list().size(); i++) {
+                if (ex_list.get(i) != null && !ex_list.get(i).analyzeAndGetType(variable_Map, func_Map).equals(func_Map.get(func_name).getParam_list().get(i).getType())) 
+                    throw new SemanticAnalysisException("parameter type " + ex_list.get(i) + " does not match with " + func_Map.get(func_name).getParam_list().get(i).getType());
+            }
+            return func_Map.get(func_name).getReturn_Type();
+        } else {
+            System.out.println("expr === " + this.expr.analyzeAndGetType(variable_Map, func_Map));
+            // this.expr.analyzeAndGetType(variable_Map, func_Map);
+            // for (int i=0; i < ex_list.size(); i++) {
+            //     if (!this.expr.analyzeAndGetType(variable_Map, func_Map).equals(ex_list.get(i))) {
+
+            //     }
+            // }
+            return this.expr.analyzeAndGetType(variable_Map, func_Map);
         }
-        return func_Map.get(func_name).getReturn_Type();
     }
 }

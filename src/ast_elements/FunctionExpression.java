@@ -1,6 +1,5 @@
 package ast_elements;
 
-import java.util.List;
 import java.util.Map;
 
 import SemanticAnalysis.SemanticAnalysisException;

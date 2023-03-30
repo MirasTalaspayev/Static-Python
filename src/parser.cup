@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 import ast_elements.*;
 
-terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
+terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, DOT, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
 terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING, NONE;
 terminal Integer NUMBER;
@@ -23,7 +23,9 @@ non terminal VarDeclaration var_decl;
 non terminal Type type;
 non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
-non terminal FunctionCall func_call;
+non terminal FunctionCall func_call, funco_call;
+
+precedence left     LPAREN, RPAREN;
 
 start with program;
 
@@ -43,6 +45,8 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| DEF LABEL:func_name LPAREN RPAREN ARROW type:t 
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, null, t, sl); :}
 		| func_call:f_call												{: RESULT = new FunctionStatement(f_call); :}
+		/*| expr:e DOT func_call:f_call 									{: f_call.setObject(e); RESULT = new FunctionStatement(f_call); :}*/
+		| funco_call:f_call  											{: RESULT = new FunctionStatement(f_call); :}
 		| RETURN expr:ex												{: RESULT = new Return(ex); :}
 		| RETURN NONE													{: RESULT = new Return(null); :};
 
@@ -78,7 +82,8 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| EXPONENT:op				{: RESULT = op; :}
 		| FLOOR:op					{: RESULT = op; :};
 
-func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN 		{: RESULT = new FunctionCall(func_name, ex_list); :};
+func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   			{: RESULT = new FunctionCall(func_name, ex_list, null); :};
+funco_call ::= expr:e DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, e); :};
 
 expr 	::= expr0:e0								{: RESULT = e0; :}
 		| expr_list:e_list							{: RESULT = e_list; :}
