@@ -8,6 +8,8 @@ import SemanticAnalysis.SemanticAnalysisException;
 public class TupleExpression extends CollectionExpressions {
     
     private List<Expression> values;
+    private List<Type> types;
+        
     
     public TupleExpression(List<Expression> values)
     {
@@ -34,16 +36,16 @@ public class TupleExpression extends CollectionExpressions {
 		if (values.size() == 0) {
             return collectionType;
         }
-
-        elementsType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
-        collectionType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
         
+        elementsType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
+        types.add(elementsType);
         for (int i = 0; i < values.size() - 1; i++) {
+            types.add(values.get(i).analyzeAndGetType(variable_Map, func_Map));
             if (!elementsType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {
                 throw new SemanticAnalysisException("type of " + values.get(i) + " does not match with " + elementsType);
             }
         }
-        return new TupleType(elementsType);
+        return new TupleType(types);
 	}
 
     @Override

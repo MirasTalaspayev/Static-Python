@@ -104,7 +104,7 @@ expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1)
 
 expr_tuple ::= LPAREN expr_values:e1 RPAREN 		{: RESULT = new TupleExpression(e1); :}
 		| LIST LPAREN RPAREN						{: RESULT = new TupleExpression(new ArrayList<Expression>()); :}
-		| LBRACK RBRACK								{: RESULT = new TupleExpression(new ArrayList<Expression>()); :};
+		| LPAREN RPAREN								{: RESULT = new TupleExpression(new ArrayList<Expression>()); :};
 
 expr_set ::= LCURLY expr_values:e1 RCURLY			{: RESULT = new SetExpression(e1); :}
 		| SET LPAREN RPAREN							{: RESULT = new SetExpression(new ArrayList<Expression>()); :};
