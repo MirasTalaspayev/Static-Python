@@ -1,6 +1,9 @@
 package ast_elements;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import SemanticAnalysis.SemanticAnalysisException;
 
 public class LocalVarDeclaration extends Declaration {
     private String var_name;
@@ -11,6 +14,14 @@ public class LocalVarDeclaration extends Declaration {
         this.type = type;
     }
 
+    public String getVar_name() {
+        return var_name;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
     public StringBuilder toString(int indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(this.var_name + ":").append(this.type);
@@ -18,8 +29,7 @@ public class LocalVarDeclaration extends Declaration {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        
     }
 }

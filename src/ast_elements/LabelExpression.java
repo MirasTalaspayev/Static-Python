@@ -16,6 +16,10 @@ public class LabelExpression extends Expression {
         return this.value.toString();
     }
 
+    public String getValue() {
+        return value;
+    }
+    
 	@Override
 	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
 		if (!variable_Map.containsKey(value)) {
