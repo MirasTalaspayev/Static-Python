@@ -1,1 +1,1 @@
-tuple_1 (int, string, int) = (1, 'string', 2)
+tuple_1: tuple[int, int, str] = (1, 2, 'string')
