@@ -13,7 +13,6 @@ public class IfStatement extends Statement {
     public IfStatement(Expression cond, List<Statement> body) {
         this.cond = cond;
         this.body = body;
-        System.out.println("CONDITION === " + cond);
     }
 
     public StringBuilder toString(int indent) {

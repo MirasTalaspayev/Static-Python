@@ -8,7 +8,6 @@ public class Return extends Statement {
 
     public Return(Expression ex) {
         this.ex = ex;
-        System.out.println("Return === " + ex);
     }
 
     public Expression getEx() {

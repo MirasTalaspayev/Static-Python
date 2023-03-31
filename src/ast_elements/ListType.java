@@ -6,6 +6,10 @@ public class ListType extends Type {
         this.elements_Type = elements_Type;
     }
 
+    public Type getElements_Type() {
+        return elements_Type;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder("list[");
         sb.append(elements_Type).append("]");

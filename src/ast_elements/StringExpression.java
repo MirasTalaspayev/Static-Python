@@ -8,7 +8,6 @@ public class StringExpression extends Expression {
     private static final Type type = new VariableType("str");
     
     public StringExpression(String value) {
-        System.out.println("String expression constructor " + value);
         this.value = value;
     }
 

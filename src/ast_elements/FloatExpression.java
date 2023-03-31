@@ -7,7 +7,6 @@ public class FloatExpression extends Expression {
     private Float value;
     private static final Type type = new VariableType("float");
     public FloatExpression(Float value) {
-        System.out.println("Float expression constructor " + value);
         this.value = value;
     }
 

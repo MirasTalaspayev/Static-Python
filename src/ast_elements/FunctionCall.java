@@ -17,18 +17,6 @@ public class FunctionCall extends Expression {
         this.expr = expr;
     }
 
-    public String getFunc_name() {
-        return func_name;
-    }
-
-    public List<Expression> getEx_list() {
-        return ex_list;
-    }
-
-    public Expression getExpr() {
-        return expr;
-    }
-
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
@@ -69,12 +57,9 @@ public class FunctionCall extends Expression {
             return func_Map.get(func_name).getReturn_Type();
         } else {
             System.out.println("expr === " + this.expr.analyzeAndGetType(variable_Map, func_Map));
-            // this.expr.analyzeAndGetType(variable_Map, func_Map);
-            // for (int i=0; i < ex_list.size(); i++) {
-            //     if (!this.expr.analyzeAndGetType(variable_Map, func_Map).equals(ex_list.get(i))) {
 
-            //     }
-            // }
+            
+            
             return this.expr.analyzeAndGetType(variable_Map, func_Map);
         }
     }
