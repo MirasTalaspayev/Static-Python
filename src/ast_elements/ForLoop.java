@@ -3,6 +3,8 @@ package ast_elements;
 import java.util.List;
 import java.util.Map;
 
+import SemanticAnalysis.SemanticAnalysisException;
+
 public class ForLoop extends Statement {
     private String var_name;
     private String var_type;
@@ -27,8 +29,9 @@ public class ForLoop extends Statement {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        if (!(list.analyzeAndGetType(variable_Map, func_Map) instanceof CollectionType)) {
+            throw new SemanticAnalysisException("It is not boolean");
+        }
     }
 }
