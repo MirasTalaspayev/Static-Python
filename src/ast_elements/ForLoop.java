@@ -29,11 +29,15 @@ public class ForLoop extends Statement {
     
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        if (!(list.analyzeAndGetType(variable_Map, func_Map) instanceof CollectionType)) {
+            throw new SemanticAnalysisException(list + " is not of collection type");
+        }
+        CollectionExpressions ce = (CollectionExpressions)list;
+        if(!(ce.getElementType().equals(var_type))){
+            throw new SemanticAnalysisException(var_name + " should be of type " + ce.getElementType());
+        }
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-        if (!(list.analyzeAndGetType(variable_Map, func_Map) instanceof CollectionType)) {
-            throw new SemanticAnalysisException("It is not a CollectionType");
-        }
         for (Statement stmt : body) {
             stmt.analyze(localVar_Map, localFun_Map);
         }

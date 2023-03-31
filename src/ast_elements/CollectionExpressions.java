@@ -9,4 +9,8 @@ public abstract class CollectionExpressions extends Expression {
     public void setCollectionType(Type type) {
         collectionType = type;
     }
+
+    public Type getElementType() {
+        return elementsType;
+    }
 }

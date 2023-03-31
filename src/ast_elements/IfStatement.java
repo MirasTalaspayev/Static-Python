@@ -26,12 +26,12 @@ public class IfStatement extends Statement {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
-        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
         if (!(cond instanceof BooleanExpression)) {
             throw new SemanticAnalysisException("It is not boolean");
         }
-
+        
+        Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
         for (Statement stmt : body) {
             stmt.analyze(localVar_Map, localFun_Map);
         }
