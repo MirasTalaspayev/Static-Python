@@ -1,7 +1,6 @@
 package ast_elements;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import SemanticAnalysis.SemanticAnalysisException;
 
@@ -27,11 +26,18 @@ public class ForLoop extends Statement {
         }
         return sb;
     }
-
+    
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
         if (!(list.analyzeAndGetType(variable_Map, func_Map) instanceof CollectionType)) {
-            throw new SemanticAnalysisException("It is not boolean");
+            throw new SemanticAnalysisException("It is not a CollectionType");
         }
+        for (Statement stmt : body) {
+            stmt.analyze(localVar_Map, localFun_Map);
+        }
+        localVar_Map = null;
+        localFun_Map = null;
     }
 }
