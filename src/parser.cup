@@ -24,6 +24,7 @@ non terminal Type type;
 non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
 non terminal FunctionCall func_call;
+precedence left     LPAREN, RPAREN;
 
 start with program;
 
