@@ -26,8 +26,6 @@ public class Assignment extends Statement {
         if (!variable_Map.containsKey(var_name)) {
             throw new SemanticAnalysisException("Variable " + var_name + " does not exist");
         }
-        if (!variable_Map.get(var_name).equals(ex.analyzeAndGetType(variable_Map, func_Map))) {
-            throw new SemanticAnalysisException("Expression " + ex + " does not match to Type of " + var_name);
-        }
+        ex.analyzeAndGetType(variable_Map, func_Map, variable_Map.get(var_name));
     }
 }

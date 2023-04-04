@@ -8,6 +8,7 @@ public class DictType extends CollectionType {
     public DictType(Type key_Type, Type value_Type) {
         this.key_Type = key_Type;
         this.value_Type = value_Type;
+        elements_Type = this;
     }
 
     public String toString() {

@@ -2,6 +2,8 @@ package ast_elements;
 
 import java.util.Map;
 
+import SemanticAnalysis.SemanticAnalysisException;
+
 public class StringExpression extends Expression {
 
     private String value;
@@ -17,8 +19,10 @@ public class StringExpression extends Expression {
     }
 
     @Override
-    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        return type;
+    public void analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+        if (!type.equals(expectedType)) {
+            throw new SemanticAnalysisException(this + " is not an instance of " + expectedType);
+        }
     }
     
 }

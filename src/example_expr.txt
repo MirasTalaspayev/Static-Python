@@ -1,3 +1,3 @@
-a: list[int] = [1,2,4,6,7]
-for i: int in a:
-    print(i)
+a: list[int] = []
+
+a = ["str"]

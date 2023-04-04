@@ -17,11 +17,13 @@ public class LabelExpression extends Expression {
     }
 
 	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+	public void analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
 		if (!variable_Map.containsKey(value)) {
             throw new SemanticAnalysisException("Variable " + value + " does not exist");
         }
-        return variable_Map.get(value);
-	}
+        if (!variable_Map.get(value).equals(expectedType)) {
+            throw new SemanticAnalysisException(value + " is not a instance of " + expectedType);
+        }
+    }
     
 }
