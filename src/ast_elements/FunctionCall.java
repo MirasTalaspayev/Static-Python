@@ -9,22 +9,23 @@ public class FunctionCall extends Expression {
 
     private String func_name;
     private List<Expression> ex_list;
-    private Expression expr;
+    private String obj;
     
-    public FunctionCall(String func_name, List<Expression> ex_list, Expression expr) {
+    public FunctionCall(String func_name, List<Expression> ex_list, String obj) {
         this.func_name = func_name;
         this.ex_list = ex_list;
-        this.expr = expr;
+        this.obj = obj;
+        
     }
 
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
         sb.append(ind);
-        if (this.expr == null) {
+        if (this.obj == null) {
             sb.append(this.func_name + "(");
         } else {
-            sb.append(this.expr + "." + this.func_name + "(");
+            sb.append(this.obj + "." + this.func_name + "(");
         }
         int size = ex_list.size();
         for (int i = 0; i < size - 1; i++) {
@@ -43,7 +44,7 @@ public class FunctionCall extends Expression {
 
     @Override
     public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        if (this.expr == null) {
+        if (this.obj == null) {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
 
@@ -56,11 +57,11 @@ public class FunctionCall extends Expression {
             }
             return func_Map.get(func_name).getReturn_Type();
         } else {
-            System.out.println("expr === " + this.expr.analyzeAndGetType(variable_Map, func_Map));
+            System.out.println("obj === " + variable_Map.get(this.obj));
 
             
             
-            return this.expr.analyzeAndGetType(variable_Map, func_Map);
+            return variable_Map.get(this.obj);
         }
     }
 }
