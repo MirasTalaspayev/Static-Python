@@ -1,3 +1,10 @@
-a: list[int] = []
+#d:str = "1"
+#def func(a:int, b:str) -> None:
+#    return
+#func(2, d)
 
-a = ["str"]
+#def F() -> None:
+#    return
+
+l:list[int] = [1, 2, 3]
+l.append(4)
