@@ -24,10 +24,6 @@ public class FunctionDeclaration extends Declaration {
             this.param_list = new ArrayList<LocalVarDeclaration>();
     }
 
-    public String getFunc_name() {
-        return this.func_name;
-    }
-
     public List<LocalVarDeclaration> getParam_list() {
         return this.param_list;
     }
@@ -36,27 +32,18 @@ public class FunctionDeclaration extends Declaration {
         return this.return_Type;
     }
 
-    public List<Statement> getBody() {
-        return this.body;
-    }
-
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
         sb.append(ind).append("def ").append(this.func_name + "(");
-        if (this.param_list != null) {
-            int size = param_list.size();
-            for (int i = 0; i < size - 1; i++) {
-                sb.append(param_list.get(i)).append(", ");
-            }
-            if (size >= 1) {
-                sb.append(param_list.get(size - 1));
-            }
-        }
+        int size = param_list.size();
+        for (int i = 0; i < size - 1; i++)
+            sb.append(param_list.get(i)).append(", ");
+        if (size >= 1)
+            sb.append(param_list.get(size - 1));
         sb.append(") -> " + this.return_Type + ":").append("\n");
-        for (Statement stmt : this.body) {
+        for (Statement stmt : this.body)
             sb.append(stmt.toString(indent + 1));
-        }
         return sb;
     }
 
@@ -64,6 +51,7 @@ public class FunctionDeclaration extends Declaration {
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
         boolean hasReturn = false;
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
+        Map<String, FunctionDeclaration> localFunc_Map = new HashMap<String, FunctionDeclaration>(func_Map);
 
         HashSet<String> names = new HashSet<String>();
         for (int i=0; i < this.param_list.size(); i++) {
@@ -72,12 +60,11 @@ public class FunctionDeclaration extends Declaration {
             names.add(this.param_list.get(i).getVar_name());
         }
         
-        for (int i=0; i < this.param_list.size(); i++) {
+        for (int i=0; i < this.param_list.size(); i++)
             localVar_Map.put(this.param_list.get(i).getVar_name(), this.param_list.get(i).getType());
-        }
 
         for (Statement stmt : this.body) {
-            stmt.analyze(localVar_Map, func_Map);
+            stmt.analyze(localVar_Map, localFunc_Map);
             if (stmt instanceof Return) {
                 Return return_stmt = (Return)stmt;
                 if (return_Type == null) {
@@ -85,11 +72,11 @@ public class FunctionDeclaration extends Declaration {
                         throw new SemanticAnalysisException("return type must be None in void function");
                 } else {
                     hasReturn = true;
-                    if ((!return_stmt.getEx().analyzeAndGetType(localVar_Map, func_Map).equals(return_Type)) || (return_stmt.getEx() != null))
-                        throw new SemanticAnalysisException("return type " + return_stmt.getEx() + " does not match with " + return_Type);
+                    if (return_stmt.getEx() != null)
+                        return_stmt.getEx().analyze(localVar_Map, localFunc_Map, return_Type);
                 }
             }
-        } localVar_Map = null;
+        } localVar_Map = null; localFunc_Map = null;
         
         if (!hasReturn && return_Type != null)
             throw new SemanticAnalysisException("non-void function must have return");

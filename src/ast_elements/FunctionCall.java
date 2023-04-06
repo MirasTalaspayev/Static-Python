@@ -58,11 +58,9 @@ public class FunctionCall extends Expression {
             return func_Map.get(func_name).getReturn_Type();
         } else {
             // System.out.println("obj === " + variable_Map.get(this.obj));
-            variable_Map.get(this.obj);
             if (variable_Map.get(this.obj) instanceof CollectionType) {
-                for (int i=0; i<ex_list.size(); i++) {
+                for (int i=0; i<ex_list.size(); i++)
                     ex_list.get(i).analyze(variable_Map, func_Map, ((CollectionType)variable_Map.get(this.obj)).getElements_Type());
-                }
             }
             return variable_Map.get(this.obj);
         }
