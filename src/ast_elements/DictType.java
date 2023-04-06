@@ -1,6 +1,6 @@
 package ast_elements;
 
-public class DictType extends Type {
+public class DictType extends CollectionType {
     
     private Type key_Type;
     private Type value_Type;
@@ -8,6 +8,7 @@ public class DictType extends Type {
     public DictType(Type key_Type, Type value_Type) {
         this.key_Type = key_Type;
         this.value_Type = value_Type;
+        elements_Type = this;
     }
 
     public String toString() {

@@ -25,7 +25,7 @@ non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
 non terminal FunctionCall func_call, funco_call;
 
-precedence left	LPAREN, RPAREN, RETURN;
+precedence left RETURN;
 
 start with program;
 
@@ -85,10 +85,7 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   			{: RESULT = new FunctionCall(func_name, ex_list, null); :};
 funco_call ::= LABEL:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :};
 
-expr 	::= expr0:e0								{: RESULT = e0; :}
-		| expr_list:e_list							{: RESULT = e_list; :}
-		| expr_set:e_set							{: RESULT = e_set; :}
-		| expr_dict:e_dict							{: RESULT = e_dict; :};
+expr 	::= expr0:e0								{: RESULT = e0; :};
 
 expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
         | expr1:e1 									{: RESULT = e1; :};
@@ -105,6 +102,9 @@ term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| LABEL:l									{: RESULT = new LabelExpression(l); :}
 		| STRING:s									{: RESULT = new StringExpression(s); :}
 		| FLOAT:f									{: RESULT = new FloatExpression(f); :}
+		| expr_list:e_list							{: RESULT = e_list; :}
+		| expr_set:e_set							{: RESULT = e_set; :}
+		| expr_dict:e_dict							{: RESULT = e_dict; :}
 		| func_call:f_call							{: RESULT = new FunctionExpression(f_call); :};
 
 expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}

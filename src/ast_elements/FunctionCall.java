@@ -52,15 +52,18 @@ public class FunctionCall extends Expression {
                 throw new SemanticAnalysisException("number of parameters doesn't match");
 
             for (int i=0; i < func_Map.get(func_name).getParam_list().size(); i++) {
-                if (ex_list.get(i) != null && !ex_list.get(i).analyzeAndGetType(variable_Map, func_Map).equals(func_Map.get(func_name).getParam_list().get(i).getType())) 
-                    throw new SemanticAnalysisException("parameter type " + ex_list.get(i) + " does not match with " + func_Map.get(func_name).getParam_list().get(i).getType());
+                if (ex_list.get(i) != null) 
+                    ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
             }
             return func_Map.get(func_name).getReturn_Type();
         } else {
-            System.out.println("obj === " + variable_Map.get(this.obj));
-
-            
-            
+            // System.out.println("obj === " + variable_Map.get(this.obj));
+            variable_Map.get(this.obj);
+            if (variable_Map.get(this.obj) instanceof CollectionType) {
+                for (int i=0; i<ex_list.size(); i++) {
+                    ex_list.get(i).analyze(variable_Map, func_Map, ((CollectionType)variable_Map.get(this.obj)).getElements_Type());
+                }
+            }
             return variable_Map.get(this.obj);
         }
     }

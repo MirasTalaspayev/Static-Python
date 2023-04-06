@@ -2,7 +2,7 @@ package ast_elements;
 
 import java.util.List;
 
-public class TupleType extends Type {
+public class TupleType extends CollectionType {
     public List<Type> sub_Types;
 
     public TupleType(List<Type> sub_Types) {

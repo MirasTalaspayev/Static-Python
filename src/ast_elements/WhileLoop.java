@@ -1,7 +1,8 @@
 package ast_elements;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import SemanticAnalysis.SemanticAnalysisException;
 
 public class WhileLoop extends Statement {
 
@@ -11,6 +12,7 @@ public class WhileLoop extends Statement {
     public WhileLoop(Expression cond, List<Statement> body) {
         this.cond = cond;
         this.body = body;
+        System.out.println("CONDITION === " + cond.toString());
     }
 
     public StringBuilder toString(int indent) {
@@ -24,8 +26,17 @@ public class WhileLoop extends Statement {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        if (!(cond instanceof BooleanExpression)) {
+            throw new SemanticAnalysisException("It is not boolean");
+        }
+
+        Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+        for (Statement stmt : body) {
+            stmt.analyze(localVar_Map, localFun_Map);
+        }
+        localVar_Map = null;
+        localFun_Map = null;
     }
 }

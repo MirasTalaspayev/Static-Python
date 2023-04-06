@@ -8,6 +8,7 @@ public class BooleanExpression extends Expression {
     private static final Type type = new VariableType("bool");
 
     public BooleanExpression(Boolean value) {
+        System.out.println("Boolean expression constructor " + value);
         this.value = value;
     }
 

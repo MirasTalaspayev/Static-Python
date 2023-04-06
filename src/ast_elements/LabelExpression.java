@@ -16,16 +16,14 @@ public class LabelExpression extends Expression {
         return this.value.toString();
     }
 
-    public String getValue() {
-        return value;
-    }
-    
 	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
 		if (!variable_Map.containsKey(value)) {
             throw new SemanticAnalysisException("Variable " + value + " does not exist");
         }
-        return variable_Map.get(value);
-	}
+        if (!variable_Map.get(value).equals(expectedType)) {
+            throw new SemanticAnalysisException(value + " is not a instance of " + expectedType);
+        }
+    }
     
 }

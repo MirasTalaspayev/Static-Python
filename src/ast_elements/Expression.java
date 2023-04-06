@@ -8,5 +8,11 @@ public abstract class Expression extends ASTElement {
     
     public abstract String toString();
 
-    public abstract Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException;
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException 
+    {
+        return null;
+    }
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+
+    }
 }

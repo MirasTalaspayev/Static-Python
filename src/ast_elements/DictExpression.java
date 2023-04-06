@@ -30,22 +30,19 @@ public class DictExpression extends CollectionExpressions {
     }
 
 	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-		if (values.size() == 0) {
-            return collectionType;
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+        super.analyze(variable_Map, func_Map, expectedType);
+
+        if (!(expectedType instanceof DictType)) {
+            throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
         }
 
-        DictType dictType = new DictType(values.get(0).getKey().analyzeAndGetType(variable_Map, func_Map), 
-            values.get(0).getValue().analyzeAndGetType(variable_Map, func_Map));
+        collectionType = (DictType)expectedType;
+        elements_Type = collectionType.elements_Type;
 
-        for (int i = 1; i < values.size(); i++) {
-            if (!dictType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {
-                throw new SemanticAnalysisException("type of " + values.get(i) + " does not match with " + elementsType);
-            }
+        for (int i = 0; i < values.size(); i++) {
+            values.get(i).analyze(variable_Map, func_Map, elements_Type);
         }
-
-        elementsType = dictType;
-        return elementsType;
 	}
 
     @Override
