@@ -1,5 +1,6 @@
 package ast_elements;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,24 +17,25 @@ public class FunctionCall extends Expression {
         this.ex_list = ex_list;
         this.obj = obj;
         
+        if (this.ex_list == null)
+            this.ex_list = new ArrayList<Expression>();
     }
 
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
         sb.append(ind);
-        if (this.obj == null) {
+        if (this.obj == null)
             sb.append(this.func_name + "(");
-        } else {
+        else
             sb.append(this.obj + "." + this.func_name + "(");
-        }
         int size = ex_list.size();
-        for (int i = 0; i < size - 1; i++) {
+        for (int i = 0; i < size - 1; i++)
             sb.append(ex_list.get(i)).append(", ");
-        }
-        if (size >= 1) {
+        if (size >= 1)
             sb.append(ex_list.get(size - 1) + ")\n");
-        }
+        else
+            sb.append(")\n");
         return sb;
     }
 
@@ -44,6 +46,7 @@ public class FunctionCall extends Expression {
 
     @Override
     public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+        // List<LocalVarDeclaration> param_list = func_Map.get(func_name).getParam_list();
         if (this.obj == null) {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
@@ -51,13 +54,11 @@ public class FunctionCall extends Expression {
             if(ex_list.size() != func_Map.get(func_name).getParam_list().size())
                 throw new SemanticAnalysisException("number of parameters doesn't match");
 
-            for (int i=0; i < func_Map.get(func_name).getParam_list().size(); i++) {
-                if (ex_list.get(i) != null) 
-                    ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
-            }
+            for (int i=0; i < ex_list.size(); i++)
+                ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
+            
             return func_Map.get(func_name).getReturn_Type();
         } else {
-            // System.out.println("obj === " + variable_Map.get(this.obj));
             if (variable_Map.get(this.obj) instanceof CollectionType) {
                 for (int i=0; i<ex_list.size(); i++)
                     ex_list.get(i).analyze(variable_Map, func_Map, ((CollectionType)variable_Map.get(this.obj)).getElements_Type());
