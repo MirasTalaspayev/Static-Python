@@ -17,7 +17,7 @@ public class LabelExpression extends Expression {
     }
 
 	@Override
-	public void analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
 		if (!variable_Map.containsKey(value)) {
             throw new SemanticAnalysisException("Variable " + value + " does not exist");
         }

@@ -30,8 +30,8 @@ public class ListExpression extends CollectionExpressions {
     }
 
 	@Override
-	public void analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
-		super.analyzeAndGetType(variable_Map, func_Map, expectedType);
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+		super.analyze(variable_Map, func_Map, expectedType);
         
         if (!(expectedType instanceof ListType)) {
             throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
@@ -41,7 +41,7 @@ public class ListExpression extends CollectionExpressions {
         elements_Type = collectionType.elements_Type;
 
         for (int i = 0; i < values.size(); i++) {
-            values.get(i).analyzeAndGetType(variable_Map, func_Map, elements_Type);
+            values.get(i).analyze(variable_Map, func_Map, elements_Type);
         }
 	}
 

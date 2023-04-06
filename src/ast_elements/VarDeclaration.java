@@ -30,7 +30,7 @@ public class VarDeclaration extends Declaration {
         if (ex == null) {
             return;
         }
-        ex.analyzeAndGetType(variable_Map, func_Map, type);
+        ex.analyze(variable_Map, func_Map, type);
 
         
         variable_Map.put(var_name, type);

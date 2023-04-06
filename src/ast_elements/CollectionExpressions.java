@@ -23,7 +23,7 @@ public abstract class CollectionExpressions extends Expression {
     }
 
     @Override
-    public void analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map,
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map,
             Type expectedType) throws SemanticAnalysisException {
         if (size() == 0) {
             setCollectionType(expectedType);

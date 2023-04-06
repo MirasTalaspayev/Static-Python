@@ -31,12 +31,12 @@ public class KeyValuePair extends Expression {
     }
 
     @Override
-    public void analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
         if (!(expectedType instanceof DictType)) {
             throw new SemanticAnalysisException(this + " is not a instance of " + expectedType);
         }
         dictType = (DictType)expectedType;
-        key.analyzeAndGetType(variable_Map, func_Map, dictType.getKey_Type());
-        value.analyzeAndGetType(variable_Map, func_Map, dictType.getValue_Type());
+        key.analyze(variable_Map, func_Map, dictType.getKey_Type());
+        value.analyze(variable_Map, func_Map, dictType.getValue_Type());
     }
 }
