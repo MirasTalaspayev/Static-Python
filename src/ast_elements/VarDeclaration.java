@@ -27,13 +27,10 @@ public class VarDeclaration extends Declaration {
         if (variable_Map.containsKey(var_name)) {
             throw new SemanticAnalysisException("variable name already exists");
         }
-        
-        if (ex instanceof CollectionExpressions && ((CollectionExpressions)ex).size() == 0) {
-            ((CollectionExpressions)ex).setCollectionType(type);
+        if (ex == null) {
+            return;
         }
-        
-        if (ex != null && !ex.analyzeAndGetType(variable_Map, func_Map).equals(type)) 
-            throw new SemanticAnalysisException("expression type " + ex + " does not match with " + type);
+        ex.analyze(variable_Map, func_Map, type);
 
         
         variable_Map.put(var_name, type);

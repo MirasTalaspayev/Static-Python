@@ -3,6 +3,8 @@ package ast_elements;
 import java.util.List;
 import java.util.Map;
 
+import SemanticAnalysis.SemanticAnalysisException;
+
 public class SetExpression extends CollectionExpressions {
     
     private List<Expression> values;
@@ -28,9 +30,19 @@ public class SetExpression extends CollectionExpressions {
     }
 
     @Override
-    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyzeAndGetType'");
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+        super.analyze(variable_Map, func_Map, expectedType);
+        
+        if (!(expectedType instanceof SetType)) {
+            throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
+        }
+        
+        collectionType = (SetType)expectedType;
+        elements_Type = collectionType.elements_Type;
+
+        for (int i = 0; i < values.size(); i++) {
+            values.get(i).analyze(variable_Map, func_Map, elements_Type);
+        }
     }
 
     @Override

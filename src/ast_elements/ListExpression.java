@@ -30,19 +30,19 @@ public class ListExpression extends CollectionExpressions {
     }
 
 	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-		if (values.size() == 0) {
-            return collectionType;
-        }
-
-        elementsType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+		super.analyze(variable_Map, func_Map, expectedType);
         
-        for (int i = 0; i < values.size() - 1; i++) {
-            if (!elementsType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {
-                throw new SemanticAnalysisException("type of " + values.get(i) + " does not match with " + elementsType);
-            }
+        if (!(expectedType instanceof ListType)) {
+            throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
         }
-        return new ListType(elementsType);
+        
+        collectionType = (ListType)expectedType;
+        elements_Type = collectionType.elements_Type;
+
+        for (int i = 0; i < values.size(); i++) {
+            values.get(i).analyze(variable_Map, func_Map, elements_Type);
+        }
 	}
 
     @Override
