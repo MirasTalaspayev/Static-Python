@@ -10,6 +10,8 @@ public class BinaryOperator extends Expression {
         this.e1 = e1;
         this.op = op;
         this.e2 = e2;
+
+        System.out.println(e1 + op + e2);
     }
 
     @Override
@@ -20,8 +22,7 @@ public class BinaryOperator extends Expression {
     }
 
 	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'analyzeAndGetType'");
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) {
+		
 	}
 }
