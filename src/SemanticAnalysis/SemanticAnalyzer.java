@@ -1,7 +1,9 @@
 package SemanticAnalysis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import ast_elements.*;
 
@@ -28,20 +30,33 @@ public class SemanticAnalyzer {
     }
 }
 class Rules {
-    public boolean plus(Expression ex1, Expression ex2) {
-        if (ex1 instanceof NumberExpression && ex2 instanceof NumberExpression) {
-            return true;
+    public void generateRules() {
+        HashMap<Rule, Type> rules = new HashMap<>();
+        rules.put(new Rule(), new ListType(null));
+    }
+    public void invoke(Expression e1, Expression e2, String op, Type expectedType) throws SemanticAnalysisException {
+        SemanticAnalysisException ex = new SemanticAnalysisException(e1 + " and " + e2 + " does not support operation '" + op + "'");
+        if (op == "+") {
+            if (!isAddable(e1, e2)) {
+                throw ex;
+            }
         }
-        if (ex1 instanceof ListExpression && ex2 instanceof ListExpression) {
-            ListExpression e1 = (ListExpression)ex1;
-            ListExpression e2 = (ListExpression)ex2;
-            
-            return e1.getElementType().equals(e2.getElementType());
+        else if (op == "-") {
+
         }
-        if (ex1 instanceof FloatExpression && ex2 instanceof FloatExpression) {
-            return true;
+        else if (op == "*") {
+
         }
-        return false;
+        else {
+            throw ex;            
+        }
+    }
+    public void isAddable(Expression ex1, Expression ex2, Type expectedType) throws SemanticAnalysisException {
+        ex1.analyze(null, null, expectedType);
+        ex2.analyze(null, null, expectedType);
+    }
+    public void isMultipliable(Expression ex1, Expression ex2, Type expectedType) {
+        
     }
 }
 class Rule {
