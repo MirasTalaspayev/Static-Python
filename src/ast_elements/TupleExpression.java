@@ -5,7 +5,7 @@ import java.util.Map;
 
 import SemanticAnalysis.SemanticAnalysisException;
 
-public class TupleExpression extends CollectionExpressions {
+public class TupleExpression extends Expression {
     
     private List<Expression> values;
         
@@ -15,7 +15,6 @@ public class TupleExpression extends CollectionExpressions {
         this.values = values;
     }
 
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int size = values.size();
@@ -30,22 +29,16 @@ public class TupleExpression extends CollectionExpressions {
         return sb.toString();
     }
 
-	@Override
-	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
-        if (!(expectedType instanceof TupleType)) {
-            throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
-        }
-        
-        collectionType = (TupleType)expectedType;
-        elements_Type = collectionType.elements_Type;
-
-        for (int i = 0; i < values.size(); i++) {
-            values.get(i).analyze(variable_Map, func_Map, elements_Type);
-        }
-	}
-
     @Override
-    public int size() {
-        return values.size();
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
+            throws SemanticAnalysisException {
+                
+                if (!(expectedType instanceof TupleType)) {
+                    throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
+                }
+            
+                for (int i = 0; i < values.size(); i++) {
+                    values.get(i).analyze(variable_Map, func_Map, expectedType);
+                }
     }
 }
