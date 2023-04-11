@@ -8,7 +8,6 @@ import SemanticAnalysis.SemanticAnalysisException;
 public class TupleExpression extends CollectionExpressions {
     
     private List<Expression> values;
-    private List<Type> types;
         
     
     public TupleExpression(List<Expression> values)
