@@ -32,20 +32,19 @@ public class TupleExpression extends CollectionExpressions {
     }
 
 	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-		if (values.size() == 0) {
-            return collectionType;
+	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+		super.analyze(variable_Map, func_Map, expectedType);
+        
+        if (!(expectedType instanceof TupleType)) {
+            throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
         }
         
-        elementsType = values.get(0).analyzeAndGetType(variable_Map, func_Map);
-        types.add(elementsType);
-        for (int i = 0; i < values.size() - 1; i++) {
-            types.add(values.get(i).analyzeAndGetType(variable_Map, func_Map));
-            if (!elementsType.equals(values.get(i).analyzeAndGetType(variable_Map, func_Map))) {
-                throw new SemanticAnalysisException("type of " + values.get(i) + " does not match with " + elementsType);
-            }
+        collectionType = (TupleType)expectedType;
+        elements_Type = collectionType.elements_Type;
+
+        for (int i = 0; i < values.size(); i++) {
+            values.get(i).analyze(variable_Map, func_Map, elements_Type);
         }
-        return new TupleType(types);
 	}
 
     @Override
