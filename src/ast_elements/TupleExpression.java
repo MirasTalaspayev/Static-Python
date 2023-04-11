@@ -32,8 +32,6 @@ public class TupleExpression extends CollectionExpressions {
 
 	@Override
 	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
-		super.analyze(variable_Map, func_Map, expectedType);
-        
         if (!(expectedType instanceof TupleType)) {
             throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
         }
