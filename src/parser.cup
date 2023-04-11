@@ -76,13 +76,13 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 expr 	::= expr0:e0								{: RESULT = e0; :};
 
 
-expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
+expr0 	::= expr1:e0 cond_sign:op expr0:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
         | expr1:e1 									{: RESULT = e1; :};
 
-expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
+expr1 	::= expr2:e1 bin_op1:op expr1:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2 									{: RESULT = e2; :};
 
-expr2 	::= expr2:e2 bin_op2:op term:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
+expr2 	::= term:e2 bin_op2:op expr2:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
 		| term:e3									{: RESULT = e3; :};
 
 term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}

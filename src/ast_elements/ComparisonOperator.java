@@ -9,7 +9,7 @@ public class ComparisonOperator extends Expression {
     private String op;
     private Expression e2;
 
-    private static final Type type = new VariableType("bool");
+    private static final Type TYPE = new VariableType("bool");
     
     public ComparisonOperator(Expression e1, String op, Expression e2) {
         this.e1 = e1;
@@ -24,17 +24,17 @@ public class ComparisonOperator extends Expression {
         return sb.toString();
     }
 
-	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-		Type e1_typ1 = e1.analyzeAndGetType(variable_Map, func_Map);
-		Type e2_typ1 = e2.analyzeAndGetType(variable_Map, func_Map);
-        
-        if (op == "==" || op == "!=") {
-
+    @Override
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
+            throws SemanticAnalysisException {
+        if (!expectedType.equals(TYPE)) {
+            throw new SemanticAnalysisException(this + " should be a type of " + TYPE);
         }
-        else {
-            
+        if (op.equals("==")) {
+            e1.isEqual(variable_Map, func_Map, expectedType, e2);
+        } 
+        else if (op.equals("!=")) {
+            e1.notEqual(variable_Map, func_Map, expectedType, e2);
         }
-        return type;
-	}
+    }
 }
