@@ -14,7 +14,7 @@ non terminal Boolean bool;
 non terminal String bin_op1, bin_op2, cond_sign;
 
 non terminal ProgramAST program;
-non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict;
+non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict, expr_tuple;
 non terminal List<Expression> expr_values;
 non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
@@ -23,6 +23,7 @@ non terminal VarDeclaration var_decl;
 non terminal Type type;
 non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
+precedence left     LPAREN, RPAREN;
 
 start with program;
 
@@ -77,6 +78,7 @@ expr 	::= expr0:e0								{: RESULT = e0; :}
 		| expr_list:e_list							{: RESULT = e_list; :}
 		| expr_set:e_set							{: RESULT = e_set; :}
 		| expr_dict:e_dict							{: RESULT = e_dict; :};
+		| expr_tuple:e_tuple						{: RESULT = e_tuple; :};
 
 expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
         | expr1:e1 									{: RESULT = e1; :};
@@ -98,6 +100,8 @@ term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}
 		| LIST LPAREN RPAREN						{: RESULT = new ListExpression(new ArrayList<Expression>()); :}
 		| LBRACK RBRACK								{: RESULT = new ListExpression(new ArrayList<Expression>()); :};
+
+expr_tuple ::= LPAREN expr_values:e1 RPAREN 		{: RESULT = new TupleExpression(e1); :};
 
 expr_set ::= LCURLY expr_values:e1 RCURLY			{: RESULT = new SetExpression(e1); :}
 		| SET LPAREN RPAREN							{: RESULT = new SetExpression(new ArrayList<Expression>()); :};
