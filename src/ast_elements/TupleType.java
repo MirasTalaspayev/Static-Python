@@ -31,4 +31,8 @@ public class TupleType extends Type {
         
         return this.sub_Types.equals(((TupleType)other).sub_Types);
     }
+
+    public List<Type> getSubTypes() {
+        return sub_Types;
+    }
 }
