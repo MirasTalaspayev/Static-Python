@@ -21,6 +21,10 @@ public class FunctionCall extends Expression {
             this.ex_list = new ArrayList<Expression>();
     }
 
+    public String getFunc_name() {
+        return func_name;
+    }
+
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
@@ -45,8 +49,9 @@ public class FunctionCall extends Expression {
     }
 
     @Override
-    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        // List<LocalVarDeclaration> param_list = func_Map.get(func_name).getParam_list();
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+        if (expectedType != null && expectedType != func_Map.get(func_name).getReturn_Type())
+            throw new SemanticAnalysisException("expected type and return type don't match");
         if (this.obj == null) {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
@@ -56,14 +61,11 @@ public class FunctionCall extends Expression {
 
             for (int i=0; i < ex_list.size(); i++)
                 ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
-            
-            return func_Map.get(func_name).getReturn_Type();
         } else {
             if (variable_Map.get(this.obj) instanceof CollectionType) {
                 for (int i=0; i<ex_list.size(); i++)
                     ex_list.get(i).analyze(variable_Map, func_Map, ((CollectionType)variable_Map.get(this.obj)).getElements_Type());
             }
-            return variable_Map.get(this.obj);
         }
     }
 }

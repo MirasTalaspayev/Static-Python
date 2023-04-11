@@ -46,7 +46,6 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, null, t, sl); :}
 		| func_call:f_call												{: RESULT = new FunctionStatement(f_call); :}
 		| funco_call:f_call  											{: RESULT = new FunctionStatement(f_call); :}
-		/*| expr:e DOT func_call:f_call 									{: f_call.setObject(e); RESULT = new FunctionStatement(f_call); :}*/
 		| RETURN expr:ex												{: RESULT = new Return(ex); :}
 		| RETURN														{: RESULT = new Return(null); :};
 
