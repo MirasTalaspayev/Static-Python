@@ -1,5 +1,8 @@
-a: list[int] = []
+#tuple_1: tuple[int, int, str] = (1, 2, 'string')
 
-a = ["str"]
+tuple_2: tuple[int, str, str] = (1, 2, 78)
 
-tuple_1: tuple[int, int, str] = (1, 2, 'string')
+
+#l: list[int] = ['kek', 'lol']
+
+#d: dict[str, int] = {'one': 'kek', 'two': 'lol', 'three': 'jay'}

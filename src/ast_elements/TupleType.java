@@ -26,9 +26,13 @@ public class TupleType extends Type {
         if (other == this) 
             return true;
         
-        if (!(other instanceof ListType))
+        if (!(other instanceof TupleType))
             return false;
         
         return this.sub_Types.equals(((TupleType)other).sub_Types);
+    }
+
+    public List<Type> getSubTypes() {
+        return this.sub_Types;
     }
 }

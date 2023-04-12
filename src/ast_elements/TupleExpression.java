@@ -9,7 +9,6 @@ public class TupleExpression extends Expression {
     
     private List<Expression> values;
         
-    
     public TupleExpression(List<Expression> values)
     {
         this.values = values;
@@ -36,9 +35,14 @@ public class TupleExpression extends Expression {
                 if (!(expectedType instanceof TupleType)) {
                     throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
                 }
-            
-                for (int i = 0; i < values.size(); i++) {
-                    values.get(i).analyze(variable_Map, func_Map, expectedType);
+
+                TupleType tuple_type = (TupleType) expectedType;
+                
+                if (tuple_type.getSubTypes().size() != values.size()){
+                    for (int i = 0; i < values.size(); i++) {
+                        values.get(i).analyze(variable_Map, func_Map, tuple_type.getSubTypes().get(i));
+                    }
                 }
     }
+
 }
