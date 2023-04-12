@@ -45,7 +45,4 @@ public class TupleExpression extends Expression {
                 }
     }
 
-    public int size() {
-        return values.size();
-    }
 }
