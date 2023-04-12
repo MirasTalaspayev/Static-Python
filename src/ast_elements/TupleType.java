@@ -33,6 +33,6 @@ public class TupleType extends Type {
     }
 
     public List<Type> getSubTypes() {
-        return sub_Types;
+        return this.sub_Types;
     }
 }

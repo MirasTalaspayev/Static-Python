@@ -1,5 +1,5 @@
-a: list[int] = []
+#a: list[int] = []
 
-a = ["str"]
+#a = ["str"]
 
 tuple_1: tuple[int, int, str] = (1, 2, 'string')
