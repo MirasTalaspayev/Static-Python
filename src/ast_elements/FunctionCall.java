@@ -52,6 +52,7 @@ public class FunctionCall extends Expression {
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
         if (expectedType != null && expectedType != func_Map.get(func_name).getReturn_Type())
             throw new SemanticAnalysisException("expected type and return type don't match");
+        
         if (this.obj == null) {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");

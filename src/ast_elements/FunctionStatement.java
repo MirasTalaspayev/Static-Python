@@ -18,6 +18,6 @@ public class FunctionStatement extends Statement {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        func_call.analyze(variable_Map, func_Map, func_Map.get(func_call.getFunc_name()).getReturn_Type());
+        func_call.analyze(variable_Map, func_Map, null);
     }
 }
