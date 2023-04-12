@@ -57,7 +57,7 @@ public class FunctionCall extends Expression {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
 
-            if(ex_list.size() != func_Map.get(func_name).getParam_list().size())
+            if (ex_list.size() != func_Map.get(func_name).getParam_list().size())
                 throw new SemanticAnalysisException("number of parameters doesn't match");
 
             for (int i=0; i < ex_list.size(); i++)
