@@ -82,9 +82,9 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| FLOOR:op					{: RESULT = op; :};
 
 func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   			{: RESULT = new FunctionCall(func_name, ex_list, null); :}
-		| LABEL:func_name LPAREN RPAREN   			{: RESULT = new FunctionCall(func_name, null, null); :};
-funco_call ::= LABEL:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :}
-		| LABEL:obj DOT LABEL:func_name LPAREN RPAREN	{: RESULT = new FunctionCall(func_name, null, obj); :};
+		| LABEL:func_name LPAREN RPAREN   									{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), null); :};
+funco_call ::= expr:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :}
+		| expr:obj DOT LABEL:func_name LPAREN RPAREN							{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), obj); :};
 
 expr 	::= expr0:e0								{: RESULT = e0; :};
 
