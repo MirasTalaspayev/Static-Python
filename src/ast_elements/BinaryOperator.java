@@ -34,11 +34,17 @@ public class BinaryOperator extends Expression {
         if (op.equals("+")) {
             e1.add(variable_Map, func_Map, expectedType, e2);
         } 
+        else if (op.equals("-")) {
+            e1.subtract(variable_Map, func_Map, expectedType, e2);
+        }
         else if (op.equals("*")) {
             e1.multiply(variable_Map, func_Map, expectedType, e2);
         }
+        else if (op.equals("|")) {
+            e1.union(variable_Map, func_Map, expectedType, e2);
+        }
         else if (op.equals("in")) {
-            e1.membership(variable_Map, func_Map, expectedType, e2);
+            e1.membership(variable_Map, func_Map, BooleanExpression.TYPE, e2);
         }
         type = expectedType;
     }

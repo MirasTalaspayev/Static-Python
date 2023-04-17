@@ -46,6 +46,13 @@ public class SetExpression extends CollectionExpressions {
     }
 
     @Override
+    public void union(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
+            Expression ex) throws SemanticAnalysisException {
+        this.analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, expectedType);
+    }
+    
+    @Override
     public int size() {
         return values.size();
     }

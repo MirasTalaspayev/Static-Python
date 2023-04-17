@@ -1,4 +1,4 @@
-a: list[int] = []
-b: set[int] = set()
+a: list[int] = [1, 2, 3]
+b: int = 2
 
-c: bool = a == [] 
+c: bool = b in a

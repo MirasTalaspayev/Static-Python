@@ -34,7 +34,21 @@ public class NumberExpression extends Expression {
     }
 
     @Override
+    public void subtract(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
+            Expression ex) throws SemanticAnalysisException {
+        analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
+    }
+
+    @Override
     public void multiply(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
+            Expression ex) throws SemanticAnalysisException {
+        analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
+    }
+
+    @Override
+    public void divide(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {
         analyze(variable_Map, func_Map, expectedType);
         ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
@@ -43,6 +57,22 @@ public class NumberExpression extends Expression {
     @Override
     public void isEqual(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {
+        ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
+    }
+
+    public void greater(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {
+        ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
+    }
+
+    public void greater_or_equal(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {
+        ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
+    }
+
+    public void less(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {
+        ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
+    }
+
+    public void less_or_equal(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {
         ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
     }
 }
