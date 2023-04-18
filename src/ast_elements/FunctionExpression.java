@@ -21,4 +21,9 @@ public class FunctionExpression extends Expression {
 	public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
         func_call.analyze(variable_Map, func_Map, expectedType);
     }
+    @Override
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
+        return func_call.analyzeAndGetType(variable_Map, func_Map);
+    }
 }
