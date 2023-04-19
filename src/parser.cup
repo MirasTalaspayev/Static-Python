@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
+terminal COLON, LBRACK, RBRACK, IF, ELSE, ELIF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
@@ -34,7 +34,7 @@ stmt_list ::= stmt_list:sl stmt:st			{: RESULT = sl; RESULT.add(st); :}
 
 stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}		
-		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
+		| if_stmt
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
 		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
@@ -42,6 +42,18 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}
 		| LABEL:func_name LPAREN expr_values:ex_list RPAREN				{: RESULT = new FunctionStatement(func_name, ex_list); :}
 		| RETURN expr:ex												{: RESULT = new Return(ex); :};
+
+if_stmt  ::= IF expr:ex COLON OI stmt_list:sl CI						{: RESULT = new IfStatement(ex, sl, NULL, NULL); :}
+    |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts			{: RESULT = new IfStatement(ex, sl, ei_stmts, NULL); :}
+    |  IF expr:ex COLON OI stmt_list:sl CI else_stmt:e_stmt				{: RESULT = new IfStatement(ex, sl, NULL, e_stmt); :}
+    |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts else_stmt;		{: RESULT = new IfStatement(ex, sl, NULL, NULL); :}
+
+elif_stmts ::= elif_stmts:e_stmts elif_stmt:e_stmt						{:RESULT = e_stmts; RESULT.add(e_stmt); :}
+    | elif_stmt:e_stmt													{:RESULT = new ArrayList<ElifStatement>(); RESULT.add(e_stmt); :};
+
+elif_stmt ::= ELIF expr:ex COLON OI stmt_list CI;
+
+else_stmt ::= ELSE COLON OI stmt_list CI;
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
 		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
