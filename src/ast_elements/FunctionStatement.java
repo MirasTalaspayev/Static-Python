@@ -13,7 +13,7 @@ public class FunctionStatement extends Statement {
     }
 
     public StringBuilder toString(int indent) {
-        return func_call.toString(indent);
+        return func_call.toString(indent).append("\n");
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ast_elements;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +34,10 @@ public class FunctionCall extends Expression {
         for (int i = 0; i < size - 1; i++)
             sb.append(ex_list.get(i)).append(", ");
         if (size >= 1)
-            sb.append(ex_list.get(size - 1) + ")\n");
+            sb.append(ex_list.get(size - 1) + ")");
         else
-            sb.append(")\n");
+            sb.append(")");
+        // sb.append("\n>>>> ex_list.size(): " + this.ex_list.size() + " <<<<");
         return sb;
     }
 
@@ -65,27 +65,53 @@ public class FunctionCall extends Expression {
                         func_Map.get(func_name).getParam_list().get(i).getType());
         } else {
             Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
-            if (obj_Type instanceof CollectionType) {
-                CollectionType obj_col_Type = (CollectionType) obj_Type;
-                if (func_name == "copy") {
-                    if (ex_list.size() != 0) {
-                        throw new SemanticAnalysisException(func_name + " does not have arguments");
+            // if (obj_Type instanceof CollectionType) {
+            //     CollectionType obj_col_Type = (CollectionType) obj_Type;
+                
+            // }
+            
+            if (obj_Type instanceof ListType) {
+                ListType obj_list_type = (ListType)obj_Type;
+                if (this.func_name == "copy" || this.func_name == "clear" || this.func_name == "reverse" || this.func_name == "sort") {
+                    if (this.ex_list.size() != 0) {
+                        throw new SemanticAnalysisException(this.func_name + " does not have arguments");
                     }
                     return;
                 }
+
+                if (func_name == "append" || this.func_name == "remove" || this.func_name == "count") {
+                    if (ex_list.size() != 1) {
+                        throw new SemanticAnalysisException(this.func_name + " cannot have less or more than one argument");
+                    }
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                }
+                
                 // for (int i = 0; i < ex_list.size(); i++) {
                 //     ex_list.get(i).analyze(variable_Map, func_Map, obj_col_Type.getElements_Type());
                 // }
-            }
-            if (obj_Type instanceof ListType) {
-                ListType obj_list_type = (ListType)obj_Type;
-                if (func_name == "append") {
-                    if (ex_list.size() != 1) {
-                        throw new SemanticAnalysisException("should be one argument");
+
+                if (this.func_name == "index") {
+                    if (this.ex_list.size() == 0) {
+                        throw new SemanticAnalysisException(this.func_name + " must have at least one argument");
+                    } else if (this.ex_list.size() > 3) {
+                        throw new SemanticAnalysisException(this.func_name + " cannot have more that three arguments");
                     }
-                    ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                    for (int i=1; this.ex_list.get(i) != null; i++) {
+                        this.ex_list.get(i).analyze(variable_Map, func_Map, NumberExpression.getType());
+                    }
                 }
             }
+
+            if (obj_Type instanceof SetType) {
+                if (this.func_name == "copy" || this.func_name == "clear" || this.func_name == "sort") {
+                    if (this.ex_list.size() != 0) {
+                        throw new SemanticAnalysisException(this.func_name + " does not have arguments");
+                    }
+                    return;
+                }
+            }
+
             if (obj_Type instanceof VariableType) {
                 VariableType obj_var_Type = (VariableType) obj_Type;
                 if (obj_var_Type.getType() == "int") {

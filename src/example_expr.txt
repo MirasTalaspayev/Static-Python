@@ -1,14 +1,13 @@
-d:str = "1"
-def func(a:int, b:str) -> None:
-    return
-func(2, d)
+#d:str = "1"
+#def func(a:int, b:str) -> None:
+#    return
+#func(2, d)
 
-def F() -> None:
-    return
+#def F() -> None:
+#    return
 
 l:list[int] = [1, 2, 3]
 
-l.append(4)
+l.append(4, 1)
 
-
-l.copy().copy()
+l.copy().copy(1)
