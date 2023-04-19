@@ -12,7 +12,7 @@ public class IfStatement extends Statement {
 
     private ElseStatement e_stmt;
 
-    public IfStatement(Expression cond, List<Statement> body, list<ElifStatement> elif_stmts, ElseStatement e_stmt) {
+    public IfStatement(Expression cond, List<Statement> body, List<ElifStatement> elif_stmts, ElseStatement e_stmt) {
         this.cond = cond;
         this.body = body;
         this.elif_stmts = elif_stmts;
@@ -27,12 +27,12 @@ public class IfStatement extends Statement {
         for (Statement stmt : this.body) {
             sb.append(stmt.toString(indent + 1));
         }
-        if(elif_stmts != NULL){
+        if(elif_stmts != null){
             for(int i=0; i<elif_stmts.size(); i++){
-                sb.append(elif_stmts[i].toString(indent));
+                sb.append(elif_stmts.get(i).toString(indent));
             }
         }
-        if(e_stmt != NULL){
+        if(e_stmt != null){
             sb.append(e_stmt.toString(indent));
         }
         return sb;
@@ -51,13 +51,17 @@ public class IfStatement extends Statement {
         }
         localVar_Map = null;
         localFun_Map = null;
-        if(elif_stmts != NULL){
+        if(elif_stmts != null){
             for(int i=0; i<elif_stmts.size(); i++){
-                elif_stmts[i].analyze();
+                localVar_Map = new HashMap<String, Type>(variable_Map);
+                localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+                elif_stmts.get(i).analyze(localVar_Map, localFun_Map);
             }
         }
-        if(e_stmt != NULL){
-            e_stmt.analyze();
+        if(e_stmt != null){
+            localVar_Map = new HashMap<String, Type>(variable_Map);
+            localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+            e_stmt.analyze(localVar_Map, localFun_Map);
         }
     }
 }

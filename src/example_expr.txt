@@ -1,3 +1,4 @@
-a: list[int] = [1,2,4,6,7]
-for i: int in a:
-    print(i)
+if x==0:
+    print("Hello")
+elif x==1:
+    print()
