@@ -47,12 +47,15 @@ public class FunctionCall extends Expression {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
-            throws SemanticAnalysisException {
-        type = expectedType;
-        if (expectedType != null && expectedType != func_Map.get(func_name).getReturn_Type())
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+        // System.out.println(">>>> func_name: " + this.func_name + " <<<<");
+        Type type = analyzeAndGetType(variable_Map, func_Map);
+        if (expectedType != null && expectedType != type)
             throw new SemanticAnalysisException("expected type and return type don't match");
+    }
 
+    @Override
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
         if (this.obj == null) {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
@@ -65,18 +68,16 @@ public class FunctionCall extends Expression {
                         func_Map.get(func_name).getParam_list().get(i).getType());
         } else {
             Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
-            // if (obj_Type instanceof CollectionType) {
-            //     CollectionType obj_col_Type = (CollectionType) obj_Type;
-                
-            // }
+            System.out.println(">>>> obj_Type: " + obj_Type + " <<<<");
             
             if (obj_Type instanceof ListType) {
                 ListType obj_list_type = (ListType)obj_Type;
+                // System.out.println(">>>> obj_list_type: " + obj_list_type + " <<<<");
                 if (this.func_name == "copy" || this.func_name == "clear" || this.func_name == "reverse" || this.func_name == "sort") {
                     if (this.ex_list.size() != 0) {
                         throw new SemanticAnalysisException(this.func_name + " does not have arguments");
                     }
-                    return;
+                    return null;
                 }
 
                 if (func_name == "append" || this.func_name == "remove" || this.func_name == "count") {
@@ -85,10 +86,6 @@ public class FunctionCall extends Expression {
                     }
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
                 }
-                
-                // for (int i = 0; i < ex_list.size(); i++) {
-                //     ex_list.get(i).analyze(variable_Map, func_Map, obj_col_Type.getElements_Type());
-                // }
 
                 if (this.func_name == "index") {
                     if (this.ex_list.size() == 0) {
@@ -108,7 +105,7 @@ public class FunctionCall extends Expression {
                     if (this.ex_list.size() != 0) {
                         throw new SemanticAnalysisException(this.func_name + " does not have arguments");
                     }
-                    return;
+                    return null;
                 }
             }
 
@@ -125,11 +122,6 @@ public class FunctionCall extends Expression {
                 }
             }
         }
-    }
-
-    @Override
-    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
-            throws SemanticAnalysisException {
         return type;
     }
 }
