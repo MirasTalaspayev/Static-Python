@@ -10,15 +10,13 @@ public class FunctionCall extends Expression {
 
     private String func_name;
     private List<Expression> ex_list;
-    private String obj;
-    
-    public FunctionCall(String func_name, List<Expression> ex_list, String obj) {
+    private Expression obj;
+
+    private Type type;
+    public FunctionCall(String func_name, List<Expression> ex_list, Expression obj) {
         this.func_name = func_name;
         this.ex_list = ex_list;
         this.obj = obj;
-        
-        if (this.ex_list == null)
-            this.ex_list = new ArrayList<Expression>();
     }
 
     public String getFunc_name() {
@@ -49,10 +47,12 @@ public class FunctionCall extends Expression {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
+            throws SemanticAnalysisException {
+        type = expectedType;
         if (expectedType != null && expectedType != func_Map.get(func_name).getReturn_Type())
             throw new SemanticAnalysisException("expected type and return type don't match");
-        
+
         if (this.obj == null) {
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
@@ -60,13 +60,50 @@ public class FunctionCall extends Expression {
             if (ex_list.size() != func_Map.get(func_name).getParam_list().size())
                 throw new SemanticAnalysisException("number of parameters doesn't match");
 
-            for (int i=0; i < ex_list.size(); i++)
-                ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
+            for (int i = 0; i < ex_list.size(); i++)
+                ex_list.get(i).analyze(variable_Map, func_Map,
+                        func_Map.get(func_name).getParam_list().get(i).getType());
         } else {
-            if (variable_Map.get(this.obj) instanceof CollectionType) {
-                for (int i=0; i<ex_list.size(); i++)
-                    ex_list.get(i).analyze(variable_Map, func_Map, ((CollectionType)variable_Map.get(this.obj)).getElements_Type());
+            Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
+            if (obj_Type instanceof CollectionType) {
+                CollectionType obj_col_Type = (CollectionType) obj_Type;
+                if (func_name == "copy") {
+                    if (ex_list.size() != 0) {
+                        throw new SemanticAnalysisException(func_name + " does not have arguments");
+                    }
+                    return;
+                }
+                // for (int i = 0; i < ex_list.size(); i++) {
+                //     ex_list.get(i).analyze(variable_Map, func_Map, obj_col_Type.getElements_Type());
+                // }
+            }
+            if (obj_Type instanceof ListType) {
+                ListType obj_list_type = (ListType)obj_Type;
+                if (func_name == "append") {
+                    if (ex_list.size() != 1) {
+                        throw new SemanticAnalysisException("should be one argument");
+                    }
+                    ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                }
+            }
+            if (obj_Type instanceof VariableType) {
+                VariableType obj_var_Type = (VariableType) obj_Type;
+                if (obj_var_Type.getType() == "int") {
+
+                } else if (obj_var_Type.getType() == "float") {
+
+                } else if (obj_var_Type.getType() == "str") {
+
+                } else if (obj_var_Type.getType() == "bool") {
+
+                }
             }
         }
+    }
+
+    @Override
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
+        return type;
     }
 }
