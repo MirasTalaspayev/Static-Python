@@ -8,9 +8,15 @@ public class IfStatement extends Statement {
     private Expression cond;
     private List<Statement> body;
 
-    public IfStatement(Expression cond, List<Statement> body) {
+    private List<ElifStatement> elif_stmts;
+
+    private ElseStatement e_stmt;
+
+    public IfStatement(Expression cond, List<Statement> body, list<ElifStatement> elif_stmts, ElseStatement e_stmt) {
         this.cond = cond;
         this.body = body;
+        this.elif_stmts = elif_stmts;
+        this.e_stmt = e_stmt;
         System.out.println("CONDITION === " + cond);
     }
 
@@ -20,6 +26,14 @@ public class IfStatement extends Statement {
         sb.append(ind).append("if ").append(this.cond.toString()).append(":\n");
         for (Statement stmt : this.body) {
             sb.append(stmt.toString(indent + 1));
+        }
+        if(elif_stmts != NULL){
+            for(int i=0; i<elif_stmts.size(); i++){
+                sb.append(elif_stmts[i].toString(indent));
+            }
+        }
+        if(e_stmt != NULL){
+            sb.append(e_stmt.toString(indent));
         }
         return sb;
     }
@@ -37,5 +51,13 @@ public class IfStatement extends Statement {
         }
         localVar_Map = null;
         localFun_Map = null;
+        if(elif_stmts != NULL){
+            for(int i=0; i<elif_stmts.size(); i++){
+                elif_stmts[i].analyze();
+            }
+        }
+        if(e_stmt != NULL){
+            e_stmt.analyze();
+        }
     }
 }
