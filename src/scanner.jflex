@@ -96,8 +96,6 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
   {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
 
-  // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
-
   "+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS, new String(yytext()));}
   "-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS, new String(yytext()));}
   "*"             {System.out.println("TIMES");return addAndReturnNext(sym.TIMES, new String(yytext()));}
