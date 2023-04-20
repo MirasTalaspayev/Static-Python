@@ -3,11 +3,3 @@
 #    return
 #func(2, d)
 
-#def F() -> None:
-#    return
-
-l:list[int] = [1, 2, 3]
-
-l.append(4)
-
-l.copy().copy(2)

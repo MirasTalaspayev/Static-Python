@@ -2,7 +2,7 @@ package ast_elements;
 
 import java.util.List;
 
-public class TupleType extends CollectionType {
+public class TupleType extends Type {
     public List<Type> sub_Types;
 
     public TupleType(List<Type> sub_Types) {
@@ -18,6 +18,17 @@ public class TupleType extends CollectionType {
         }
         sb.append(sub_Types.get(size - 1)).append("]");
         return sb.toString();
+
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) 
+            return true;
+        
+        if (!(other instanceof ListType))
+            return false;
+        
+        return this.sub_Types.equals(((TupleType)other).sub_Types);
+    }
 }
