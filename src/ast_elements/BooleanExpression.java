@@ -2,13 +2,14 @@ package ast_elements;
 
 import java.util.Map;
 
+import SemanticAnalysis.SemanticAnalysisException;
+
 public class BooleanExpression extends Expression {
 
     private Boolean value;
-    private static final Type type = new VariableType("bool");
+    public static final Type TYPE = new VariableType("bool");
 
     public BooleanExpression(Boolean value) {
-        System.out.println("Boolean expression constructor " + value);
         this.value = value;
     }
 
@@ -16,9 +17,16 @@ public class BooleanExpression extends Expression {
         return this.value.toString();
     }
 
-	@Override
-	public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-		return type;
-	}
-    
+    @Override
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
+            throws SemanticAnalysisException {
+        if (!TYPE.equals(expectedType)) {
+            throw new SemanticAnalysisException(this + " is not an instance of " + expectedType);
+        }
+    }
+    @Override
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
+        return TYPE;
+    }
 }

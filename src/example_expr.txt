@@ -1,5 +1,0 @@
-d:str = "1"
-def func(a:int, b:str) -> None:
-    return
-func(2, d)
-

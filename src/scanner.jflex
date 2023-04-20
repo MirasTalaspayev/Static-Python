@@ -90,6 +90,9 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "dict"          {System.out.println("dict");return addAndReturnNext(sym.DICT, new String(yytext()));}
   "tuple"         {System.out.println("tuple");return addAndReturnNext(sym.TUPLE, new String(yytext()));}
   {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
+  "|"		          {System.out.println("UNION");return addAndReturnNext(sym.UNION, new String(yytext()));}
+  "not"		        {System.out.println("NOT");return addAndReturnNext(sym.NOT, new String(yytext()));}
+  "and"		        {System.out.println("AND");return addAndReturnNext(sym.AND, new String(yytext()));}
   {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
   {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
 
@@ -102,6 +105,8 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD, new String(yytext()));}
   "**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT, new String(yytext()));}
   "//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR, new String(yytext()));}
+  "&"		          {System.out.println("AMPERSAND");return addAndReturnNext(sym.AMPERSAND, new String(yytext()));}
+  "^"		          {System.out.println("XOR");return addAndReturnNext(sym.XOR, new String(yytext()));}
   "("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
   ")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
   "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}

@@ -3,18 +3,20 @@ import java.util.List;
 import java.util.ArrayList;
 import ast_elements.*;
 
-terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, DOT, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
+terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR, IN, NOT, AND, DOT;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING, NONE;
+
 terminal Integer NUMBER;
 terminal Float FLOAT;
 terminal TRUE, FALSE;
 
 non terminal Boolean bool;
-non terminal String bin_op1, bin_op2, cond_sign;
+non terminal String bin_op1, bin_op2, cond_sign, unary_op;
 
 non terminal ProgramAST program;
-non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict, expr_tuple;
+non terminal Expression expr0, expr1, expr2, expr3, term, expr, expr_list, expr_set, expr_dict, expr_tuple;
+
 non terminal List<Expression> expr_values;
 non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
@@ -79,13 +81,22 @@ cond_sign ::= EQEQ:op				{: RESULT = op; :}
 		| MOREEQ:op					{: RESULT = op; :};
 
 bin_op1	::= PLUS:op					{: RESULT = op; :}
-		| MINUS:op					{: RESULT = op; :};
+		| MINUS:op					{: RESULT = op; :}
+		| UNION:op					{: RESULT = op; :}
+		| AMPERSAND:op				{: RESULT = op; :}
+		| XOR:op					{: RESULT = op; :}
+		| IN:op						{: RESULT = op; :}
+		| AND:op					{: RESULT = op; :};
 
 bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| DIVIDE:op					{: RESULT = op; :}
 		| MOD:op					{: RESULT = op; :}
 		| EXPONENT:op				{: RESULT = op; :}
 		| FLOOR:op					{: RESULT = op; :};
+
+
+unary_op ::= NOT:op					{: RESULT = op; :}
+		| MINUS:op					{: RESULT = op; :};
 
 func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   				{: RESULT = new FunctionCall(func_name, ex_list, null); :}
 		| LABEL:func_name LPAREN RPAREN   										{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), null); :};
@@ -96,14 +107,18 @@ expr 	::= func_call:f_call						{: RESULT = new FunctionExpression(f_call); :}
 		| funco_call:f_call							{: RESULT = new FunctionExpression(f_call); :}
 		| expr0:e0									{: RESULT = e0; :};
 
+
 expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
         | expr1:e1 									{: RESULT = e1; :};
 
 expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2 									{: RESULT = e2; :};
 
-expr2 	::= expr2:e2 bin_op2:op term:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
-		| term:e3									{: RESULT = e3; :};
+expr2 	::= expr2:e2 bin_op2:op expr3:e3			{: RESULT = new BinaryOperator(e2, op, e3); :}
+		| expr3:e3									{: RESULT = e3; :};
+
+expr3	::= unary_op:op term:t						{: RESULT = new UnaryExpression(op, t); :}
+		| term:t									{: RESULT = t; :};
 
 term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| NUMBER:n									{: RESULT = new NumberExpression(n); :}
@@ -113,7 +128,9 @@ term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| FLOAT:f									{: RESULT = new FloatExpression(f); :}
 		| expr_list:e_list							{: RESULT = e_list; :}
 		| expr_set:e_set							{: RESULT = e_set; :}
-		| expr_dict:e_dict							{: RESULT = e_dict; :};
+		| expr_dict:e_dict							{: RESULT = e_dict; :}
+		| LABEL:func_name LPAREN expr_values:ex_list RPAREN		{: RESULT = new FunctionExpression(func_name, ex_list); :};
+
 
 expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}
 		| LIST LPAREN RPAREN						{: RESULT = new ListExpression(new ArrayList<Expression>()); :}
