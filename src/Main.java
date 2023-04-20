@@ -60,10 +60,22 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    String folderPath = "../Before-After-Python/After";
-    String additionalFilePath = ".//example_expr.txt";
-    File folder = new File(folderPath);
-    processFilesInFolder(folder);
-    processFile(additionalFilePath);
-  }
+    if (args.length == 0) {
+        System.err.println("Error: Missing file name. Usage: java Main <file name>");
+        return;
+    }
+    String fileName = args[0];
+    File file = new File(fileName);
+    if (!file.exists()) {
+        System.err.println("Error: File " + fileName + " not found.");
+        return;
+    }
+    if (file.isDirectory()) {
+        processFilesInFolder(file);
+    } else if (file.isFile() && file.getName().endsWith(".spy") || file.getName().endsWith(".txt")) {
+        processFile(fileName);
+    } else {
+        System.err.println("Error: Invalid file or extension. Only .spy files are accepted.");
+    }
+}
 }
