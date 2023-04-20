@@ -1,7 +1,5 @@
 package ast_elements;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,24 +67,28 @@ public class FunctionCall extends Expression {
                         func_Map.get(func_name).getParam_list().get(i).getType());
         } else {
             Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
-            System.out.println(">>>> obj_Type: " + obj_Type + " <<<<"); 
+            // System.out.println(">>>> obj_Type: " + obj_Type + " <<<<");
+            if (obj_Type instanceof CollectionType) {
+                CollectionType obj_collection_type = (CollectionType)obj_Type;
+                if (this.func_name.equals("copy") || this.func_name.equals("clear")) {
+                    if (this.ex_list.size() != 0)
+                        throw new SemanticAnalysisException(this.func_name + "() does not have arguments");
+                    return obj_collection_type;
+                }
+            }
             
             if (obj_Type instanceof ListType) {
                 ListType obj_list_type = (ListType)obj_Type;
-                System.out.println(">>>> obj_list_type: " + obj_list_type + " <<<<");
-                if (this.func_name.equals("copy") || this.func_name.equals("clear") || this.func_name.equals("reverse") || this.func_name.equals("sort")) {
-                    if (this.ex_list.size() != 0) {
-                        throw new SemanticAnalysisException(this.func_name + " does not have arguments");
-                    }
-                    if (this.func_name.equals("copy"))
-                        return obj_list_type;
+                // System.out.println(">>>> obj_list_type: " + obj_list_type + " <<<<");
+                if (this.func_name.equals("reverse") || this.func_name.equals("sort")) {
+                    if (this.ex_list.size() != 0)
+                        throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
                     return null;
                 }
 
                 if (this.func_name.equals("append") || this.func_name.equals("remove") || this.func_name.equals("count")) {
-                    if (ex_list.size() != 1) {
-                        throw new SemanticAnalysisException(this.func_name + " cannot have less or more than one argument");
-                    }
+                    if (ex_list.size() != 1)
+                        throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
                     if (this.func_name.equals("append"))
                         return obj_list_type;
@@ -94,23 +96,47 @@ public class FunctionCall extends Expression {
                 }
 
                 if (this.func_name.equals("index")) {
-                    if (this.ex_list.size() == 0) {
-                        throw new SemanticAnalysisException(this.func_name + " must have at least one argument");
-                    } else if (this.ex_list.size() > 3) {
-                        throw new SemanticAnalysisException(this.func_name + " cannot have more that three arguments");
-                    }
+                    if (this.ex_list.size() == 0)
+                        throw new SemanticAnalysisException(this.func_name + "() must have at least one argument");
+                    else if (this.ex_list.size() > 3)
+                        throw new SemanticAnalysisException(this.func_name + "() cannot have more than three arguments");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
-                    for (int i=1; this.ex_list.get(i) != null; i++) {
+                    for (int i=1; i < this.ex_list.size(); i++)
                         this.ex_list.get(i).analyze(variable_Map, func_Map, NumberExpression.getType());
-                    }
+                    return null;
                 }
             }
 
             if (obj_Type instanceof SetType) {
-                if (this.func_name.equals("copy") || this.func_name.equals("clear") || this.func_name.equals("reverse") || this.func_name.equals("sort")) {
-                    if (this.ex_list.size() != 0) {
-                        throw new SemanticAnalysisException(this.func_name + " does not have arguments");
-                    }
+                SetType obj_set_type = (SetType)obj_Type;
+                if (this.func_name.equals("reverse") || this.func_name.equals("sort")) {
+                    if (this.ex_list.size() != 0)
+                        throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
+                    return null;
+                }
+
+                if (this.func_name.equals("add") || this.func_name.endsWith("discard") || this.func_name.equals("issubset") || this.func_name.equals("difference")) {
+                    if (ex_list.size() != 1)
+                        throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_set_type.getElements_Type());
+                    if (this.func_name.equals("add"))
+                        return obj_set_type;
+                    return null;
+                }
+            }
+
+            if (obj_Type instanceof DictType) {
+                DictType obj_dict_type = (DictType)obj_Type;
+                if (this.func_name.equals("keys") || this.func_name.equals("values")) {
+                    if (this.ex_list.size() != 0)
+                        throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
+                    return null;
+                }
+
+                if (this.func_name.equals("get") || this.func_name.endsWith("discard") || this.func_name.equals("issubset") || this.func_name.equals("difference")) {
+                    if (ex_list.size() != 1)
+                        throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_dict_type.getKey_Type());
                     return null;
                 }
             }
@@ -122,7 +148,39 @@ public class FunctionCall extends Expression {
                 } else if (obj_var_Type.getType() == "float") {
 
                 } else if (obj_var_Type.getType() == "str") {
+                    if (this.func_name.equals("count")) {
+                        if (ex_list.size() != 1)
+                            throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
+                        this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.getType());
+                        return null;
+                    }
 
+                    if (this.func_name.equals("strip")) {
+                        if (this.ex_list.size() > 1)
+                            throw new SemanticAnalysisException(this.func_name + "() cannot have more than one arguments");
+                        for (int i=0; i < this.ex_list.size(); i++)
+                            this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.getType());
+                        return null;
+                    }
+
+                    if (this.func_name.equals("split")) {
+                        if (this.ex_list.size() > 2)
+                            throw new SemanticAnalysisException(this.func_name + "() cannot have more than two arguments");
+                        for (int i=0; i < this.ex_list.size(); i++)
+                            this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.getType());
+                        return null;
+                    }
+
+                    if (this.func_name.equals("replace")) {
+                        if (this.ex_list.size() < 2)
+                            throw new SemanticAnalysisException(this.func_name + "() must have at least two arguments");
+                        if (this.ex_list.size() > 3)
+                            throw new SemanticAnalysisException(this.func_name + "() cannot have more than three arguments");
+                            this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.getType());
+                            this.ex_list.get(1).analyze(variable_Map, func_Map, StringExpression.getType());
+                            if (this.ex_list.size() == 3)
+                                this.ex_list.get(2).analyze(variable_Map, func_Map, NumberExpression.getType());
+                    }
                 } else if (obj_var_Type.getType() == "bool") {
 
                 }

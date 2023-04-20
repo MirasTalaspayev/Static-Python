@@ -3,3 +3,32 @@
 #    return
 #func(2, d)
 
+#def F() -> None:
+#    return
+
+#l:list[int] = [1, 2, 3]
+
+#l.copy().copy()
+#l.append(4)
+#l.sort()
+#l.index(1)
+#l.index(2, 1, 2)
+
+s:set[int] = {1, 2, 3}
+
+s.copy().copy()
+s.sort()
+s.add(4)
+
+d:dict[int, str] = {1:"one", 2:"two"}
+
+d.copy().copy()
+d.keys()
+d.get(1)
+
+t:str = "Hello World!"
+
+t.count("l")
+t.strip()
+t.split()
+t.replace("Hello", "Goodbye")

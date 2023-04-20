@@ -14,6 +14,10 @@ public class StringExpression extends Expression {
         this.value = value;
     }
 
+    public static Type getType() {
+        return type;
+    }
+
     public String toString() {
         return this.value.toString();
     }
