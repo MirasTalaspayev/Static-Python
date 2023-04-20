@@ -1,7 +1,9 @@
 import ast_elements.ProgramAST;
 import java_cup.runtime.Symbol;
+import java_cup.runtime.*;
 
 import java.io.*;
+import java.util.Scanner;
 
 import SemanticAnalysis.SemanticAnalyzer;
 
@@ -60,22 +62,58 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    if (args.length == 0) {
-        System.err.println("Error: Missing file name. Usage: java Main <file name>");
-        return;
-    }
-    String fileName = args[0];
-    File file = new File(fileName);
-    if (!file.exists()) {
+    if (args.length > 0) {
+      String fileName = args[0];
+      File file = new File(fileName);
+      if (!file.exists()) {
         System.err.println("Error: File " + fileName + " not found.");
         return;
-    }
-    if (file.isDirectory()) {
+      }
+      if (file.isDirectory()) {
         processFilesInFolder(file);
-    } else if (file.isFile() && file.getName().endsWith(".spy") || file.getName().endsWith(".txt")) {
+      } else if (file.isFile() && (file.getName().endsWith(".spy") || file.getName().endsWith(".txt"))) {
         processFile(fileName);
-    } else {
+      } else {
         System.err.println("Error: Invalid file or extension. Only .spy files are accepted.");
+        return;
+      }
+    } else {
+      // Accept user input from terminal
+      System.out.println("Welcome to Static Python Terminal!");
+      System.out.println("Enter your code. Press Enter to stop or type 'exit' to quit.");
+      while (true) {
+        StringBuilder inputCode = new StringBuilder();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+          System.out.print("> ");
+          String input = scanner.nextLine();
+          if (input.equals("exit")) {
+            return;
+          }
+          if (input.isEmpty()) {
+            break; // Stop inputting code if Enter is pressed
+          }
+          inputCode.append(input).append("\n");
+        }
+
+        // Process user input as a block of code
+        try {
+          StringReader reader = new StringReader(inputCode.toString());
+          Yylex lexer = new Yylex(reader);
+          parser parser = new parser(lexer);
+          Object result = parser.parse().value;
+          if (result instanceof ProgramAST) {
+            System.out.println("===================");
+            System.out.print(result.toString());
+
+            System.out.println("=================== Phase3: Typecheck ===================");
+            SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST) result);
+            semanticAnalyzer.analyze();
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
     }
-}
+  }
 }
