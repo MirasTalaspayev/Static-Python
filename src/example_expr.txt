@@ -12,7 +12,6 @@ l.copy().copy()
 l.append(4)
 l.sort()
 l.index(1)
-l.index(2, 1, 2)
 
 s:set[int] = {1, 2, 3}
 
