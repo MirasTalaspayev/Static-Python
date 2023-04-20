@@ -31,3 +31,7 @@ t.count("l")
 t.strip()
 t.split()
 t.replace("Hello", "Goodbye")
+
+print("abc")
+print(l, s)
+print("everyone says ", t)
