@@ -51,15 +51,11 @@ public class IfStatement extends Statement {
         localFun_Map = null;
         if(elif_stmts != null){
             for(int i=0; i<elif_stmts.size(); i++){
-                localVar_Map = new HashMap<String, Type>(variable_Map);
-                localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-                elif_stmts.get(i).analyze(localVar_Map, localFun_Map);
+                elif_stmts.get(i).analyze(variable_Map, func_Map);
             }
         }
         if(e_stmt != null){
-            localVar_Map = new HashMap<String, Type>(variable_Map);
-            localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-            e_stmt.analyze(localVar_Map, localFun_Map);
+            e_stmt.analyze(variable_Map, func_Map);
         }
     }
 }
