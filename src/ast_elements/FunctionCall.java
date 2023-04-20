@@ -101,7 +101,7 @@ public class FunctionCall extends Expression {
                     }
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
                     for (int i=1; this.ex_list.get(i) != null; i++) {
-                        this.ex_list.get(i).analyze(variable_Map, func_Map, NumberExpression.getType());
+                        this.ex_list.get(i).analyze(variable_Map, func_Map, NumberExpression.TYPE);
                     }
                 }
             }
