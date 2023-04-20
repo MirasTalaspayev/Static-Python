@@ -7,7 +7,7 @@ import SemanticAnalysis.SemanticAnalysisException;
 public class StringExpression extends Expression {
 
     private String value;
-    private static final Type TYPE = new VariableType("str");
+    public static final Type TYPE = new VariableType("str");
 
     public StringExpression(String value) {
         this.value = value;
