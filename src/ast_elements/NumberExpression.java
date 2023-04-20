@@ -12,6 +12,10 @@ public class NumberExpression extends Expression {
     public NumberExpression(Integer value) {
         this.value = value;
     }
+
+    public static Type getType() {
+        return type;
+    }
     
     @Override
     public String toString() {

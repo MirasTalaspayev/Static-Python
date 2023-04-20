@@ -1,5 +1,5 @@
-a: list[int] = []
+#d:str = "1"
+#def func(a:int, b:str) -> None:
+#    return
+#func(2, d)
 
-a = ["str"]
-
-tuple_1: tuple[int, int, str] = (1, 2, 'string')
