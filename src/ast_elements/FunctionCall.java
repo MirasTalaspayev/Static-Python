@@ -72,22 +72,27 @@ public class FunctionCall extends Expression {
             
             if (obj_Type instanceof ListType) {
                 ListType obj_list_type = (ListType)obj_Type;
-                // System.out.println(">>>> obj_list_type: " + obj_list_type + " <<<<");
-                if (this.func_name == "copy" || this.func_name == "clear" || this.func_name == "reverse" || this.func_name == "sort") {
+                System.out.println(">>>> obj_list_type: " + obj_list_type + " <<<<");
+                if (this.func_name.equals("copy") || this.func_name.equals("clear") || this.func_name.equals("reverse") || this.func_name.equals("sort")) {
                     if (this.ex_list.size() != 0) {
                         throw new SemanticAnalysisException(this.func_name + " does not have arguments");
                     }
+                    if (this.func_name.equals("copy"))
+                        return obj_list_type;
                     return null;
                 }
 
-                if (func_name == "append" || this.func_name == "remove" || this.func_name == "count") {
+                if (this.func_name.equals("append") || this.func_name.equals("remove") || this.func_name.equals("count")) {
                     if (ex_list.size() != 1) {
                         throw new SemanticAnalysisException(this.func_name + " cannot have less or more than one argument");
                     }
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                    if (this.func_name.equals("append"))
+                        return obj_list_type;
+                    return null;
                 }
 
-                if (this.func_name == "index") {
+                if (this.func_name.equals("index")) {
                     if (this.ex_list.size() == 0) {
                         throw new SemanticAnalysisException(this.func_name + " must have at least one argument");
                     } else if (this.ex_list.size() > 3) {
@@ -101,7 +106,7 @@ public class FunctionCall extends Expression {
             }
 
             if (obj_Type instanceof SetType) {
-                if (this.func_name == "copy" || this.func_name == "clear" || this.func_name == "sort") {
+                if (this.func_name.equals("copy") || this.func_name.equals("clear") || this.func_name.equals("reverse") || this.func_name.equals("sort")) {
                     if (this.ex_list.size() != 0) {
                         throw new SemanticAnalysisException(this.func_name + " does not have arguments");
                     }
