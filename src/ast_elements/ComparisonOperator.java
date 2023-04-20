@@ -20,7 +20,7 @@ public class ComparisonOperator extends Expression {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.e1.toString()).append(" " + this.op + " ").append(this.e2.toString());
+        sb.append("(").append(this.e1.toString()).append(" " + this.op + " ").append(this.e2.toString()).append(")");
         return sb.toString();
     }
 
@@ -35,6 +35,18 @@ public class ComparisonOperator extends Expression {
         } 
         else if (op.equals("!=")) {
             e1.notEqual(variable_Map, func_Map, expectedType, e2);
+        }
+        else if (op.equals(">")) {
+            e1.greater(variable_Map, func_Map, expectedType, e2);
+        }
+        else if (op.equals(">=")) {
+            e1.greater_or_equal(variable_Map, func_Map, expectedType, e2);
+        }
+        else if (op.equals("<")) {
+            e1.less(variable_Map, func_Map, expectedType, e2);
+        }
+        else if (op.equals("<=")) {
+            e1.less_or_equal(variable_Map, func_Map, expectedType, e2);
         }
     }
 }

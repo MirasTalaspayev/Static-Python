@@ -6,11 +6,10 @@ import java.util.Map;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class SetExpression extends CollectionExpressions {
-    
+
     private List<Expression> values;
 
-    public SetExpression(List<Expression> values)
-    {
+    public SetExpression(List<Expression> values) {
         this.values = values;
     }
 
@@ -30,14 +29,15 @@ public class SetExpression extends CollectionExpressions {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
+            throws SemanticAnalysisException {
         super.analyze(variable_Map, func_Map, expectedType);
-        
+
         if (!(expectedType instanceof SetType)) {
             throw new SemanticAnalysisException(this + " is not instance of " + expectedType);
         }
-        
-        collectionType = (SetType)expectedType;
+
+        collectionType = (SetType) expectedType;
         elements_Type = collectionType.elements_Type;
 
         for (int i = 0; i < values.size(); i++) {
@@ -51,7 +51,28 @@ public class SetExpression extends CollectionExpressions {
         this.analyze(variable_Map, func_Map, expectedType);
         ex.analyze(variable_Map, func_Map, expectedType);
     }
-    
+
+    @Override
+    public void subtract(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
+            Expression ex) throws SemanticAnalysisException {
+        this.analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, expectedType);
+    }
+
+    @Override
+    public void intersection(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map,
+            Type expectedType, Expression ex) throws SemanticAnalysisException {
+        this.analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, expectedType);
+    }
+
+    @Override
+    public void xor(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
+            Expression ex) throws SemanticAnalysisException {
+        this.analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, expectedType);
+    }
+
     @Override
     public int size() {
         return values.size();

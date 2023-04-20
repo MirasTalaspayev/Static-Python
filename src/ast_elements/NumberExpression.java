@@ -27,16 +27,16 @@ public class NumberExpression extends Expression {
     }
 
     @Override
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
+        return TYPE;
+    }
+    
+    @Override
     public void add(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {
         analyze(variable_Map, func_Map, expectedType);
         ex.analyze(variable_Map, func_Map, NumberExpression.TYPE);
-    }
-
-    @Override
-    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
-            throws SemanticAnalysisException {
-        return TYPE;
     }
     
     @Override

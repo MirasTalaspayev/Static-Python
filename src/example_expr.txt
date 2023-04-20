@@ -1,2 +1,6 @@
 a: dict[int, str] = {1: "1", 2: "2", 3: "3"}
 b: int = -5
+
+x: set[int] = {1, 2}
+y: set[int] = {3}
+c: bool = True != True

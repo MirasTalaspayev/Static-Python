@@ -43,6 +43,12 @@ public class BinaryOperator extends Expression {
         else if (op.equals("|")) {
             e1.union(variable_Map, func_Map, expectedType, e2);
         }
+        else if (op.equals("&")) {
+            e1.intersection(variable_Map, func_Map, expectedType, e2);
+        }
+        else if (op.equals("^")) {
+            e1.xor(variable_Map, func_Map, expectedType, e2);
+        }
         else if (op.equals("in")) {
             if (!expectedType.equals(BooleanExpression.TYPE)) {
                 throw new SemanticAnalysisException("membership returns bool not '" + expectedType + "'");

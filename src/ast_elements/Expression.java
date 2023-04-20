@@ -34,7 +34,7 @@ public abstract class Expression extends ASTElement {
     }
 
     public void isEqual(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {
-        throw new SemanticAnalysisException(this + " and " + ex + " does not support operand '=='");
+        throw new SemanticAnalysisException(this + " and " + ex + " does not support operand '==' or '!='");
     }
 
     public void notEqual(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {
