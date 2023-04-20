@@ -64,14 +64,14 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 if_stmt  ::= IF expr:ex COLON OI stmt_list:sl CI						{: RESULT = new IfStatement(ex, sl, null, null); :}
      |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts			{: RESULT = new IfStatement(ex, sl, ei_stmts, null); :}
      |  IF expr:ex COLON OI stmt_list:sl CI else_stmt:e_stmt			{: RESULT = new IfStatement(ex, sl, null, e_stmt); :}
-     |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts else_stmt:e_stmt;		{: RESULT = new IfStatement(ex, sl, ei_stmts, e_stmt); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts else_stmt:e_stmt		{: RESULT = new IfStatement(ex, sl, ei_stmts, e_stmt); :};
 
- elif_stmts ::= elif_stmts:e_stmts elif_stmt:e_stmt						{:RESULT = e_stmts; RESULT.add(e_stmt); :}
-     | elif_stmt:e_stmt													{:RESULT = new ArrayList<ElifStatement>(); RESULT.add(e_stmt); :};
+elif_stmts ::= elif_stmts:e_stmts elif_stmt:e_stmt						{:RESULT = e_stmts; RESULT.add(e_stmt); :}
+	| elif_stmt:e_stmt													{:RESULT = new ArrayList<ElifStatement>(); RESULT.add(e_stmt); :};
 
- elif_stmt ::= ELIF expr:ex COLON OI stmt_list:sl CI					{:RESULT = new ElifStatement(ex, sl); :};
+elif_stmt ::= ELIF expr:ex COLON OI stmt_list:sl CI						{:RESULT = new ElifStatement(ex, sl); :};
 
- else_stmt ::= ELSE COLON OI stmt_list:sl CI							{:RESULT = new ElseStatement(sl); :};
+else_stmt ::= ELSE COLON OI stmt_list:sl CI								{:RESULT = new ElseStatement(sl); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
 		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
