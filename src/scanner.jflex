@@ -83,6 +83,7 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
   "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
   "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
+  "None"         {System.out.println("NONE");return addAndReturnNext(sym.NONE, new String(yytext()));}
   "return"        {System.out.println("RETURN");return addAndReturnNext(sym.RETURN, new String(yytext()));}
   "list"          {System.out.println("list");return addAndReturnNext(sym.LIST, new String(yytext()));}
   "set"           {System.out.println("set");return addAndReturnNext(sym.SET, new String(yytext()));}
@@ -94,6 +95,8 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "and"		        {System.out.println("AND");return addAndReturnNext(sym.AND, new String(yytext()));}
   {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
   {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
+
+  // {four_spaces}   {System.out.println("Four spaces: " +yycolumn);}
 
   "+"		          {System.out.println("PLUS");return addAndReturnNext(sym.PLUS, new String(yytext()));}
   "-"		          {System.out.println("MINUS");return addAndReturnNext(sym.MINUS, new String(yytext()));}
@@ -109,6 +112,7 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
   ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
   ","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
+  "."             {System.out.println("DOT"); return addAndReturnNext(sym.DOT, new String(yytext()));}
   "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
   "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
   "{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
@@ -127,7 +131,6 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
 
   " "             {;}
 
-  // {comment}       {;}
   "#"             {yybegin(IN_COMMENT);}
 }
 <IN_COMMENT> {

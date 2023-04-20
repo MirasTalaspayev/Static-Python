@@ -8,7 +8,10 @@ public class Return extends Statement {
 
     public Return(Expression ex) {
         this.ex = ex;
-        System.out.println("Return === " + ex);
+    }
+
+    public Expression getEx() {
+        return ex;
     }
 
     public StringBuilder toString(int indent) {
@@ -20,7 +23,6 @@ public class Return extends Statement {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+        
     }
 }
