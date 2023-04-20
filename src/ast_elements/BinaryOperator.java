@@ -44,7 +44,32 @@ public class BinaryOperator extends Expression {
             e1.union(variable_Map, func_Map, expectedType, e2);
         }
         else if (op.equals("in")) {
-            e1.membership(variable_Map, func_Map, BooleanExpression.TYPE, e2);
+            if (!expectedType.equals(BooleanExpression.TYPE)) {
+                throw new SemanticAnalysisException("membership returns bool not '" + expectedType + "'");
+            }
+            Type type = e1.analyzeAndGetType(variable_Map, func_Map);
+            if (!(e2.analyzeAndGetType(variable_Map, func_Map) instanceof CollectionType)) {
+                throw new SemanticAnalysisException(e2 + " does not support membership operand");
+            }
+    
+            CollectionType expr_type = (CollectionType) e2.analyzeAndGetType(variable_Map, func_Map);
+            if (expr_type instanceof DictType) {
+                DictType dt = (DictType)expr_type.elements_Type;
+                
+                if (!dt.getKey_Type().equals(type)) {
+                    throw new SemanticAnalysisException("'" + e1 + "' should be a type of '" + dt.getKey_Type() + "'");
+                }
+                
+            }
+            else {
+                if (!expr_type.elements_Type.equals(type)) {
+                    throw new SemanticAnalysisException("'" + e1 + "' should be a type of '" + expr_type.elements_Type + "'");
+                }
+            }
+        }
+        else if (op.equals("and")) {
+            e1.analyze(variable_Map, func_Map, BooleanExpression.TYPE);
+            e2.analyze(variable_Map, func_Map, BooleanExpression.TYPE);
         }
         type = expectedType;
     }

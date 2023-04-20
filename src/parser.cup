@@ -3,18 +3,18 @@ import java.util.List;
 import java.util.ArrayList;
 import ast_elements.*;
 
-terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW, IN;
+terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR, IN, NOT, AND;
+terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING;
 terminal Integer NUMBER;
 terminal Float FLOAT;
 terminal TRUE, FALSE;
 
 non terminal Boolean bool;
-non terminal String bin_op1, bin_op2, cond_sign;
+non terminal String bin_op1, bin_op2, cond_sign, unary_op;
 
 non terminal ProgramAST program;
-non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict;
+non terminal Expression expr0, expr1, expr2, expr3, term, expr, expr_list, expr_set, expr_dict;
 non terminal List<Expression> expr_values;
 non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
@@ -69,7 +69,8 @@ bin_op1	::= PLUS:op					{: RESULT = op; :}
 		| UNION:op					{: RESULT = op; :}
 		| AMPERSAND:op				{: RESULT = op; :}
 		| XOR:op					{: RESULT = op; :}
-		| IN:op						{: RESULT = op; :};
+		| IN:op						{: RESULT = op; :}
+		| AND:op					{: RESULT = op; :};
 
 bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| DIVIDE:op					{: RESULT = op; :}
@@ -77,7 +78,10 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| EXPONENT:op				{: RESULT = op; :}
 		| FLOOR:op					{: RESULT = op; :};
 
-expr 	::= expr0:e0								{: RESULT = e0; :};
+unary_op ::= NOT:op					{: RESULT = op; :}
+		| MINUS:op					{: RESULT = op; :};
+
+expr 	::= expr0:e0				{: RESULT = e0; :};
 
 
 expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
@@ -86,8 +90,11 @@ expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e
 expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2 									{: RESULT = e2; :};
 
-expr2 	::= expr2:e2 bin_op2:op term:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
-		| term:e3									{: RESULT = e3; :};
+expr2 	::= expr2:e2 bin_op2:op expr3:e3			{: RESULT = new BinaryOperator(e2, op, e3); :}
+		| expr3:e3									{: RESULT = e3; :};
+
+expr3	::= unary_op:op term:t						{: RESULT = new UnaryExpression(op, t); :}
+		| term:t									{: RESULT = t; :};
 
 term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| NUMBER:n									{: RESULT = new NumberExpression(n); :}

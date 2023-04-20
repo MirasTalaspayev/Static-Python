@@ -22,4 +22,9 @@ public class FloatExpression extends Expression {
             throw new SemanticAnalysisException(this + " is not an instance of " + expectedType);
         }
     }
+    @Override
+    public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
+        return TYPE;
+    }
 }
