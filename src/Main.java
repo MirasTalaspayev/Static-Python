@@ -6,7 +6,7 @@ import java.io.*;
 import SemanticAnalysis.SemanticAnalyzer;
 
 public class Main {
-  public static void processFiles(File folder, String additionalFilePath) {
+  public static void processFilesInFolder(File folder) {
     File[] files = folder.listFiles();
     if (files == null) {
       System.err.println("Error: Unable to read contents of directory " + folder.getAbsolutePath());
@@ -14,42 +14,33 @@ public class Main {
     }
     for (File file : files) {
       if (file.isDirectory()) {
-        processFiles(file, additionalFilePath);
-      } else if (file.isFile() && (file.getName().endsWith(".spy") || file.getName().endsWith(".txt"))) {
+        processFilesInFolder(file);
+      } else if (file.isFile() && file.getName().endsWith(".spy")) {
         try {
           System.out.println("Processing file: " + file.getName());
-          if (file.getName().endsWith(".spy")) {
-            Yylex l = new Yylex(new FileReader(file));
-            parser p = new parser(l);
-            Object result = p.parse().value;
-            if (result instanceof ProgramAST) {
-              System.out.println("===================");
-              System.out.print(result.toString());
+          Yylex l = new Yylex(new FileReader(file));
+          parser p = new parser(l);
+          Object result = p.parse().value;
+          if (result instanceof ProgramAST) {
+            System.out.println("===================");
+            System.out.print(result.toString());
 
-              System.out.println("=================== Phase3: Typecheck ===================");
-              SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST) result);
-              semanticAnalyzer.analyze();
-            }
-          } else if (file.getName().endsWith(".txt")) {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-              // Do something with each line
-            }
-            reader.close();
+            System.out.println("=================== Phase3: Typecheck ===================");
+            SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST) result);
+            semanticAnalyzer.analyze();
           }
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
     }
+  }
 
-    // Process the additional file
-    File additionalFile = new File(additionalFilePath);
-    if (additionalFile.isFile() && additionalFile.getName().endsWith(".txt")) {
+  public static void processFile(String filePath) {
+    if (filePath != null && filePath.endsWith(".txt")) {
       try {
         /* Scanner instantiation */
-        Yylex l = new Yylex(new FileReader(".//example_expr.txt"));
+        Yylex l = new Yylex(new FileReader(filePath));
         /* Parser instantiation */
         parser p = new parser(l);
         /* Start the parser */
@@ -57,9 +48,9 @@ public class Main {
         if (result instanceof ProgramAST) {
           System.out.println("===================");
           System.out.print(result.toString());
-  
+
           System.out.println("=================== Phase3: Typecheck ===================");
-          SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST)result);
+          SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST) result);
           semanticAnalyzer.analyze();
         }
       } catch (Exception e) {
@@ -72,6 +63,7 @@ public class Main {
     String folderPath = "../Before-After-Python/After";
     String additionalFilePath = ".//example_expr.txt";
     File folder = new File(folderPath);
-    processFiles(folder, additionalFilePath);
+    processFilesInFolder(folder);
+    processFile(additionalFilePath);
   }
 }
