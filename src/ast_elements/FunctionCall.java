@@ -1,5 +1,7 @@
 package ast_elements;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +12,6 @@ public class FunctionCall extends Expression {
     private String func_name;
     private List<Expression> ex_list;
     private Expression obj;
-
     private Type type;
     public FunctionCall(String func_name, List<Expression> ex_list, Expression obj) {
         this.func_name = func_name;
@@ -68,7 +69,7 @@ public class FunctionCall extends Expression {
                         func_Map.get(func_name).getParam_list().get(i).getType());
         } else {
             Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
-            System.out.println(">>>> obj_Type: " + obj_Type + " <<<<");
+            System.out.println(">>>> obj_Type: " + obj_Type + " <<<<"); 
             
             if (obj_Type instanceof ListType) {
                 ListType obj_list_type = (ListType)obj_Type;

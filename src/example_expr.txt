@@ -8,6 +8,6 @@
 
 l:list[int] = [1, 2, 3]
 
-l.append(4, 1)
+l.append(4)
 
-l.copy().copy(1)
+l.copy().copy(2)
