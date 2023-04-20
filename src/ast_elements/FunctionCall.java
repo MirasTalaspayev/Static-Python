@@ -57,19 +57,28 @@ public class FunctionCall extends Expression {
         if (this.obj == null) {
             if (this.func_name.equals("print")) {
                 for (int i=0; i < ex_size; i++) {
-                    if (this.ex_list.get(i) instanceof LabelExpression) {
+                    if (this.ex_list.get(i) instanceof LabelExpression)
                         this.ex_list.get(i).analyze(variable_Map, func_Map, this.ex_list.get(i).analyzeAndGetType(variable_Map, func_Map));
-                    }
-                }
-            } else if (!func_Map.containsKey(func_name)) {
-                throw new SemanticAnalysisException("function doesn't exist");
-            } else {
-                if (ex_size != func_Map.get(func_name).getParam_list().size())
-                    throw new SemanticAnalysisException("number of parameters doesn't match");
-
-                for (int i = 0; i < ex_size; i++)
-                    ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
+                } return null;
             }
+
+            if (this.func_name.equals("range")) {
+                if (ex_size <= 0)
+                    throw new SemanticAnalysisException(this.func_name + "() must have at least one argument");
+                if (ex_size > 2)
+                    throw new SemanticAnalysisException(this.func_name + "() cannot have more than two arguments");
+                return new ListType(NumberExpression.TYPE);
+            }
+            
+            if (!func_Map.containsKey(func_name))
+                throw new SemanticAnalysisException("function doesn't exist");
+
+            if (ex_size != func_Map.get(func_name).getParam_list().size())
+                throw new SemanticAnalysisException("number of parameters doesn't match");
+
+            for (int i = 0; i < ex_size; i++)
+                ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
+
         } else {
             Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
             // System.out.println(">>>> obj_Type: " + obj_Type + " <<<<");
