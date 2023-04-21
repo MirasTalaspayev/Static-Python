@@ -6,8 +6,8 @@ for i:int in range(len(A)):
         if A.get(min_idx) > A.get(j):
             min_idx = j             
     temp: int = A.get(j)
-    A.set(j, A.get(i))
-    A.set(i, temp)
+    A.put(j, A.get(i))
+    A.put(i, temp)
  
 print ("Sorted list")
 print(A)
