@@ -1,17 +1,17 @@
-one:str = "1"
-def func(a:int, b:str) -> None:
-    return
-func(2, one)
+#one:str = "1"
+#def func(a:int, b:str) -> None:
+#    return
+#func(2, one)
 
-def F() -> int:
-    return 1
+#def F() -> int:
+#    return 1
 
 l:list[int] = [1, 2, 3]
 
 l.copy()
 l.append(4)
-l.sort()
-l.index(1)
+l.sort(1)
+l.index(1,1)
 
 s:set[int] = {1, 2, 3}
 
