@@ -10,5 +10,4 @@ def insertionSort(arr: list[int]) -> None:
  
 arr: list[int] = [12, 11, 13, 5, 6]
 insertionSort(arr)
-for i:int in range(len(arr)):
-    print (arr.get(i))
+print (arr)
