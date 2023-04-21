@@ -153,15 +153,22 @@ public class BinaryOperator extends Expression {
 
             return xorSet;
         } else if (op.equals("and")) {
-            return (Boolean)value_1 && (Boolean)value_2;
+            return (Boolean) value_1 && (Boolean) value_2;
         } else if (op.equals("or")) {
-            return (Boolean)value_1 || (Boolean)value_2;
+            return (Boolean) value_1 || (Boolean) value_2;
         }
         return null;
     }
 
     @Override
     public void add(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
+            Expression ex) throws SemanticAnalysisException {
+        this.analyze(variable_Map, func_Map, expectedType);
+        ex.analyze(variable_Map, func_Map, expectedType);
+    }
+
+    @Override
+    public void subtract(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {
         this.analyze(variable_Map, func_Map, expectedType);
         ex.analyze(variable_Map, func_Map, expectedType);

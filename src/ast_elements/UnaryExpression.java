@@ -2,6 +2,7 @@ package ast_elements;
 
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class UnaryExpression extends Expression {
@@ -34,5 +35,23 @@ public class UnaryExpression extends Expression {
             }
         }
         ex.analyze(variable_Map, func_Map, expectedType);
+    }
+
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        if (op.equals("not")) {
+            return !(Boolean)ex.evaluate(variable_Map, func_Map);
+        }
+        if (op.equals("-")) {
+            Object obj = ex.evaluate(variable_Map, func_Map);
+            if (obj instanceof Integer) {
+                return - (Integer)obj;
+            }
+            if (obj instanceof Float) {
+                return - (Float)obj;
+            }
+        }
+        return null;
     }
 }

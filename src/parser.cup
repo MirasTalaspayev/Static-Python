@@ -116,9 +116,7 @@ func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   				{: RESULT 
 funco_call ::= LABEL:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :}
 		| LABEL:obj DOT LABEL:func_name LPAREN RPAREN							{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), obj); :};
 
-expr 	::= func_call:f_call						{: RESULT = new FunctionExpression(f_call); :}
-		| funco_call:f_call							{: RESULT = new FunctionExpression(f_call); :}
-		| expr0:e0									{: RESULT = e0; :};
+expr 	::=  expr0:e0									{: RESULT = e0; :};
 
 
 expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
@@ -139,6 +137,8 @@ term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| LABEL:l									{: RESULT = new LabelExpression(l); :}
 		| STRING:s									{: RESULT = new StringExpression(s); :}
 		| FLOAT:f									{: RESULT = new FloatExpression(f); :}
+		| func_call:f_call							{: RESULT = new FunctionExpression(f_call); :}
+		| funco_call:f_call							{: RESULT = new FunctionExpression(f_call); :}
 		| expr_list:e_list							{: RESULT = e_list; :}
 		| expr_set:e_set							{: RESULT = e_set; :}
 		| expr_dict:e_dict							{: RESULT = e_dict; :};

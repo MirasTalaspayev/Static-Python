@@ -20,7 +20,6 @@ public class IfStatement extends Statement {
         this.body = body;
         this.elif_stmts = elif_stmts;
         this.else_stmt = e_stmt;
-        System.out.println("CONDITION === " + cond);
     }
 
     public StringBuilder toString(int indent) {
@@ -67,8 +66,7 @@ public class IfStatement extends Statement {
     public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
             throws ExecutionException, ReturnFromCall {
         boolean runned = false;
-        Boolean condition = (Boolean) cond.evaluate(variable_Map, func_Map); 
-        System.out.println("condition = " + condition);
+        Boolean condition = (Boolean) cond.evaluate(variable_Map, func_Map);
         if (condition) {
             Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
             Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);

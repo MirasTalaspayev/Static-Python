@@ -52,7 +52,6 @@ public class FunctionCall extends Expression {
             throws SemanticAnalysisException {
         // System.out.println(">>>> func_name: " + this.func_name + " <<<<");
         Type type = analyzeAndGetType(variable_Map, func_Map);
-        System.out.println(type);
         if (expectedType != null && !expectedType.equals(type))
             throw new SemanticAnalysisException("expected type and return type don't match");
     }
@@ -294,6 +293,10 @@ public class FunctionCall extends Expression {
                 }
                 return range_list;
             }
+
+            if (func_name.equals("len")) {
+                return ((ArrayList)ex_list.get(0).evaluate(variable_Map, func_Map)).size();
+            }
             FunctionDeclaration func_decl = func_Map.get(func_name);
 
             Map<String, Object> localVar_Map = new HashMap<String, Object>(variable_Map);
@@ -306,6 +309,18 @@ public class FunctionCall extends Expression {
             } catch (ReturnFromCall e) {
                 return e.getReturnValue();
             }
+        }
+        Object object = variable_Map.get(obj);
+        if (object instanceof ArrayList) {
+            ArrayList<Object> object_List = (ArrayList)object;
+            if (func_name.equals("get")) {
+                return object_List.get((Integer)ex_list.get(0).evaluate(variable_Map, func_Map));
+            }
+            if (func_name.equals("put")) {
+                object_List.set((Integer)ex_list.get(0).evaluate(variable_Map, func_Map), ex_list.get(1).evaluate(variable_Map, func_Map));
+                return null;
+            }
+
         }
         return null;
     }

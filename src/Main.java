@@ -25,6 +25,8 @@ public class Main {
 
 	public static void processFile(String filePath, int[] counts) {
 		try {
+			System.out.println("Parsing - " + filePath);
+
 			Yylex l = new Yylex(new FileReader(filePath));
 			parser p = new parser(l);
 			Object result = p.parse().value;

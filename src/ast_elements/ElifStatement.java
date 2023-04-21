@@ -13,7 +13,6 @@ public class ElifStatement extends Statement {
     public ElifStatement(Expression cond, List<Statement> body) {
         this.cond = cond;
         this.body = body;
-        System.out.println("CONDITION === " + cond);
     }
 
     public StringBuilder toString(int indent) {

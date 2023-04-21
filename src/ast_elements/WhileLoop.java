@@ -14,7 +14,6 @@ public class WhileLoop extends Statement {
     public WhileLoop(Expression cond, List<Statement> body) {
         this.cond = cond;
         this.body = body;
-        System.out.println("CONDITION === " + cond.toString());
     }
 
     public StringBuilder toString(int indent) {

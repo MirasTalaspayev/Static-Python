@@ -1,14 +1,15 @@
-l:list[int] = [1,2,3]
-print(l.get(0))
-l.put(3,4)
-print(l)
+def bubbleSort(arr: list[int]) -> None:
+    n: int = len(arr)
+    for i:int in range(n):
+        for j:int in range(n - i - 1 ):
+            if arr.get(j) > arr.get(j+1):
+                temp: int = arr.get(j)
+                arr.put(j, arr.get(j+1))
+                arr.put(j+1, temp)
 
-s:set[int] = {1,2,3}
-print(s.get(0))
-s.put(3, 4)
-print(s)
+arr: list[int] = [5, 1, 4, 2, 1]
+print(arr)
+bubbleSort(arr)
 
-d:dict[int, str] = {1:"one", 2:"two", 3:"three"}
-print(d.get(1))
-d.put(4, "four")
-print(d)
+print("Sorted array is:")
+print(arr)

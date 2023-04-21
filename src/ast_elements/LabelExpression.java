@@ -10,7 +10,7 @@ public class LabelExpression extends Expression {
 
     private String value;
 
-    private static final HashSet<Class> ADDABLES = new HashSet<>() {
+    public static final HashSet<Class> ADDABLES = new HashSet<>() {
         {
             add(VariableType.class);
             add(ListType.class);
@@ -59,7 +59,7 @@ public class LabelExpression extends Expression {
     @Override
     public void add(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {
-        if (!ADDABLES.contains(expectedType.getClass())) {
+        if (!LabelExpression.ADDABLES.contains(expectedType.getClass())) {
             throw new SemanticAnalysisException(expectedType + " does not support operand '+'");
         }
         this.analyze(variable_Map, func_Map, expectedType);
@@ -80,7 +80,7 @@ public class LabelExpression extends Expression {
     @Override
     public void multiply(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {
-        if (!ADDABLES.contains(expectedType.getClass())) {
+        if (!LabelExpression.ADDABLES.contains(expectedType.getClass())) {
             throw new SemanticAnalysisException(expectedType + " does not support operand '+'");
         }
         this.analyze(variable_Map, func_Map, expectedType);
