@@ -1,6 +1,9 @@
 package ast_elements;
 
 import java.util.*;
+
+import Executor.ExecutionException;
+import Executor.ReturnFromCall;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class IfStatement extends Statement {
@@ -27,21 +30,22 @@ public class IfStatement extends Statement {
         for (Statement stmt : this.body) {
             sb.append(stmt.toString(indent + 1));
         }
-        if(elif_stmts != null){
-            for(int i=0; i<elif_stmts.size(); i++){
+        if (elif_stmts != null) {
+            for (int i = 0; i < elif_stmts.size(); i++) {
                 sb.append(elif_stmts.get(i).toString(indent));
             }
         }
-        if(e_stmt != null){
+        if (e_stmt != null) {
             sb.append(e_stmt.toString(indent));
         }
         return sb;
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
         cond.analyze(variable_Map, func_Map, BooleanExpression.TYPE);
-        
+
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
         for (Statement stmt : body) {
@@ -49,13 +53,26 @@ public class IfStatement extends Statement {
         }
         localVar_Map = null;
         localFun_Map = null;
-        if(elif_stmts != null){
-            for(int i=0; i<elif_stmts.size(); i++){
+        if (elif_stmts != null) {
+            for (int i = 0; i < elif_stmts.size(); i++) {
                 elif_stmts.get(i).analyze(variable_Map, func_Map);
             }
         }
-        if(e_stmt != null){
+        if (e_stmt != null) {
             e_stmt.analyze(variable_Map, func_Map);
+        }
+    }
+
+    @Override
+    public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException, ReturnFromCall {
+        Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+
+        if ((Boolean) cond.evaluate(variable_Map, func_Map)) {
+            for (Statement stmt : body) {
+                stmt.execute(variable_Map, func_Map);
+            }
         }
     }
 }

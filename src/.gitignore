@@ -2,4 +2,5 @@
 *.java*
 !ast_elements/*.java
 !SemanticAnalysis/*.java
+!Executor/*.java
 !Main.java
