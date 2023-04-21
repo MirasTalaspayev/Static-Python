@@ -59,11 +59,12 @@ public class FunctionCall extends Expression {
                 for (int i=0; i < ex_size; i++) {
                     if (this.ex_list.get(i) instanceof LabelExpression)
                         this.ex_list.get(i).analyzeAndGetType(variable_Map, func_Map);
-                } return null;
+                }
+                return null;
             }
 
             if (this.func_name.equals("range")) {
-                if (ex_size <= 0)
+                if (ex_size == 0)
                     throw new SemanticAnalysisException(this.func_name + "() must have at least one argument");
                 if (ex_size > 2)
                     throw new SemanticAnalysisException(this.func_name + "() cannot have more than two arguments");
