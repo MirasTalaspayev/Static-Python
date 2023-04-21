@@ -4,11 +4,11 @@ def insertionSort(arr: list[int]) -> None:
         j: int = i-1
         while j >= 0 and key < arr.get(j) :
             arr.put(j + 1, arr.get(j))
-            j -= 1
+            j = j - 1
         arr.put(j + 1, key)
  
  
 arr: list[int] = [12, 11, 13, 5, 6]
 insertionSort(arr)
 for i:int in range(len(arr)):
-    print ("% d" % arr.get(i))
+    print (arr.get(i))

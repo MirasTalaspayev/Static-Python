@@ -1,13 +1,14 @@
 A: list[int] = [64, 25, 12, 22, 11]
  
-for i:int in range(5):
-    for j:int in range(i+1, 5):
+for i:int in range(len(A)):
+    min_idx:int = i
+    for j:int in range(i+1, len(A)):
         if A.get(min_idx) > A.get(j):
             min_idx = j             
-    temp: int = a.get(j)
-    a.set(j, a.get(i))
-    a.set(i, temp)
+    temp: int = A.get(j)
+    A.set(j, A.get(i))
+    A.set(i, temp)
  
 print ("Sorted list")
-for i:int in range(5):
-    print("%d" %A[i],end=" ")
+for i:int in range(len(A)):
+    print(A.get(i))
