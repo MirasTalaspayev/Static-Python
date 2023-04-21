@@ -1,6 +1,9 @@
 package ast_elements;
 
 import java.util.*;
+
+import Executor.ExecutionException;
+import Executor.ReturnFromCall;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class ElseStatement extends Statement {
@@ -21,7 +24,8 @@ public class ElseStatement extends Statement {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
         for (Statement stmt : body) {
@@ -29,5 +33,16 @@ public class ElseStatement extends Statement {
         }
         localVar_Map = null;
         localFun_Map = null;
+    }
+
+    @Override
+    public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException, ReturnFromCall {
+        Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+
+        for (Statement stmt : body) {
+            stmt.execute(localVar_Map, localFun_Map);
+        }
     }
 }

@@ -95,6 +95,7 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "|"		          {System.out.println("UNION");return addAndReturnNext(sym.UNION, new String(yytext()));}
   "not"		        {System.out.println("NOT");return addAndReturnNext(sym.NOT, new String(yytext()));}
   "and"		        {System.out.println("AND");return addAndReturnNext(sym.AND, new String(yytext()));}
+  "or"		        {System.out.println("AND");return addAndReturnNext(sym.OR, new String(yytext()));}
   {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
   {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
 

@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 import ast_elements.*;
 
-terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR, IN, NOT, AND, DOT;
+terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR, IN, NOT, AND, DOT, OR;
 terminal COLON, LBRACK, RBRACK, IF, ELSE, ELIF, WHILE, FOR, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING, NONE;
 
@@ -98,7 +98,8 @@ bin_op1	::= PLUS:op					{: RESULT = op; :}
 		| AMPERSAND:op				{: RESULT = op; :}
 		| XOR:op					{: RESULT = op; :}
 		| IN:op						{: RESULT = op; :}
-		| AND:op					{: RESULT = op; :};
+		| AND:op					{: RESULT = op; :}
+		| OR:op						{: RESULT = op; :};
 
 bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| DIVIDE:op					{: RESULT = op; :}

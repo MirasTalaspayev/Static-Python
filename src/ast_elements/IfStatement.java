@@ -13,13 +13,13 @@ public class IfStatement extends Statement {
 
     private List<ElifStatement> elif_stmts;
 
-    private ElseStatement e_stmt;
+    private ElseStatement else_stmt;
 
     public IfStatement(Expression cond, List<Statement> body, List<ElifStatement> elif_stmts, ElseStatement e_stmt) {
         this.cond = cond;
         this.body = body;
         this.elif_stmts = elif_stmts;
-        this.e_stmt = e_stmt;
+        this.else_stmt = e_stmt;
         System.out.println("CONDITION === " + cond);
     }
 
@@ -35,8 +35,8 @@ public class IfStatement extends Statement {
                 sb.append(elif_stmts.get(i).toString(indent));
             }
         }
-        if (e_stmt != null) {
-            sb.append(e_stmt.toString(indent));
+        if (else_stmt != null) {
+            sb.append(else_stmt.toString(indent));
         }
         return sb;
     }
@@ -58,21 +58,39 @@ public class IfStatement extends Statement {
                 elif_stmts.get(i).analyze(variable_Map, func_Map);
             }
         }
-        if (e_stmt != null) {
-            e_stmt.analyze(variable_Map, func_Map);
+        if (else_stmt != null) {
+            else_stmt.analyze(variable_Map, func_Map);
         }
     }
 
     @Override
     public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
             throws ExecutionException, ReturnFromCall {
-        Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
-        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-
-        if ((Boolean) cond.evaluate(variable_Map, func_Map)) {
+        boolean runned = false;
+        Boolean condition = (Boolean) cond.evaluate(variable_Map, func_Map); 
+        System.out.println("condition = " + condition);
+        if (condition) {
+            Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
+            Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+            
             for (Statement stmt : body) {
-                stmt.execute(variable_Map, func_Map);
+                stmt.execute(localVar_Map, localFun_Map);
             }
+            runned = true;
+        }
+        if (!runned && elif_stmts != null) {
+            int i = 0;
+            while (i < elif_stmts.size() && (Boolean)elif_stmts.get(i).getCond().evaluate(variable_Map, func_Map)) {
+                i++;
+            }
+            if (i < elif_stmts.size()) {
+                elif_stmts.get(i).execute(variable_Map, func_Map);
+                runned = true;
+            }
+        } 
+        if (!runned && else_stmt != null) {
+            else_stmt.execute(variable_Map, func_Map);
+            runned = true;
         }
     }
 }

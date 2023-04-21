@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
@@ -150,9 +152,10 @@ public class BinaryOperator extends Expression {
             xorSet.removeAll(commonElements);
 
             return xorSet;
-        }
-        if (op.equals("==")) {
-            return value_1.equals(value_2);
+        } else if (op.equals("and")) {
+            return (Boolean)value_1 && (Boolean)value_2;
+        } else if (op.equals("or")) {
+            return (Boolean)value_1 || (Boolean)value_2;
         }
         return null;
     }

@@ -1,7 +1,6 @@
 a: bool = True
-while a:
-    for i: int in range(4):
-        print(i)
-    a = False
 
-print("End")
+if a and True or False:
+    print("print from if")
+else:
+    print("print from else")
