@@ -78,6 +78,15 @@ public class FunctionCall extends Expression {
                     this.ex_list.get(i).analyze(variable_Map, func_Map, NumberExpression.TYPE);
                 return new ListType(NumberExpression.TYPE);
             }
+
+            if (this.func_name.equals("len")) {
+                if (ex_size != 1)
+                    throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
+                Type t = this.ex_list.get(0).analyzeAndGetType(variable_Map, func_Map);
+                if (!(t instanceof CollectionType))
+                    throw new SemanticAnalysisException(t + " is not instance of Collection Type");
+                return NumberExpression.TYPE;
+            }
             
             if (!func_Map.containsKey(func_name))
                 throw new SemanticAnalysisException("function doesn't exist");
@@ -128,6 +137,21 @@ public class FunctionCall extends Expression {
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
                     return NumberExpression.TYPE;
                 }
+
+                if (this.func_name.equals("get")) {
+                    if (ex_size != 1)
+                        throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                    return obj_list_type.getElements_Type();
+                }
+
+                if (this.func_name.equals("put")) {
+                    if (ex_size != 2)
+                        throw new SemanticAnalysisException(this.func_name + "() must have two arguments");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, NumberExpression.TYPE);
+                    this.ex_list.get(1).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
+                    return null;
+                }
             }
 
             if (obj_Type instanceof SetType) {
@@ -152,6 +176,21 @@ public class FunctionCall extends Expression {
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_set_type);
                     return obj_set_type;
                 }
+
+                if (this.func_name.equals("get")) {
+                    if (ex_size != 1)
+                        throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_set_type.getElements_Type());
+                    return obj_set_type.getElements_Type();
+                }
+
+                if (this.func_name.equals("put")) {
+                    if (ex_size != 2)
+                        throw new SemanticAnalysisException(this.func_name + "() must have two arguments");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, NumberExpression.TYPE);
+                    this.ex_list.get(1).analyze(variable_Map, func_Map, obj_set_type.getElements_Type());
+                    return null;
+                }
             }
 
             if (obj_Type instanceof DictType) {
@@ -173,6 +212,14 @@ public class FunctionCall extends Expression {
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_dict_type.getKey_Type());
                     return obj_dict_type.getValue_Type();
+                }
+
+                if (this.func_name.equals("put")) {
+                    if (ex_size != 2)
+                        throw new SemanticAnalysisException(this.func_name + "() must have two arguments");
+                    this.ex_list.get(0).analyze(variable_Map, func_Map, obj_dict_type.getKey_Type());
+                    this.ex_list.get(1).analyze(variable_Map, func_Map, obj_dict_type.getValue_Type());
+                    return null;
                 }
             }
 
