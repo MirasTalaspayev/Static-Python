@@ -1,7 +1,14 @@
-a: bool = True
-while a:
-    for i: int in range(4):
-        print(i)
-    a = False
+l:list[int] = [1,2,3]
+print(l.get(0))
+l.put(3,4)
+print(l)
 
-print("End")
+s:set[int] = {1,2,3}
+print(s.get(0))
+s.put(3, 4)
+print(s)
+
+d:dict[int, str] = {1:"one", 2:"two", 3:"three"}
+print(d.get(1))
+d.put(4, "four")
+print(d)
