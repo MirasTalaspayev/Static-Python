@@ -1,27 +1,27 @@
-#d:str = "1"
-#def func(a:int, b:str) -> None:
-#    return
-#func(2, d)
+one:str = "1"
+def func(a:int, b:str) -> None:
+    return
+func(2, one)
 
-#def F() -> None:
-#    return
+def F() -> int:
+    return 1
 
 l:list[int] = [1, 2, 3]
 
-l.copy().copy()
+l.copy()
 l.append(4)
 l.sort()
 l.index(1)
 
 s:set[int] = {1, 2, 3}
 
-s.copy().copy()
+s.copy()
 s.sort()
 s.add(4)
 
 d:dict[int, str] = {1:"one", 2:"two"}
 
-d.copy().copy()
+d.copy()
 d.keys()
 d.get(1)
 
@@ -35,3 +35,6 @@ t.replace("Hello", "Goodbye")
 print("abc")
 print(l, s)
 print("everyone says ", t)
+
+range(2)
+range(1, 8)

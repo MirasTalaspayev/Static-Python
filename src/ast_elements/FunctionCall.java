@@ -9,9 +9,9 @@ public class FunctionCall extends Expression {
 
     private String func_name;
     private List<Expression> ex_list;
-    private Expression obj;
+    private String obj;
     private Type type;
-    public FunctionCall(String func_name, List<Expression> ex_list, Expression obj) {
+    public FunctionCall(String func_name, List<Expression> ex_list, String obj) {
         this.func_name = func_name;
         this.ex_list = ex_list;
         this.obj = obj;
@@ -58,7 +58,7 @@ public class FunctionCall extends Expression {
             if (this.func_name.equals("print")) {
                 for (int i=0; i < ex_size; i++) {
                     if (this.ex_list.get(i) instanceof LabelExpression)
-                        this.ex_list.get(i).analyze(variable_Map, func_Map, this.ex_list.get(i).analyzeAndGetType(variable_Map, func_Map));
+                        this.ex_list.get(i).analyzeAndGetType(variable_Map, func_Map);
                 } return null;
             }
 
@@ -78,9 +78,9 @@ public class FunctionCall extends Expression {
 
             for (int i = 0; i < ex_size; i++)
                 ex_list.get(i).analyze(variable_Map, func_Map, func_Map.get(func_name).getParam_list().get(i).getType());
-
+            return func_Map.get(this.func_name).getReturn_Type();
         } else {
-            Type obj_Type = this.obj.analyzeAndGetType(variable_Map, func_Map);
+            Type obj_Type = variable_Map.get(this.obj);
             // System.out.println(">>>> obj_Type: " + obj_Type + " <<<<");
             if (obj_Type instanceof CollectionType) {
                 CollectionType obj_collection_type = (CollectionType)obj_Type;
