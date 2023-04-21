@@ -6,21 +6,17 @@ import Executor.ExecutionException;
 import Executor.ReturnFromCall;
 import SemanticAnalysis.SemanticAnalysisException;
 
-public class WhileLoop extends Statement {
-
-    private Expression cond;
+public class ElseStatement extends Statement {
     private List<Statement> body;
 
-    public WhileLoop(Expression cond, List<Statement> body) {
-        this.cond = cond;
+    public ElseStatement(List<Statement> body) {
         this.body = body;
-        System.out.println("CONDITION === " + cond.toString());
     }
 
     public StringBuilder toString(int indent) {
         String ind = IndentUtil.indentStr(indent);
         StringBuilder sb = new StringBuilder();
-        sb.append(ind).append("while ").append(this.cond.toString()).append(":\n");
+        sb.append(ind).append("else ").append(":\n");
         for (Statement stmt : this.body) {
             sb.append(stmt.toString(indent + 1));
         }
@@ -28,9 +24,8 @@ public class WhileLoop extends Statement {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        cond.analyze(variable_Map, func_Map, BooleanExpression.TYPE);
-
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws SemanticAnalysisException {
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
         for (Statement stmt : body) {
@@ -43,14 +38,11 @@ public class WhileLoop extends Statement {
     @Override
     public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
             throws ExecutionException, ReturnFromCall {
-        Boolean condition = (Boolean) cond.evaluate(variable_Map, func_Map);
-        Map<String, Object> localVar_Map = new HashMap<String, Object>(variable_Map);
+        Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
 
-        while ((Boolean) cond.evaluate(localVar_Map, localFun_Map)) {
-            for(Statement stmt : body) {
-                stmt.execute(localVar_Map, localFun_Map);
-            }
+        for (Statement stmt : body) {
+            stmt.execute(localVar_Map, localFun_Map);
         }
     }
 }

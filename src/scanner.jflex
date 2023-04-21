@@ -78,17 +78,24 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   {intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
   "def"           {System.out.println("DEF");return addAndReturnNext(sym.DEF, new String(yytext()));}
   "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
+  "else"          {System.out.println("ELSE");return addAndReturnNext(sym.ELSE, new String(yytext()));}
+  "elif"          {System.out.println("ELIF");return addAndReturnNext(sym.ELIF, new String(yytext()));}
   "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
   "for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
   "in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
   "True"          {System.out.println("TRUE");return addAndReturnNext(sym.TRUE, new String(yytext()));}
   "False"         {System.out.println("FALSE");return addAndReturnNext(sym.FALSE, new String(yytext()));}
+  "None"          {System.out.println("NONE");return addAndReturnNext(sym.NONE, new String(yytext()));}
   "return"        {System.out.println("RETURN");return addAndReturnNext(sym.RETURN, new String(yytext()));}
   "list"          {System.out.println("list");return addAndReturnNext(sym.LIST, new String(yytext()));}
   "set"           {System.out.println("set");return addAndReturnNext(sym.SET, new String(yytext()));}
   "dict"          {System.out.println("dict");return addAndReturnNext(sym.DICT, new String(yytext()));}
   "tuple"         {System.out.println("tuple");return addAndReturnNext(sym.TUPLE, new String(yytext()));}
   {string}        {System.out.println("STRING:"+yytext());return addAndReturnNext(sym.STRING, new String(yytext()));}
+  "|"		          {System.out.println("UNION");return addAndReturnNext(sym.UNION, new String(yytext()));}
+  "not"		        {System.out.println("NOT");return addAndReturnNext(sym.NOT, new String(yytext()));}
+  "and"		        {System.out.println("AND");return addAndReturnNext(sym.AND, new String(yytext()));}
+  "or"		        {System.out.println("AND");return addAndReturnNext(sym.OR, new String(yytext()));}
   {label}         {System.out.println("LABEL:"+yytext());return addAndReturnNext(sym.LABEL, new String(yytext()));}
   {tab}           {System.out.println("Tab: " +yycolumn);if (at_line_begin) {curr_col += 1;}}
 
@@ -99,11 +106,14 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   "%"             {System.out.println("MOD");return addAndReturnNext(sym.MOD, new String(yytext()));}
   "**"            {System.out.println("EXPONENT");return addAndReturnNext(sym.EXPONENT, new String(yytext()));}
   "//"            {System.out.println("FLOOR");return addAndReturnNext(sym.FLOOR, new String(yytext()));}
+  "&"		          {System.out.println("AMPERSAND");return addAndReturnNext(sym.AMPERSAND, new String(yytext()));}
+  "^"		          {System.out.println("XOR");return addAndReturnNext(sym.XOR, new String(yytext()));}
   "("		          {System.out.println("LPAREN");return addAndReturnNext(sym.LPAREN);}
   ")"		          {System.out.println("RPAREN");return addAndReturnNext(sym.RPAREN);}
   "="		          {System.out.println("EQUAL");return addAndReturnNext(sym.EQUAL);}
   ":"             {System.out.println("COLON"); return addAndReturnNext(sym.COLON);}
   ","             {System.out.println("COMMA"); return addAndReturnNext(sym.COMMA, new String(yytext()));}
+  "."             {System.out.println("DOT"); return addAndReturnNext(sym.DOT, new String(yytext()));}
   "["             {System.out.println("LBRACK"); return addAndReturnNext(sym.LBRACK);}
   "]"             {System.out.println("RBRACK"); return addAndReturnNext(sym.RBRACK);}
   "{"             {System.out.println("LCURLY"); return addAndReturnNext(sym.LCURLY);}
@@ -122,7 +132,6 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
 
   " "             {;}
 
-  // {comment}       {;}
   "#"             {yybegin(IN_COMMENT);}
 }
 <IN_COMMENT> {

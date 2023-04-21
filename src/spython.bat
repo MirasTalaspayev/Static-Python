@@ -1,0 +1,1 @@
+java -classpath "%CUP_HOME%\lib\java-cup-11b-runtime.jar";"%JFLEX_HOME%\lib\jflex-full-1.9.0.jar";. Main %1 | findstr /v /c:"%cd%" 

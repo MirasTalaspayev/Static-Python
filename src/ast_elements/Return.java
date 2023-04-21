@@ -2,13 +2,19 @@ package ast_elements;
 
 import java.util.Map;
 
+import Executor.ExecutionException;
+import Executor.ReturnFromCall;
+
 public class Return extends Statement {
 
     private Expression ex;
 
     public Return(Expression ex) {
         this.ex = ex;
-        System.out.println("Return === " + ex);
+    }
+
+    public Expression getEx() {
+        return ex;
     }
 
     public StringBuilder toString(int indent) {
@@ -20,7 +26,15 @@ public class Return extends Statement {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'analyze'");
+
+    }
+
+    @Override
+    public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException, ReturnFromCall {
+        if (ex == null) {
+            throw new ReturnFromCall(null);
+        }
+        throw new ReturnFromCall(ex.evaluate(variable_Map, func_Map));
     }
 }

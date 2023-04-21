@@ -3,26 +3,37 @@ import java.util.List;
 import java.util.ArrayList;
 import ast_elements.*;
 
-terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, IN, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
-terminal String LABEL, STRING;
+terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR, IN, NOT, AND, DOT, OR;
+terminal COLON, LBRACK, RBRACK, IF, ELSE, ELIF, WHILE, FOR, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
+terminal String LABEL, STRING, NONE;
+
 terminal Integer NUMBER;
 terminal Float FLOAT;
 terminal TRUE, FALSE;
 
 non terminal Boolean bool;
-non terminal String bin_op1, bin_op2, cond_sign;
+non terminal String bin_op1, bin_op2, cond_sign, unary_op;
 
 non terminal ProgramAST program;
-non terminal Expression expr0, expr1, expr2, term, expr, expr_list, expr_set, expr_dict;
+non terminal Expression expr0, expr1, expr2, expr3, term, expr, expr_list, expr_set, expr_dict; // , expr_tuple;
+
 non terminal List<Expression> expr_values;
 non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
 non terminal Statement stmt;
+non terminal IfStatement if_stmt;
+non terminal ElseStatement else_stmt;
+non terminal ElifStatement elif_stmt;
 non terminal VarDeclaration var_decl;
 non terminal Type type;
 non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
+non terminal FunctionCall func_call, funco_call;
+non terminal List<ElifStatement> elif_stmts;
+
+precedence left MINUS;
+precedence left RETURN;
+precedence left LPAREN, RPAREN;
 
 start with program;
 
@@ -33,14 +44,30 @@ stmt_list ::= stmt_list:sl stmt:st			{: RESULT = sl; RESULT.add(st); :}
 
 stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}		
-		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
+		| if_stmt: if_st												{: RESULT = if_st; :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
-		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
+		| FOR LABEL:var_name COLON type:t IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
 		| DEF LABEL:func_name LPAREN param_list:p_list RPAREN ARROW type:t 
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}
-		| LABEL:func_name LPAREN expr_values:ex_list RPAREN				{: RESULT = new FunctionStatement(func_name, ex_list); :}
-		| RETURN expr:ex												{: RESULT = new Return(ex); :};
+		| DEF LABEL:func_name LPAREN RPAREN ARROW type:t 
+			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, new ArrayList<LocalVarDeclaration>(), t, sl); :}
+		| func_call:f_call												{: RESULT = new FunctionStatement(f_call); :}
+		| funco_call:f_call  											{: RESULT = new FunctionStatement(f_call); :}
+		| RETURN expr:ex												{: RESULT = new Return(ex); :}
+		| RETURN														{: RESULT = new Return(null); :};
+
+if_stmt  ::= IF expr:ex COLON OI stmt_list:sl CI						{: RESULT = new IfStatement(ex, sl, null, null); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts			{: RESULT = new IfStatement(ex, sl, ei_stmts, null); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI else_stmt:e_stmt			{: RESULT = new IfStatement(ex, sl, null, e_stmt); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts else_stmt:e_stmt		{: RESULT = new IfStatement(ex, sl, ei_stmts, e_stmt); :};
+
+elif_stmts ::= elif_stmts:e_stmts elif_stmt:e_stmt						{:RESULT = e_stmts; RESULT.add(e_stmt); :}
+	| elif_stmt:e_stmt													{:RESULT = new ArrayList<ElifStatement>(); RESULT.add(e_stmt); :};
+
+elif_stmt ::= ELIF expr:ex COLON OI stmt_list:sl CI						{:RESULT = new ElifStatement(ex, sl); :};
+
+else_stmt ::= ELSE COLON OI stmt_list:sl CI								{:RESULT = new ElseStatement(sl); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
 		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
@@ -49,7 +76,8 @@ type ::= LIST LBRACK type:t RBRACK										{: RESULT = new ListType(t); :}
     	| SET LBRACK type:t RBRACK										{: RESULT = new SetType(t); :}
     	| DICT LBRACK type:key_type COMMA type:value_type RBRACK		{: RESULT = new DictType(key_type, value_type); :}
     	| TUPLE LBRACK type_list:t_list RBRACK							{: RESULT = new TupleType(t_list); :}
-    	| LABEL:l														{: RESULT = new VariableType(l); :};
+    	| LABEL:l														{: RESULT = new VariableType(l); :}
+		| NONE 															{: RESULT = null; :};
 
 type_list ::= type_list:t_list COMMA type:t								{: RESULT = t_list; RESULT.add(t); :}
 		| type:t														{: RESULT = new ArrayList<Type>(); RESULT.add(t); :};
@@ -65,7 +93,13 @@ cond_sign ::= EQEQ:op				{: RESULT = op; :}
 		| MOREEQ:op					{: RESULT = op; :};
 
 bin_op1	::= PLUS:op					{: RESULT = op; :}
-		| MINUS:op					{: RESULT = op; :};
+		| MINUS:op					{: RESULT = op; :}
+		| UNION:op					{: RESULT = op; :}
+		| AMPERSAND:op				{: RESULT = op; :}
+		| XOR:op					{: RESULT = op; :}
+		| IN:op						{: RESULT = op; :}
+		| AND:op					{: RESULT = op; :}
+		| OR:op						{: RESULT = op; :};
 
 bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| DIVIDE:op					{: RESULT = op; :}
@@ -73,10 +107,19 @@ bin_op2 ::= TIMES:op				{: RESULT = op; :}
 		| EXPONENT:op				{: RESULT = op; :}
 		| FLOOR:op					{: RESULT = op; :};
 
-expr 	::= expr0:e0								{: RESULT = e0; :}
-		| expr_list:e_list							{: RESULT = e_list; :}
-		| expr_set:e_set							{: RESULT = e_set; :}
-		| expr_dict:e_dict							{: RESULT = e_dict; :};
+
+unary_op ::= NOT:op					{: RESULT = op; :}
+		| MINUS:op					{: RESULT = op; :};
+
+func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   				{: RESULT = new FunctionCall(func_name, ex_list, null); :}
+		| LABEL:func_name LPAREN RPAREN   										{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), null); :};
+funco_call ::= LABEL:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :}
+		| LABEL:obj DOT LABEL:func_name LPAREN RPAREN							{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), obj); :};
+
+expr 	::= func_call:f_call						{: RESULT = new FunctionExpression(f_call); :}
+		| funco_call:f_call							{: RESULT = new FunctionExpression(f_call); :}
+		| expr0:e0									{: RESULT = e0; :};
+
 
 expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e0, op, e1); :}
         | expr1:e1 									{: RESULT = e1; :};
@@ -84,8 +127,11 @@ expr0 	::= expr0:e0 cond_sign:op expr1:e1			{: RESULT = new ComparisonOperator(e
 expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op, e2); :}
 		| expr2:e2 									{: RESULT = e2; :};
 
-expr2 	::= expr2:e2 bin_op2:op term:e3				{: RESULT = new BinaryOperator(e2, op, e3); :}
+expr2 	::= expr2:e2 bin_op2:op expr3:e3			{: RESULT = new BinaryOperator(e2, op, e3); :}
 		| term:e3									{: RESULT = e3; :};
+
+expr3	::= unary_op:op term:t						{: RESULT = new UnaryExpression(op, t); :}
+		| term:t									{: RESULT = t; :};
 
 term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| NUMBER:n									{: RESULT = new NumberExpression(n); :}
@@ -93,11 +139,16 @@ term 	::= LPAREN expr:ex RPAREN					{: RESULT = ex; :}
 		| LABEL:l									{: RESULT = new LabelExpression(l); :}
 		| STRING:s									{: RESULT = new StringExpression(s); :}
 		| FLOAT:f									{: RESULT = new FloatExpression(f); :}
-		| LABEL:func_name LPAREN expr_values:ex_list RPAREN		{: RESULT = new FunctionExpression(func_name, ex_list); :};
+		| expr_list:e_list							{: RESULT = e_list; :}
+		| expr_set:e_set							{: RESULT = e_set; :}
+		| expr_dict:e_dict							{: RESULT = e_dict; :};
+
 
 expr_list ::= LBRACK expr_values:e1 RBRACK 			{: RESULT = new ListExpression(e1); :}
 		| LIST LPAREN RPAREN						{: RESULT = new ListExpression(new ArrayList<Expression>()); :}
 		| LBRACK RBRACK								{: RESULT = new ListExpression(new ArrayList<Expression>()); :};
+
+// expr_tuple ::= LPAREN expr_values:e1 RPAREN 		{: RESULT = new TupleExpression(e1); :};
 
 expr_set ::= LCURLY expr_values:e1 RCURLY			{: RESULT = new SetExpression(e1); :}
 		| SET LPAREN RPAREN							{: RESULT = new SetExpression(new ArrayList<Expression>()); :};
