@@ -1,5 +1,5 @@
 # defining types for function arguments will be COMPULSORY 
-sum_2_numbers(x: int, y: int) -> int:    
+def sum_2_numbers(x: int, y: int) -> int:    
     return x + y;
 
 num_1: int = 5
@@ -7,7 +7,7 @@ num_2: int = 10
 
 num_result: int = sum_2_numbers(num_1, num_2) # result = 15
 
-print_strings(x: str, y: str) -> None:
+def print_strings(x: str, y: str) -> None:
     print(x)
     print(y)
 
@@ -17,19 +17,19 @@ str_2: str = "nadir"
 print_strings(str_1, str_2)
 
 
-print_with_message(message: str, x: int, y: int) -> None:
+def print_with_message(message: str, x: int, y: int) -> None:
     print(message)
     print(x + y)
 
 print_with_message(str_1, num_1, num_2)
 
-concat_strings(s1: str, s2: str) -> str:
+def concat_strings(s1: str, s2: str) -> str:
     res: str = s1 + s2
     return res
 
-concat_strings(str_1, str_2) # result = "mirasnadir"
+def concat_strings(str_1, str_2) # result = "mirasnadir"
 
-print_array(arr: list[int]) -> None:
+def print_array(arr: list[int]) -> None:
     for i: int in range(0, len(arr)):
         print(arr[i])
 

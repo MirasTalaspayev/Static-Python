@@ -1,4 +1,4 @@
-partition(array: int[], low: int, high: int) -> int:
+def partition(array: list[int], low: int, high: int) -> int:
  
     pivot: int = array[high]
  
@@ -15,7 +15,7 @@ partition(array: int[], low: int, high: int) -> int:
     return i + 1
  
  
-quick_sort(array: int[], low: int, high: int):
+def quick_sort(array: list[int], low: int, high: int):
     if low < high:
  
         pi: int = partition(array, low, high)
@@ -25,7 +25,7 @@ quick_sort(array: int[], low: int, high: int):
         quick_sort(array, pi + 1, high)
  
  
-array: int[] = [10, 7, 8, 9, 1, 5]
-quick_sort(array, 0, len(array) - 1)
+array: list[int] = [10, 7, 8, 9, 1, 5]
+quick_sort(array, 0, 5)
  
 print(f'Sorted array: {array}')
