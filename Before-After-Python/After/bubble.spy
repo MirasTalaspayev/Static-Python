@@ -1,20 +1,14 @@
-for a: int in range(5):
-    print(a)
+def bubbleSort(arr: list[int]) -> None:
+    n: int = len(arr)
+    for i:int in range(n):
+        for j:int in range(0, n-i-1):
+            if arr.get(j) > arr.get(j+1):
+                temp: int = arr.get(j)
+                arr.put(j, arr.get(j+1))
+                arr.put(j+1, temp)
 
+arr: list[int] = [5, 1, 4, 2, 8]
+bubbleSort(arr)
 
-#def bubbleSort(arr: list[int]) -> None:
-#    n: int = 5
-#    for i:int in range(n):
-#        for j:int in range(0, n-i-1):
-#            if arr[j] > arr[j+1]:
-#                arr[j], arr[j+1] = arr[j+1], arr[j]
-#    return
- 
- 
-
-#arr: int[] = [5, 1, 4, 2, 8]
- 
-#bubbleSort(arr)
- 
-#print("Sorted array is:")
-#print(arr)
+print("Sorted array is:")
+print(arr)
