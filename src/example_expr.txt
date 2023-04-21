@@ -40,4 +40,3 @@ print("everyone says ", t)
 
 range(2)
 range(1, 8)
-sex(1)
