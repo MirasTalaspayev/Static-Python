@@ -32,6 +32,7 @@ public class VarDeclaration extends Declaration {
             return;
         }
         ex.analyze(variable_Map, func_Map, type);
+        System.out.println("did it come here???");
         
         variable_Map.put(var_name, type);
     }

@@ -32,9 +32,12 @@ public class Main {
 				System.out.println("===================");
 				System.out.print(result.toString());
 
-				System.out.println("=================== Phase3: Typecheck ===================");
+				System.out.println("=================== Phase 3: Typecheck ===================");
 				SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST) result);
 				semanticAnalyzer.analyze();
+				System.out.println("=================== Phase 4: Execution ===================");	
+				Executor executor = new Executor((ProgramAST)result);
+				executor.runProgram();
 				counts[0]++;
 			}
 		} catch (Exception e) {
@@ -62,7 +65,7 @@ public class Main {
 				while (true) {
 					System.out.print("> ");
 					String input = scanner.nextLine();
-					if (input.equals("exit")) {пше
+					if (input.equals("exit")) {
 						return;
 					}
 					if (input.isEmpty()) {
@@ -91,7 +94,6 @@ public class Main {
 				}
 			}
 		}
-		System.out.println("Processed " + (counts[0] + counts[1]) + " files. " + counts[0]
-				+ " files successfully compiled, " + counts[1] + " files failed to compile.");
+		System.out.println("Successfuls " + counts[0] + "/" + (counts[0] + counts[1]));
 	}
 }

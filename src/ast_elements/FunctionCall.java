@@ -1,5 +1,6 @@
 package ast_elements;
 
+import java.util.*;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,8 @@ public class FunctionCall extends Expression {
             throws SemanticAnalysisException {
         // System.out.println(">>>> func_name: " + this.func_name + " <<<<");
         Type type = analyzeAndGetType(variable_Map, func_Map);
-        if (expectedType != null && expectedType != type)
+        System.out.println(type);
+        if (expectedType != null && !expectedType.equals(type))
             throw new SemanticAnalysisException("expected type and return type don't match");
     }
 

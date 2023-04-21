@@ -1,72 +1,21 @@
-one:str = "1"
-def func(a:int, b:str) -> None:
-    return
-func(2, one)
+l: list[int] = [1, 2, 3] 
+for a: int in l:
+    print(a)
 
-def F() -> int:
-    return 1
 
-l:list[int] = [1, 2, 3]
+#def bubbleSort(arr: list[int]) -> None:
+#    n: int = 5
+#    for i:int in range(n):
+#        for j:int in range(0, n-i-1):
+#            if arr[j] > arr[j+1]:
+#                arr[j], arr[j+1] = arr[j+1], arr[j]
+#    return
+ 
+ 
 
-l.copy()
-l.append(4)
-l.sort()
-l.index(1)
-
-s:set[int] = {1, 2, 3}
-s1:set[int] = {1}
-
-s.copy()
-s.add(4)
-s1.issubset(s)
-s1.difference(s)
-
-d:dict[int, str] = {1:"one", 2:"two"}
-
-d.copy()
-d.keys()
-d.get(1)
-
-t:str = "Hello World!"
-
-t.count("l")
-t.strip("!")
-t.split(" ")
-t.replace("Hello", "Goodbye")
-
-print("abc", 1, 1.1)
-print(l, s)
-print("everyone says ", t)
-
-range(2)
-range(1, 8)
-
-#1 Test if-elif
-x: int = 3
-if x==1:
-    print("Hello")
-elif x==3:
-    print("Bye!")
-
-#2 Test if-else
-if x>10:
-    print("x is greater than 10")
-else: 
-    print("x is less or equal than 10")
-
-#3 Test elif 
-if x==2:
-    print("Test for if")
-elif x==3:
-    print("Test for elif was successful")
-elif x==4:
-    print("Test for elif was failed")
-
-#4 Test if-elif-else
-y: int = 10
-if y>x:
-    print("y is greater than x")
-elif y==x:
-    print("y is equal to x")
-else: 
-    print("y is less than x")
+#arr: int[] = [5, 1, 4, 2, 8]
+ 
+#bubbleSort(arr)
+ 
+#print("Sorted array is:")
+#print(arr)
