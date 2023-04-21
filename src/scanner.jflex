@@ -78,6 +78,8 @@ string      = \"([^\n\r\"\\]|\\[\"\\ntbrf])*\"|\'([^\n\r\'\\]|\\[\'\\ntbrf])*\'
   {intNumber}	    {System.out.println("NUMBER:"+yytext());return addAndReturnNext(sym.NUMBER, new Integer(yytext()));}
   "def"           {System.out.println("DEF");return addAndReturnNext(sym.DEF, new String(yytext()));}
   "if"            {System.out.println("IF");return addAndReturnNext(sym.IF, new String(yytext()));}
+  "else"          {System.out.println("ELSE");return addAndReturnNext(sym.ELSE, new String(yytext()));}
+  "elif"          {System.out.println("ELIF");return addAndReturnNext(sym.ELIF, new String(yytext()));}
   "while"         {System.out.println("WHILE");return addAndReturnNext(sym.WHILE, new String(yytext()));}
   "for"           {System.out.println("FOR");return addAndReturnNext(sym.FOR, new String(yytext()));}
   "in"            {System.out.println("IN");return addAndReturnNext(sym.IN, new String(yytext()));}
