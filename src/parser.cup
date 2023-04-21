@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import ast_elements.*;
 
 terminal String PLUS, MINUS, LPAREN, RPAREN, EQUAL, TIMES, DIVIDE, MOD, EXPONENT, FLOOR, COMMA, LESS, LESSEQ, MOREEQ, MORE, NOTEQ, EQEQ, UNION, AMPERSAND, XOR, IN, NOT, AND, DOT;
-terminal COLON, LBRACK, RBRACK, IF, WHILE, FOR, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
+terminal COLON, LBRACK, RBRACK, IF, ELSE, ELIF, WHILE, FOR, OI, CI, LIST, SET, DICT, TUPLE, LCURLY, RCURLY, DEF, RETURN, ARROW;
 terminal String LABEL, STRING, NONE;
 
 terminal Integer NUMBER;
@@ -21,19 +21,19 @@ non terminal List<Expression> expr_values;
 non terminal List<KeyValuePair> dict_values;
 non terminal List<Statement> stmt_list;
 non terminal Statement stmt;
+non terminal IfStatement if_stmt;
+non terminal ElseStatement else_stmt;
+non terminal ElifStatement elif_stmt;
 non terminal VarDeclaration var_decl;
 non terminal Type type;
 non terminal List<Type> type_list;
 non terminal List<LocalVarDeclaration> param_list;
 non terminal FunctionCall func_call, funco_call;
+non terminal List<ElifStatement> elif_stmts;
 
+precedence left MINUS;
 precedence left RETURN;
 precedence left LPAREN, RPAREN;
-
-precedence left DOT, EQEQ, NOTEQ, LESS, LESSEQ, MORE, MOREEQ;
-precedence left PLUS, MINUS;
-precedence left TIMES, DIVIDE, MOD, EXPONENT, FLOOR;
-
 
 start with program;
 
@@ -44,7 +44,7 @@ stmt_list ::= stmt_list:sl stmt:st			{: RESULT = sl; RESULT.add(st); :}
 
 stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}		
-		| IF expr:ex COLON OI stmt_list:sl CI 							{: RESULT = new IfStatement(ex, sl); :}
+		| if_stmt: if_st												{: RESULT = if_st; :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
 		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
@@ -56,6 +56,18 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| funco_call:f_call  											{: RESULT = new FunctionStatement(f_call); :}
 		| RETURN expr:ex												{: RESULT = new Return(ex); :}
 		| RETURN														{: RESULT = new Return(null); :};
+
+if_stmt  ::= IF expr:ex COLON OI stmt_list:sl CI						{: RESULT = new IfStatement(ex, sl, null, null); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts			{: RESULT = new IfStatement(ex, sl, ei_stmts, null); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI else_stmt:e_stmt			{: RESULT = new IfStatement(ex, sl, null, e_stmt); :}
+     |  IF expr:ex COLON OI stmt_list:sl CI elif_stmts:ei_stmts else_stmt:e_stmt		{: RESULT = new IfStatement(ex, sl, ei_stmts, e_stmt); :};
+
+elif_stmts ::= elif_stmts:e_stmts elif_stmt:e_stmt						{:RESULT = e_stmts; RESULT.add(e_stmt); :}
+	| elif_stmt:e_stmt													{:RESULT = new ArrayList<ElifStatement>(); RESULT.add(e_stmt); :};
+
+elif_stmt ::= ELIF expr:ex COLON OI stmt_list:sl CI						{:RESULT = new ElifStatement(ex, sl); :};
+
+else_stmt ::= ELSE COLON OI stmt_list:sl CI								{:RESULT = new ElseStatement(sl); :};
 
 var_decl ::= LABEL:var_name COLON type:var_type EQUAL expr:ex			{: RESULT = new VarDeclaration(var_name, var_type, ex); :}
 		| LABEL:var_name COLON type:var_type 							{: RESULT = new VarDeclaration(var_name, var_type, null); :};
@@ -100,8 +112,8 @@ unary_op ::= NOT:op					{: RESULT = op; :}
 
 func_call ::= LABEL:func_name LPAREN expr_values:ex_list RPAREN   				{: RESULT = new FunctionCall(func_name, ex_list, null); :}
 		| LABEL:func_name LPAREN RPAREN   										{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), null); :};
-funco_call ::= expr:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :}
-		| expr:obj DOT LABEL:func_name LPAREN RPAREN							{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), obj); :};
+funco_call ::= LABEL:obj DOT LABEL:func_name LPAREN expr_values:ex_list RPAREN	{: RESULT = new FunctionCall(func_name, ex_list, obj); :}
+		| LABEL:obj DOT LABEL:func_name LPAREN RPAREN							{: RESULT = new FunctionCall(func_name, new ArrayList<Expression>(), obj); :};
 
 expr 	::= func_call:f_call						{: RESULT = new FunctionExpression(f_call); :}
 		| funco_call:f_call							{: RESULT = new FunctionExpression(f_call); :}
@@ -115,7 +127,7 @@ expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op,
 		| expr2:e2 									{: RESULT = e2; :};
 
 expr2 	::= expr2:e2 bin_op2:op expr3:e3			{: RESULT = new BinaryOperator(e2, op, e3); :}
-		| expr3:e3									{: RESULT = e3; :};
+		| term:e3									{: RESULT = e3; :};
 
 expr3	::= unary_op:op term:t						{: RESULT = new UnaryExpression(op, t); :}
 		| term:t									{: RESULT = t; :};

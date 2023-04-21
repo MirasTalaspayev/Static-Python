@@ -78,6 +78,8 @@ public class FunctionDeclaration extends Declaration {
                         throw new SemanticAnalysisException("return type must be None in void function");
                 } else {
                     hasReturn = true;
+                    if (return_stmt.getEx() == null)
+                        throw new SemanticAnalysisException("return type must be " + return_Type + " in non-void function");
                     if (return_stmt.getEx() != null)
                         return_stmt.getEx().analyze(localVar_Map, localFunc_Map, return_Type);
                 }

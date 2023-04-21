@@ -22,6 +22,10 @@ public class LabelExpression extends Expression {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public String toString() {
         return this.value.toString();
     }
