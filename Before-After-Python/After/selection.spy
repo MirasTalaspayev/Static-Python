@@ -2,9 +2,11 @@ A: list[int] = [64, 25, 12, 22, 11]
  
 for i:int in range(5):
     for j:int in range(i+1, 5):
-        if A[min_idx] > A[j]:
+        if A.get(min_idx) > A.get(j):
             min_idx = j             
-    A[i], A[min_idx] = A[min_idx], A[i]
+    temp: int = a.get(j)
+    a.set(j, a.get(i))
+    a.set(i, temp)
  
 print ("Sorted list")
 for i:int in range(5):
