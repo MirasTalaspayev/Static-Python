@@ -10,5 +10,4 @@ for i:int in range(len(A)):
     A.set(i, temp)
  
 print ("Sorted list")
-for i:int in range(len(A)):
-    print(A.get(i))
+print(A)

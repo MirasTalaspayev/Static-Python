@@ -11,5 +11,4 @@ arr: list[int] = [5, 1, 4, 2, 8]
 bubbleSort(arr)
 
 print("Sorted array is:")
-for i:int in range(len(arr)):
-    print(arr.get(i) )
+print(arr)

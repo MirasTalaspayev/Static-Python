@@ -20,5 +20,4 @@ def quick_sort(array: list[int], low: int, high: int) -> None:
 
 array: list[int] = [10, 7, 8, 9, 1, 5]
 quick_sort(array, 0, 5)
-for i:int in range(len(array)):
-    print (array.get(i))
+print (array)
