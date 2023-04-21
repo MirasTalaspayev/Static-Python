@@ -61,7 +61,7 @@ public class Main {
 				while (true) {
 					System.out.print("> ");
 					String input = scanner.nextLine();
-					if (input.equals("exit")) {
+					if (input.equals("exit")) {пше
 						return;
 					}
 					if (input.isEmpty()) {
