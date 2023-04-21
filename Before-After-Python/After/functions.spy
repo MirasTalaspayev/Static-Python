@@ -27,7 +27,7 @@ def concat_strings(s1: str, s2: str) -> str:
     res: str = s1 + s2
     return res
 
-concat_strings(str_1, str_2) # result = "mirasnadir"
+print(concat_strings(str_1, str_2)) # result = "mirasnadir"
 
 def print_array(arr: list[int]) -> None:
     for i: int in range(0, len(arr)):
