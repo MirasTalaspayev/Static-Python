@@ -51,7 +51,7 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| DEF LABEL:func_name LPAREN param_list:p_list RPAREN ARROW type:t 
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}
 		| DEF LABEL:func_name LPAREN RPAREN ARROW type:t 
-			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, null, t, sl); :}
+			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, new ArrayList<LocalVarDeclaration>(), t, sl); :}
 		| func_call:f_call												{: RESULT = new FunctionStatement(f_call); :}
 		| funco_call:f_call  											{: RESULT = new FunctionStatement(f_call); :}
 		| RETURN expr:ex												{: RESULT = new Return(ex); :}

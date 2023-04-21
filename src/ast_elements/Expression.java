@@ -2,6 +2,7 @@ package ast_elements;
 
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public abstract class Expression extends ASTElement {
@@ -15,6 +16,10 @@ public abstract class Expression extends ASTElement {
 
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
 
+    }
+
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map) throws ExecutionException {
+        return null;
     }
 
     public void add(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType, Expression ex) throws SemanticAnalysisException {

@@ -2,6 +2,7 @@ package ast_elements;
 
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class VarDeclaration extends Declaration {
@@ -31,8 +32,14 @@ public class VarDeclaration extends Declaration {
             return;
         }
         ex.analyze(variable_Map, func_Map, type);
-
         
         variable_Map.put(var_name, type);
+    }
+
+    @Override
+    public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        Object value = ex.evaluate(variable_Map, func_Map);
+        variable_Map.put(var_name, value);
     }
 }

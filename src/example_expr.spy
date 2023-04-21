@@ -1,0 +1,7 @@
+def A() -> None:
+    print("ada")
+    return
+
+A()
+
+print(5 + 11)

@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 
 import java.io.*;
 
+import Executor.Executor;
 import SemanticAnalysis.SemanticAnalyzer;
    
 public class Main {
@@ -11,7 +12,7 @@ public class Main {
   static public void main(String argv[]) {
     try {
       /* Scanner instantiation */
-      Yylex l = new Yylex(new FileReader(".//example_expr.txt"));
+      Yylex l = new Yylex(new FileReader(".//example_expr.spy"));
       /* Parser instantiation */
       parser p = new parser(l);
       /* Start the parser */
@@ -20,9 +21,12 @@ public class Main {
         System.out.println("===================");
         System.out.print(result.toString());
 
-        System.out.println("=================== Phase3: Typecheck ===================");
+        System.out.println("=================== Phase 3: Typecheck ===================");
         SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer((ProgramAST)result);
         semanticAnalyzer.analyze();
+        System.out.println("=================== Phase 4: Execute ===================");
+        Executor executor = new Executor((ProgramAST)result);
+        executor.runProgram();
       }
     } catch (Exception e) {
       e.printStackTrace();
