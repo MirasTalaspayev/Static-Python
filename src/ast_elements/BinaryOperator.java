@@ -151,6 +151,9 @@ public class BinaryOperator extends Expression {
 
             return xorSet;
         }
+        if (op.equals("==")) {
+            return value_1.equals(value_2);
+        }
         return null;
     }
 

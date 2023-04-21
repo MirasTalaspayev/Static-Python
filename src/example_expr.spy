@@ -1,7 +1,6 @@
-def A() -> None:
-    print("ada")
-    return
-
-A()
-
-print(5 + 11)
+a: int = 5
+b: int = 5
+print(a)
+print(b)
+c: bool = a == b
+print(c)
