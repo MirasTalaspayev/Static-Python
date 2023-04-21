@@ -1,14 +1,13 @@
-import sys
-A: array[int] = [64, 25, 12, 22, 11]
+A: list[int] = [64, 25, 12, 22, 11]
  
 for i:int in range(len(A)):
-     
+    min_idx:int = i
     for j:int in range(i+1, len(A)):
-        if A[min_idx] > A[j]:
-            min_idx = j
-             
-    A[i], A[min_idx] = A[min_idx], A[i]
+        if A.get(min_idx) > A.get(j):
+            min_idx = j             
+    temp: int = A.get(j)
+    A.put(j, A.get(i))
+    A.put(i, temp)
  
-print ("Sorted array")
-for i:int in range(len(A)):
-    print("%d" %A[i],end=" ")
+print ("Sorted list")
+print(A)
