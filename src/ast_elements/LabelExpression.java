@@ -3,6 +3,7 @@ package ast_elements;
 import java.util.HashSet;
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class LabelExpression extends Expression {
@@ -49,6 +50,12 @@ public class LabelExpression extends Expression {
         return variable_Map.get(value);
     }
 
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        return variable_Map.get(value);
+    }
+    
     @Override
     public void add(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {

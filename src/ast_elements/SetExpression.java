@@ -1,8 +1,12 @@
 package ast_elements;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class SetExpression extends CollectionExpressions {
@@ -45,6 +49,15 @@ public class SetExpression extends CollectionExpressions {
         }
     }
 
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        Set<Object> set = new HashSet<>();
+        for (Expression ex : values) {
+            set.add(ex.evaluate(variable_Map, func_Map));
+        }
+        return set;
+    }
     @Override
     public void union(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {

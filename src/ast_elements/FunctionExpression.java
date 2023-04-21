@@ -2,6 +2,7 @@ package ast_elements;
 
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class FunctionExpression extends Expression {
@@ -24,5 +25,11 @@ public class FunctionExpression extends Expression {
     @Override
     public Type analyzeAndGetType(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
         return func_call.analyzeAndGetType(variable_Map, func_Map);
+    }
+
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        return func_call.evaluate(variable_Map, func_Map);
     }
 }

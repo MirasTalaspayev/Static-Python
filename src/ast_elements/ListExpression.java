@@ -1,8 +1,10 @@
 package ast_elements;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class ListExpression extends CollectionExpressions {
@@ -45,6 +47,16 @@ public class ListExpression extends CollectionExpressions {
         }
     }
 
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        ArrayList<Object> list = new ArrayList<>(values.size());
+        for (Expression val : values) {
+            list.add(val.evaluate(variable_Map, func_Map));
+        }
+        return list;
+    }
+    
     @Override
     public void add(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType,
             Expression ex) throws SemanticAnalysisException {

@@ -3,6 +3,8 @@ package ast_elements;
 import java.util.List;
 import java.util.Map;
 
+import Executor.ExecutionException;
+import Executor.ReturnFromCall;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class FunctionCall extends Expression {
@@ -11,6 +13,7 @@ public class FunctionCall extends Expression {
     private List<Expression> ex_list;
     private String obj;
     private Type type;
+
     public FunctionCall(String func_name, List<Expression> ex_list, String obj) {
         this.func_name = func_name;
         this.ex_list = ex_list;
@@ -44,7 +47,8 @@ public class FunctionCall extends Expression {
     }
 
     @Override
-    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType) throws SemanticAnalysisException {
+    public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
+            throws SemanticAnalysisException {
         // System.out.println(">>>> func_name: " + this.func_name + " <<<<");
         Type type = analyzeAndGetType(variable_Map, func_Map);
         if (expectedType != null && expectedType != type)
@@ -211,5 +215,49 @@ public class FunctionCall extends Expression {
                 }
             } throw new SemanticAnalysisException(this.func_name + "() function doesn't exist for the " + obj_Type + " type");
         }
+    }
+
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        if (obj == null) {
+            if (func_name.equals("print")) {
+                System.out.println(ex_list.get(0).evaluate(variable_Map, func_Map));
+                return null;
+            }
+
+            if (func_name.equals("range")) {
+                int start = 0;
+                int counter = 1;
+                int end = 0;
+
+                if (ex_list.size() == 1) {
+                    end = (Integer) ex_list.get(0).evaluate(variable_Map, func_Map);
+                } else if (ex_list.size() == 2) {
+                    start = (Integer) ex_list.get(0).evaluate(variable_Map, func_Map);
+                    end = (Integer) ex_list.get(1).evaluate(variable_Map, func_Map);
+                }
+
+                ArrayList<Integer> range_list = new ArrayList<>();
+
+                for (; start < end; start += counter) {
+                    range_list.add(start);
+                }
+                return range_list;
+            }
+            FunctionDeclaration func_decl = func_Map.get(func_name);
+
+            Map<String, Object> localVar_Map = new HashMap<String, Object>(variable_Map);
+            Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+
+            try {
+                for (Statement stmt : func_decl.getBody()) {
+                    stmt.execute(localVar_Map, localFun_Map);
+                }
+            } catch (ReturnFromCall e) {
+                return e.getReturnValue();
+            }
+        }
+        return null;
     }
 }

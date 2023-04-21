@@ -2,6 +2,7 @@ package ast_elements;
 
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class FunctionStatement extends Statement {
@@ -19,5 +20,11 @@ public class FunctionStatement extends Statement {
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
         func_call.analyze(variable_Map, func_Map, null);
+    }
+
+    @Override
+    public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        func_call.evaluate(variable_Map, func_Map);
     }
 }

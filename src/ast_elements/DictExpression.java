@@ -1,8 +1,10 @@
 package ast_elements;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Executor.ExecutionException;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class DictExpression extends CollectionExpressions {
@@ -45,6 +47,15 @@ public class DictExpression extends CollectionExpressions {
         }
 	}
 
+    @Override
+    public Object evaluate(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException {
+        HashMap<Object, Object> dict = new HashMap<>();
+        for (KeyValuePair ex : values) {
+            dict.put(ex.getKey().evaluate(variable_Map, func_Map), ex.getValue().evaluate(variable_Map, func_Map));
+        }
+        return dict;
+    }
     @Override
     public int size() {
         return values.size();
