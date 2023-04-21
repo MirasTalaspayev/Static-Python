@@ -106,18 +106,20 @@ public class FunctionCall extends Expression {
                     if (ex_size != 0)
                         throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
                     return null;
-                } else if (this.func_name.equals("append") || this.func_name.equals("remove")) {
+                } 
+                
+                if (this.func_name.equals("append") || this.func_name.equals("remove")) {
                     if (ex_size != 1)
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
                     return null;
-                } else if (this.func_name.equals("count") || this.func_name.equals("index")) {
+                }
+
+                if (this.func_name.equals("count") || this.func_name.equals("index")) {
                     if (ex_size != 1)
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_list_type.getElements_Type());
                     return NumberExpression.TYPE;
-                } else {
-                    throw new SemanticAnalysisException(this.func_name + "() function doesn't exist for the " + obj_list_type + " type");
                 }
             }
 
@@ -128,18 +130,20 @@ public class FunctionCall extends Expression {
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_set_type.getElements_Type());
                     return null;
-                } else if (this.func_name.equals("issubset")) {
+                }
+                
+                if (this.func_name.equals("issubset")) {
                     if (ex_size != 1)
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_set_type);
                     return BooleanExpression.TYPE;
-                } else if (this.func_name.equals("difference")) {
+                }
+                
+                if (this.func_name.equals("difference")) {
                     if (ex_size != 1)
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_set_type);
                     return obj_set_type;
-                } else {
-                    throw new SemanticAnalysisException(this.func_name + "() function doesn't exist for the " + obj_set_type + " type");
                 }
             }
 
@@ -149,17 +153,19 @@ public class FunctionCall extends Expression {
                     if (ex_size != 0)
                         throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
                     return new ListType(obj_dict_type.getKey_Type());
-                } else if (this.func_name.equals("values")) {
+                }
+                
+                if (this.func_name.equals("values")) {
                     if (ex_size != 0)
                         throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
                     return new ListType(obj_dict_type.getValue_Type());
-                } else if (this.func_name.equals("get")) {
+                }
+
+                if (this.func_name.equals("get")) {
                     if (ex_size != 1)
                         throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                     this.ex_list.get(0).analyze(variable_Map, func_Map, obj_dict_type.getKey_Type());
                     return obj_dict_type.getValue_Type();
-                } else {
-                    throw new SemanticAnalysisException(this.func_name + "() function doesn't exist for the " + obj_dict_type + " type");
                 }
             }
 
@@ -175,25 +181,29 @@ public class FunctionCall extends Expression {
                             throw new SemanticAnalysisException(this.func_name + "() can have only one argument");
                         this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.TYPE);
                         return NumberExpression.TYPE;
-                    } else if (this.func_name.equals("strip")) {
+                    }
+                    
+                    if (this.func_name.equals("strip")) {
                         if (ex_size > 1)
                             throw new SemanticAnalysisException(this.func_name + "() cannot have more than one argument");
                         for (int i=0; i < ex_size; i++)
                             this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.TYPE);
                         return StringExpression.TYPE;
-                    } else if (this.func_name.equals("split")) {
+                    }
+                    
+                    if (this.func_name.equals("split")) {
                         if (ex_size > 1)
                             throw new SemanticAnalysisException(this.func_name + "() cannot have more than one argument");
                         this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.TYPE);
                         return new ListType(StringExpression.TYPE);
-                    } else if (this.func_name.equals("replace")) {
+                    }
+                    
+                    if (this.func_name.equals("replace")) {
                         if (ex_size != 2)
                             throw new SemanticAnalysisException(this.func_name + "() must have only two arguments");
                         this.ex_list.get(0).analyze(variable_Map, func_Map, StringExpression.TYPE);
                         this.ex_list.get(1).analyze(variable_Map, func_Map, StringExpression.TYPE);
                         return obj_var_Type;
-                    } else {
-                        throw new SemanticAnalysisException(this.func_name + "() function doesn't exist for the " + obj_var_Type.getType() + " type");
                     }
                 } else if (obj_var_Type.getType() == "bool") {
 
