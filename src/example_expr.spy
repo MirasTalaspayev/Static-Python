@@ -1,21 +1,7 @@
-l: list[int] = [1, 2, 3] 
-for a: int in l:
-    print(a)
+a: bool = True
+while a:
+    for i: int in range(4):
+        print(i)
+    a = False
 
-
-#def bubbleSort(arr: list[int]) -> None:
-#    n: int = 5
-#    for i:int in range(n):
-#        for j:int in range(0, n-i-1):
-#            if arr[j] > arr[j+1]:
-#                arr[j], arr[j+1] = arr[j+1], arr[j]
-#    return
- 
- 
-
-#arr: int[] = [5, 1, 4, 2, 8]
- 
-#bubbleSort(arr)
- 
-#print("Sorted array is:")
-#print(arr)
+print("End")

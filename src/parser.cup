@@ -46,7 +46,7 @@ stmt 	::= var_decl:v_decl												{: RESULT = v_decl; :}
 		| LABEL:var_name EQUAL expr:ex									{: RESULT = new Assignment(var_name, ex); :}		
 		| if_stmt: if_st												{: RESULT = if_st; :}
 		| WHILE expr:ex COLON OI stmt_list:sl CI						{: RESULT = new WhileLoop(ex, sl); :}
-		| FOR LABEL:var_name COLON LABEL:t IN expr:ex COLON
+		| FOR LABEL:var_name COLON type:t IN expr:ex COLON
 			OI stmt_list:sl CI											{: RESULT = new ForLoop(var_name, t, ex, sl); :}
 		| DEF LABEL:func_name LPAREN param_list:p_list RPAREN ARROW type:t 
 			COLON OI stmt_list:sl CI									{: RESULT = new FunctionDeclaration(func_name, p_list, t, sl); :}

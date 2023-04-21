@@ -2,6 +2,8 @@ package ast_elements;
 
 import java.util.*;
 
+import Executor.ExecutionException;
+import Executor.ReturnFromCall;
 import SemanticAnalysis.SemanticAnalysisException;
 
 public class WhileLoop extends Statement {
@@ -27,9 +29,7 @@ public class WhileLoop extends Statement {
 
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map) throws SemanticAnalysisException {
-        if (!(cond instanceof BooleanExpression)) {
-            throw new SemanticAnalysisException("It is not boolean");
-        }
+        cond.analyze(variable_Map, func_Map, BooleanExpression.TYPE);
 
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
@@ -38,5 +38,19 @@ public class WhileLoop extends Statement {
         }
         localVar_Map = null;
         localFun_Map = null;
+    }
+
+    @Override
+    public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
+            throws ExecutionException, ReturnFromCall {
+        Boolean condition = (Boolean) cond.evaluate(variable_Map, func_Map);
+        Map<String, Object> localVar_Map = new HashMap<String, Object>(variable_Map);
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+
+        while ((Boolean) cond.evaluate(localVar_Map, localFun_Map)) {
+            for(Statement stmt : body) {
+                stmt.execute(localVar_Map, localFun_Map);
+            }
+        }
     }
 }
