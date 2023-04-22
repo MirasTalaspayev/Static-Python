@@ -31,7 +31,7 @@ non terminal List<LocalVarDeclaration> param_list;
 non terminal FunctionCall func_call, funco_call;
 non terminal List<ElifStatement> elif_stmts;
 
-precedence left MINUS;
+// precedence left MINUS;
 precedence left RETURN;
 precedence left LPAREN, RPAREN;
 
@@ -126,7 +126,7 @@ expr1 	::= expr1:e1 bin_op1:op expr2:e2			{: RESULT = new BinaryOperator(e1, op,
 		| expr2:e2 									{: RESULT = e2; :};
 
 expr2 	::= expr2:e2 bin_op2:op expr3:e3			{: RESULT = new BinaryOperator(e2, op, e3); :}
-		| term:e3									{: RESULT = e3; :};
+		| expr3:e3									{: RESULT = e3; :};
 
 expr3	::= unary_op:op term:t						{: RESULT = new UnaryExpression(op, t); :}
 		| term:t									{: RESULT = t; :};

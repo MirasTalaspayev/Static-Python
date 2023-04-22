@@ -42,13 +42,13 @@ public class WhileLoop extends Statement {
     @Override
     public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
             throws ExecutionException, ReturnFromCall {
-        Boolean condition = (Boolean) cond.evaluate(variable_Map, func_Map);
         Map<String, Object> localVar_Map = new HashMap<String, Object>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-
-        while ((Boolean) cond.evaluate(localVar_Map, localFun_Map)) {
+        
+        
+        while ((Boolean) cond.evaluate(variable_Map, func_Map)) {
             for(Statement stmt : body) {
-                stmt.execute(localVar_Map, localFun_Map);
+                stmt.execute(variable_Map, func_Map);
             }
         }
     }

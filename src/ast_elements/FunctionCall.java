@@ -36,7 +36,6 @@ public class FunctionCall extends Expression {
             sb.append(ex_list.get(ex_size - 1) + ")");
         else
             sb.append(")");
-        // sb.append("\n>>>> size: " + size + " <<<<");
         return sb;
     }
 
@@ -50,7 +49,6 @@ public class FunctionCall extends Expression {
     @Override
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map, Type expectedType)
             throws SemanticAnalysisException {
-        // System.out.println(">>>> func_name: " + this.func_name + " <<<<");
         Type type = analyzeAndGetType(variable_Map, func_Map);
         if (expectedType != null && !expectedType.equals(type))
             throw new SemanticAnalysisException("expected type and return type don't match");
@@ -98,7 +96,6 @@ public class FunctionCall extends Expression {
             return func_Map.get(this.func_name).getReturn_Type();
         } else {
             Type obj_Type = variable_Map.get(this.obj);
-            // System.out.println(">>>> obj_Type: " + obj_Type + " <<<<");
             if (obj_Type instanceof CollectionType) {
                 CollectionType obj_collection_type = (CollectionType)obj_Type;
                 if (this.func_name.equals("copy")) {
@@ -116,7 +113,6 @@ public class FunctionCall extends Expression {
             
             if (obj_Type instanceof ListType) {
                 ListType obj_list_type = (ListType)obj_Type;
-                // System.out.println(">>>> obj_list_type: " + obj_list_type + " <<<<");
                 if (this.func_name.equals("reverse") || this.func_name.equals("sort")) {
                     if (ex_size != 0)
                         throw new SemanticAnalysisException(this.func_name + "() cannot have arguments");
@@ -270,7 +266,10 @@ public class FunctionCall extends Expression {
             throws ExecutionException {
         if (obj == null) {
             if (func_name.equals("print")) {
-                System.out.println(ex_list.get(0).evaluate(variable_Map, func_Map));
+                for (int i = 0; i < ex_list.size(); i++) {
+                    System.out.print(ex_list.get(i).evaluate(variable_Map, func_Map) + " ");
+                }
+                System.out.println();
                 return null;
             }
 

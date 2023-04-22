@@ -44,19 +44,20 @@ public class IfStatement extends Statement {
     public void analyze(Map<String, Type> variable_Map, Map<String, FunctionDeclaration> func_Map)
             throws SemanticAnalysisException {
         cond.analyze(variable_Map, func_Map, BooleanExpression.TYPE);
-
+        
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
+        
         for (Statement stmt : body) {
             stmt.analyze(localVar_Map, localFun_Map);
         }
-        localVar_Map = null;
-        localFun_Map = null;
+        
         if (elif_stmts != null) {
             for (int i = 0; i < elif_stmts.size(); i++) {
                 elif_stmts.get(i).analyze(variable_Map, func_Map);
             }
         }
+        
         if (else_stmt != null) {
             else_stmt.analyze(variable_Map, func_Map);
         }

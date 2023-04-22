@@ -153,9 +153,15 @@ public class BinaryOperator extends Expression {
 
             return xorSet;
         } else if (op.equals("and")) {
-            return (Boolean) value_1 && (Boolean) value_2;
+            if (!(Boolean) value_1) {
+                return false;
+            }
+            return (Boolean) value_2;
         } else if (op.equals("or")) {
-            return (Boolean) value_1 || (Boolean) value_2;
+            if ((Boolean) value_1) {
+                return true;
+            }
+            return (Boolean) value_2;
         }
         return null;
     }

@@ -2,6 +2,7 @@ A: list[int] = [64, 25, 12, 22, 11]
  
 for i:int in range(len(A)):
     min_idx:int = i
+    print(range(i+1, len(A)))
     for j:int in range(i+1, len(A)):
         if A.get(min_idx) > A.get(j):
             min_idx = j             

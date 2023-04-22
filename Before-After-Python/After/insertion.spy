@@ -1,10 +1,12 @@
 def insertionSort(arr: list[int]) -> None:
+    print(len(arr))
     for i:int in range(1, len(arr)):
         key: int = arr.get(i)
         j: int = i-1
-        while j >= 0 and key < arr.get(j) :
+        while (j >= 0) :
             arr.put(j + 1, arr.get(j))
             j = j - 1
+        print("after ")
         arr.put(j + 1, key)
  
  

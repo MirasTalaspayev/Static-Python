@@ -64,7 +64,7 @@ newLine     = \n|\r|\r\n
 anyChar     = [^\r\n]
 digit       = [0-9]
 letter      = [a-z|A-Z]
-intNumber	  = (-)?[1-9][{digit}]*|0
+intNumber	  = [1-9][{digit}]*|0
 floatNumber = ("+"|"-")? ( {intNumber}"." [{digit}]* ) | ( "." [{digit}]+ ) | ( 0 "." [{digit}]* )
 
 label       = {letter}[{letter}|{digit}|_]*  

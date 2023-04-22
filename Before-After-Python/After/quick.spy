@@ -18,6 +18,6 @@ def quick_sort(array: list[int], low: int, high: int) -> None:
         quick_sort(array, low, pi - 1)
         quick_sort(array, pi + 1, high)
 
-array: list[int] = [10, 7, 8, 9, 1, 5]
-quick_sort(array, 0, 5)
-print (array)
+arr: list[int] = [10, 7, 8, 9, 1, 5]
+quick_sort(arr, 0, 5)
+print (arr)

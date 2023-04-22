@@ -1,6 +1,6 @@
 # defining types for function arguments will be COMPULSORY 
 def sum_2_numbers(x: int, y: int) -> int:    
-    return x + y;
+    return x + y
 
 num_1: int = 5
 num_2: int = 10

@@ -42,10 +42,11 @@ public class ForLoop extends Statement {
         if (!(ce.getElements_Type().equals(var_type))) {
             throw new SemanticAnalysisException(var_name + " should be of type " + ce.getElements_Type());
         }
+
+        variable_Map.put(var_name, var_type);
         Map<String, Type> localVar_Map = new HashMap<String, Type>(variable_Map);
         Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-
-        localVar_Map.put(var_name, var_type);
+        
         for (Statement stmt : body) {
             stmt.analyze(localVar_Map, localFun_Map);
         }
@@ -57,8 +58,9 @@ public class ForLoop extends Statement {
     public void execute(Map<String, Object> variable_Map, Map<String, FunctionDeclaration> func_Map)
             throws ExecutionException, ReturnFromCall {
         Map<String, Object> localVar_Map = new HashMap<>(variable_Map);
-        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);
-        
+        Map<String, FunctionDeclaration> localFun_Map = new HashMap<String, FunctionDeclaration>(func_Map);        
+        localVar_Map.put(var_name, var_type);
+
         Object collection = list.evaluate(variable_Map, func_Map);
    
         if (collection instanceof ArrayList) {
@@ -70,5 +72,6 @@ public class ForLoop extends Statement {
                 }
             }
         }
+        localVar_Map = null;localFun_Map = null;
     }
 }
